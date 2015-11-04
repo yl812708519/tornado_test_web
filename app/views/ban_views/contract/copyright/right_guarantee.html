@@ -1,0 +1,63 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <meta charset="UTF-8">
+    <title>权利保证书</title>
+    <style>
+        @font-face {
+                font-family: 'yahei';
+                src: url('{{font}}');
+            }
+        {% if render_type == 'view'%}
+        html{text-align: left; width: 1000px; padding-left: 20%}
+        .footer_table{margin-left: 20%}
+        .footer_table_td{text-align: right;width:200px}
+        {%else%}
+        html,body{font-size: 10pt;padding-left: 30px;padding-top: 30px}
+        .footer_table_td{text-align: right}
+        {% end %}
+
+        p {text-indent: 30px}
+        .title_span{text-align: center; font-size: 18pt; }
+        .right_align_td {text-align: right; margin-right: 12px; width: 250px; vertical-align: top}
+        .fangkuai{font-size: 11pt}
+        td{line-height: 30px}
+        table{padding: 0;table-layout:fixed;word-break:break-all}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: top;
+            word-break:break-all;
+            word-wrap:break-word;
+        }
+    </style>
+
+</head>
+<body>
+<div style="text-align: center"><span class="title_span">权&nbsp;&nbsp;&nbsp;利&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;&nbsp;证&nbsp;&nbsp;&nbsp;书&nbsp;&nbsp;&nbsp;</span></div>
+<br/>
+<!--业务信息表格，规范格式-->
+<p>申请者：<span style="text-decoration:underline">{{apply_app.name}}</span></p>
+<p>本申请者愿意就流水号为：<span style="text-decoration:underline">{{detail.turn_num}}</span></p>
+<p >软件名称为：<span style="text-decoration:underline">{{detail.soft_name}}</span></p>
+<p>版本号为： <span style="text-decoration:underline">{{detail.version_num}}</span> 的软件著作权登记申请作以下声明及保证：</p>
+<p>本申请人保证提交的上述软件申请文件所述事实真实、合法，并且该软件著作权归本单位所有。如有不实，本单位愿承担由此引起的一切法律责任。</p>
+
+<p style="text-indent: 150px ">特此保证。</p>
+
+<br/><br/>
+        <p style="text-align: right; padding-right: 140px">申请人（公章）：</p>
+
+        <p style="padding-right: 140px; text-align: right; letter-spacing: 25">年月日</p>
+
+
+
+
+
+</body>
+
+</html>
+

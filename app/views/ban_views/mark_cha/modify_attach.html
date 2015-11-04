@@ -1,0 +1,160 @@
+<form class="form-horizontal attach_form" role="form" id="attachForm" name="ajaxForm" action="/mark/change/attach" method="post">
+    {% raw xsrf_form_html()%}
+    <input type="hidden" name="order_id" value="{{order.id}}">
+    <input type="hidden" name="biz" value="{{order.order_type}}">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">上传变更后规则</label>
+        <div class="col-sm-4">
+            <label class="radio-inline">
+                <input type="radio" onclick="$('.isThree').show();" name="is_rule_changed" value="1" {% if detail.is_rule_changed %} checked="true" {% end %} >是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" onclick="$('.isThree').hide();" name="is_rule_changed" value="0" {% if not detail.is_rule_changed %} checked="true" {% end %}>否
+            </label>
+        </div>
+    </div>
+    <div class="form-group isThree" style="display: none;">
+        <input type="hidden" name="before_rule" value="{{detail.before_rule}}" class="cha_man1"/>
+        <input type="hidden" name="after_rule" value="{{detail.after_rule}}" class="cha_man2"/>
+        <div class="col-sm-4 col-sm-offset-3">
+            <div id="files1"></div>
+            <ul class="btn-group">
+                <li data-number="1" class="btn btn-default uploadHook">上传变更前规则</li>
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <div id="files2"></div>
+            <ul class="btn-group">
+                <li data-number="2" class="btn btn-default uploadHook">上传变更后规则</li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3" style="margin-top: 10px;">提醒：请上传doc格式、小于200K </div>
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="before_collective" value="{{detail.before_collective}}" class="cha_man3"/>
+        <input type="hidden" name="after_collective" value="{{detail.after_collective}}" class="cha_man4"/>
+        <label class="col-sm-3 control-label">变更集体成员名单</label>
+        <div class="col-sm-4">
+            <label class="radio-inline">
+                <input type="radio" name="is_collective_changed" onclick="$('.isColor').show()" value="1" {% if detail.is_collective_changed %} checked="true" {% end %} >是
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="is_collective_changed" onclick="$('.isColor').hide()" value="0" {% if not detail.is_collective_changed %} checked="true" {% end %} >否
+            </label>
+        </div>
+    </div>
+    <div class="form-group isColor" style="display: none;">
+        <div class="col-sm-4 col-sm-offset-3">
+            <div id="files3"></div>
+            <ul class="btn-group">
+                <li data-number="3" class="btn btn-default uploadHook">上传变更前名单</li>
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <div id="files4"></div>
+            <ul class="btn-group">
+                <li data-number="4" class="btn btn-default uploadHook">上传变更后名单</li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3" style="margin-top: 10px;">提醒：请上传doc格式、小于200K </div>
+    </div>
+    <div class="modal-footer" style="border: 0">
+        <input type="submit" class="btn-next" value="保存">
+         <button type="button" name="cancelForm" class="btn-pre">取消</button>
+    </div>
+</form>
+
+<script>
+    /*
+     var $item = $('input[name=is_prority]');
+     $item.bind('click',function (){
+
+         var index = $item.index($(this));
+         $(".isPrority .group").eq(index).siblings(".isPrority .group").hide().end().fadeIn("slow");
+     });*/
+//     上传文件
+    var GetUpimg = function (){
+
+        $(document).on('click','.uploadHook',function (){
+
+            var $this = $(this);
+            var num = $this.data('number');
+            $this.attr('id','iFrameUpload'+num);
+
+            getImg($this,num)
+            $('#form_iFrameUpload'+num).find('input[name=fileData]').click();
+
+        })
+       function getImg($hook,index) {
+
+            $hook.wIFrameUpload({
+                url: "/iframe_upload",
+                ossName: "yestar",
+                openPositionInterval: true,
+                beforeSubmit: function ($file_input) {
+                    var file_name = $file_input.val();
+                    var arr = ["doc", "docx"];
+                    if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+                        wModalDialog({
+                            content:"选择文件错误,文件类型必须是(doc,docx)中的一种!",
+                            showAnimate:true,
+                            type:"failed"
+                         });
+                        return false;
+                    }
+                if ($('#files'+index).html()) {
+                    $('#files'+index).html('');
+                }
+                 if ($('#file_hidden'+index).find('.file').attr('state') == 'load') {
+                     return false;
+                 }
+                $('#files'+index).css('display', 'block').css('overflow','hidden');
+                return true;//返回false 阻止提交
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    $('#files'+index).html('<div class="file" state="success"><p>' + data.fileName + '</p></div>');
+
+                    $('.cha_man'+index).val(data.ossUrl);
+                    $('#iFrameUpload'+index).html('修改');
+                } else {
+                    $('#files'+index).css('display', 'none');
+                    wModalDialog({
+                        content:data.message,
+                        showAnimate:true,
+                        type:"failed"
+                     });
+                }
+            }
+            });
+        };
+    }();
+
+    function parse_attachForm(){
+        var cha_man1 = $('.cha_man1').val();
+        var cha_man2 = $('.cha_man2').val();
+        var cha_man3 = $('.cha_man3').val();
+        var cha_man4 = $('.cha_man4').val();
+        cha_man1 ? $('#detail_cha_man_rule .bef').html('<img src="/s/img/file-word-icon.png" width="40px" height="40px"/><p>变更前规则</p>'):null;
+        cha_man2 ? $('#detail_cha_man_rule .aft').html('<img src="/s/img/file-word-icon.png" width="40px" height="40px"/><p>变更后规则</p>'):null;
+        cha_man3 ? $('#detail_cha_name_rule .bef').html('<img src="/s/img/file-word-icon.png" width="40px" height="40px"/><p>变更前集体成员名单</p>'):null;
+        cha_man4 ? $('#detail_cha_name_rule .aft').html('<img src="/s/img/file-word-icon.png" width="40px" height="40px"/><p>变更后集体成员名单</p>'):null;
+
+        $('.ajaxForm_div').slideUp();
+        $('.group-wrap').slideDown();
+        $('#markForm').ajaxSubmit()
+        return false
+    }
+    parse_functions['attachForm'] = parse_attachForm;
+
+    if( $('input[name=is_man_rule]:checked').val() == 1){
+        $('.isThree').show();
+    };
+    if( $('input[name=is_collective_names]:checked').val() == 1){
+        $('.isColor').show();
+    };
+    '{{detail.cha_man_rule_bef_path}}' == '' ? null : $('#files1').show().html('<div class="file" state="success"><p>文件已上传</p></div>');
+    '{{detail.cha_man_rule_aft_path}}' == '' ? null : $('#files2').show().html('<div class="file" state="success"><p>文件已上传</p></div>');
+    '{{detail.cha_bef_col_name_path}}' == '' ? null : $('#files3').show().html('<div class="file" state="success"><p>文件已上传</p></div>');
+    '{{detail.cha_aft_col_name_path}}' == '' ? null : $('#files4').show().html('<div class="file" state="success"><p>文件已上传</p></div>');
+</script>

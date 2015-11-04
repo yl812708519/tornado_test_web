@@ -1,0 +1,602 @@
+{% extends "../layouts/application.html" %}
+
+
+{% block body %}
+
+<div class="questionnaire-mask" style="display: none"></div>
+<div class="questionnaire-bounced" style="display: none">
+    <div class="b_topic">感谢您参与本次调查</div>
+    <div>您的问卷已提交成功!</div>
+    <a class="point-1" href="../../home/index">&times;</a>
+    <button class="btn questionnaire-btn"><a class="point-2" href="../../home/index">返回首页</a></button>
+</div>
+<div class="questionnaire-wrap">
+<div class="container" id="questionnaire">
+<div class="questionnaire-head">
+    <div class="head-topic">“基于互联网+的对小微企业提供知识产权服务的研究”</div>
+    <div class="head-topic">调查问卷</div>
+    <div class="head-content">
+        <span>尊敬的朋友:</span>
+
+        <div class="head-content-2">您好!</div>
+        <p class="head-content-2">本问卷是一份课题研究性问卷，希望您根据贵企业的实际情况如实填写问卷。调查的结果将用来研究小微企业专利申请和运用状况，以便我们能更好的为企业提供相关知识产权方面的服务。</p>
+    </div>
+</div>
+<div class="container-questionnaire">
+    <ul>
+        <li><a class="questionnaire-nav" href="#first-container">一</a></li>
+        <li><a class="questionnaire-nav" href="#second-container">二</a></li>
+        <li><a class="questionnaire-nav" href="#third-container">三</a></li>
+        <li><a class="questionnaire-nav" href="#fourth-container">四</a></li>
+    </ul>
+</div>
+<h4>一、企业的基本情况：</h4>
+
+<div id="first-container" class="questionnaire-containers">
+    <dl class="item">
+        <dt data-type="blank" data-name=question>1.贵企业名称<input style="border-bottom: 1px solid #000000;width:300px;"/>;</dt>
+    </dl>
+    <dl class="item">
+        <dt data-type="blank" data-name=question>2.贵企业成立于<input style="border-bottom: 1px solid #000000;width:50px;" type="text"/>年;</dt>
+    </dl>
+    <dl class="item">
+        <dt data-type="blank" data-name=question>3.贵企业所在地<input style="border-bottom: 1px solid #000000;width:300px;" type="text"/>;</dt>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio_blank" data-name=question>4.贵企业所属行业:</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.电子信息；</span>
+            <span class="col-sm-3 point">B.生物医药；</span>
+            <span class="col-sm-3 point">C.机械制造；</span>
+            <span class="col-sm-3 point">D.交通运输；</span>
+            <span class="col-sm-3 point">E.新材料及应用技术；</span>
+            <span class="col-sm-3 point">F.新能源与节能技术；</span>
+            <span class="col-sm-3 point">E.资源与环境技术；</span>
+            <span class="col-sm-3 point">F.现代农业、动植物新品种 ；</span>
+            <span class="col-sm-6 point">G.其他行业<input style="border-bottom: 1px solid #000000;width:300px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio_blank" data-name=question>5.（单选）贵企业的性质为：</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.国有企业；</span>
+            <span class="col-sm-3 point">B.民营企业；</span>
+            <span class="col-sm-3 point">C.合资企业；</span>
+            <span class="col-sm-3 point">D.独资企业；</span>
+            <span class="col-sm-6 point">E.其他<input style="border-bottom: 1px solid #000000;width:240px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt>6.（单选）贵企业的规模：</dt>
+        <dt data-type="radio" data-name=question><span>员工人数为：<input type="text"/></span></dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.少于100人；</span>
+            <span class="col-sm-3 point">B.100-500（含）人；</span>
+            <span class="col-sm-3 point">C.500-1000（含）人；</span>
+            <span class="col-sm-3 point">D.超过1000人；</span>
+        </dd>
+        <dt data-type="blank" data-name=question><span>资产总额为：<input style="border-bottom: 1px solid #000000;" onkeydown="this.onkeyup()" onkeyup="this.size=(this.value.length>4?this.value.length:4);" size="4" maxlength="10" type="text"/>（万元），</span><span>销售额为：<input
+                style="border-bottom: 1px solid #000000;" onkeydown="this.onkeyup()" onkeyup="this.size=(this.value.length>4?this.value.length:4);" size="4" maxlength="10" type="text"/>（万元），</span></dt>
+    </dl>
+</div>
+<h4>二、企业知识产权的基本情况：</h4>
+
+<div id="second-container" class="questionnaire-containers">
+    <dl class="item">
+        <dt data-type="radio" data-name=question>1. 贵公司是否申报过相关的知识产权:</dt>
+        <dd class="row">
+            <span class="col-sm-3 point" data-name="fixed_blank_hide">A.无；</span>
+            <span class="col-sm-3 point" data-name="fixed_blank_show">B.有；</span>
+        </dd>
+        <dt data-type="radio_blank" data-name=question data-status="0">若有，申报类型是</dt>
+        <dd class="row">
+            <span class="col-sm-3 point" data-name="fixed_blank">A.商标</span>
+            <span class="col-sm-3 point" data-name="fixed_blank">B.专利</span>
+            <span class="col-sm-3 point" data-name="fixed_blank">C.软件著作权</span>
+            <span class="col-sm-3 point" data-name="fixed_blank">D.其他<input style="border-bottom: 1px solid #000000;width:200px;" type="text"/></span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="table_blank" data-name=question>2. 到目前为止，贵公司三种专利申请情况、法律状态、实施运用情况</dt>
+        <dt>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td>专利类型</td>
+                    <td>申请量(单位：件)</td>
+                    <td>维持专利权(单位：件)</td>
+                    <td>实施量(单位：件)</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>发明</td>
+                    <td><input type="text"/></td>
+                    <td><input type="text"/></td>
+                    <td><input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>实用新型</td>
+                    <td><input type="text"/></td>
+                    <td><input type="text"/></td>
+                    <td><input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>外观设计</td>
+                    <td><input type="text"/></td>
+                    <td><input type="text"/></td>
+                    <td><input type="text"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </dt>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>3.贵企业拥有的专利权中发明专利所占的比例是多少？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.无；</span>
+            <span class="col-sm-3 point">B.5％及以下； </span>
+            <span class="col-sm-3 point">C.5－10％（含10％）；</span>
+            <span class="col-sm-3 point">D.10－30％（含30％）；</span>
+            <span class="col-sm-3 point">E.30－50％（含50％）；</span>
+            <span class="col-sm-3 point">F.50％以上。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>4. 贵企业的产品是否出口到国外，是否有在国外获得过授权的专利？</dt>
+        <dd class="row">
+            <span class="col-sm-6 point">A.不出口，也无国外专利；</span>
+            <span class="col-sm-6 point">B.尚未出口，但有国外专利； </span>
+            <span class="col-sm-6 point">C.出口，但无国外专利；</span>
+            <span class="col-sm-6 point">D.出口，且有国外专利。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="blank_next" data-name=question>5. 到目前为止，贵公司其他知识产权拥有情况</dt>
+        <dd class="row">
+            <span class="col-sm-6">累计注册商标<input style="border-bottom: 1px solid #000000;" onkeydown="this.onkeyup()" onkeyup="this.size=(this.value.length>4?this.value.length:4);" size="4" maxlength="10" type="text"/>个，有效商标<input
+                    style="border-bottom: 1px solid #000000;" onkeydown="this.onkeyup()" onkeyup="this.size=(this.value.length>4?this.value.length:4);" size="4" maxlength="10" type="text"/>个；</span>
+            <span class="col-sm-6">累计登记计算机软件著作权<input style="border-bottom: 1px solid #000000;" onkeydown="this.onkeyup()" onkeyup="this.size=(this.value.length>4?this.value.length:4);" size="4" maxlength="10" type="text"/>个；</span>
+            <span class="col-sm-12">其他知识产权拥有情况：<input style="border-bottom: 1px solid #000000;width:500px;" type="text"/></span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>6. 是否有建立知识产权管理体系的计划？</dt>
+        <dd class="row">
+            <span class="col-sm-6 point">A.已建立专利管理体系</span>
+            <span class="col-sm-6 point">B.已逐步着手建立 </span>
+            <span class="col-sm-6 point">C.等企业发展后再说</span>
+            <span class="col-sm-6 point">D.短期内不考虑。</span>
+        </dd>
+    </dl>
+</div>
+<h4>三、企业创新研发情况</h4>
+
+<div id="third-container" class="questionnaire-containers">
+    <dl class="item">
+        <dt data-type="radio" data-name=question>1.（单选）贵企业2014年对研发的投入占贵企业年销售额的比例是多少？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.1%及以下；</span>
+            <span class="col-sm-3 point">B.1%-5%（含5%）；</span>
+            <span class="col-sm-3 point">C.5%-10%（含10%）；</span>
+            <span class="col-sm-3 point">D.超过10%。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="checkbox_blank" data-name=question>2. （可多选）贵企业在技术研发过程中主要开展哪些与专利有关的工作？</dt>
+        <dd class="row">
+            <span class="col-sm-6 point">A.对专利信息检索，了解技术发展状态；</span>
+            <span class="col-sm-6 point">B.对专利信息检索，防止将来侵犯他人专利权；</span>
+            <span class="col-sm-6 point">C.在有知识产权管理人员参与情况下，为完善专利申请文件而对技术进行深度挖掘；</span>
+            <span class="col-sm-6 point">D.针对具体技术设立相应的研发周期，提前部署专利申请所要占领的领域；</span>
+            <span class="col-sm-6 point">E.未开展上述工作；</span>
+            <span class="col-sm-6 point">F.其他<input style="border-bottom: 1px solid #000000;width:450px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="checkbox_blank" data-name=question>3.（可多选）贵企业主要通过哪些途径进行专利信息检索？</dt>
+        <dd class="row">
+            <span class="col-sm-6 point">A.在国家知识产权局网站检索；</span>
+            <span class="col-sm-6 point">B.在地方知识产权局或者专利信息服务网站检索；</span>
+            <span class="col-sm-6 point">C.通过中国期刊网进行查新检索；</span>
+            <span class="col-sm-6 point">D.通过贵企业自建的数据库进行检索；</span>
+            <span class="col-sm-6 point">E.在国外网站进行检索；</span>
+            <span class="col-sm-6 point">F.委托专业专利检索单位进行检索；</span>
+            <span class="col-sm-6 point">G.委托信息情报单位进行检索；</span>
+            <span class="col-sm-6 point">F.委托专利事务所进行检索；</span>
+            <span class="col-sm-6 point">H.其他<input style="border-bottom: 1px solid #000000;width:400px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="checkbox_blank" data-name=question>4.（多选）贵企业在将其创新成果转化为专利申请过程中遇到的困难是？</dt>
+        <dd class="row">
+            <span class="col-sm-6 point">A.企业创新动力不足，创新成果少；</span>
+            <span class="col-sm-6 point">B.企业缺乏专利管理人员；</span>
+            <span class="col-sm-6 point">C.经费有限；</span>
+            <span class="col-sm-6 point">D.专利代理水平不高，无法获取现有技术的专利信息；</span>
+            <span class="col-sm-6 point">E.无法方便地掌握所提交专利申请的法律状态及审查信息；</span>
+            <span class="col-sm-6 point">F.其他<input style="border-bottom: 1px solid #000000;width:400px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>5.（选择填空）贵企业是否向国外申请专利，</dt>
+        <dd class="row">
+            <span class="col-sm-3 point" data-name="fixed_blank_hide">A.无；</span>
+            <span class="col-sm-3 point" data-name="fixed_blank_show">B.有；</span>
+        </dd>
+        <dt data-type="fixed_blank" data-name=question data-status="0">如有,申请时遇到的最大困难是<input style="border-bottom: 1px solid #000000;" readonly="readonly" size="4" maxlength="10" type="text"/>其次是<input
+                style="border-bottom: 1px solid #000000;" readonly="readonly" size="4" maxlength="10" type="text"/>
+        </dt>
+        <dd class="row">
+            <span class="col-sm-4 point" data-name="fixed_blank">A．对国外专利申请程序不了解；</span>
+            <span class="col-sm-4 point" data-name="fixed_blank">B．专利代理水平不够或者服务不到位；</span>
+            <span class="col-sm-4 point" data-name="fixed_blank">C．费用高。</span>
+            <span class="col-sm-9 point" data-name="fixed_blank">D．其他<input style="border-bottom: 1px solid #000000;width:400px;" type="text"/>。</span>
+        </dd>
+    </dl>
+</div>
+<h4>四、企业专利申请及运用状况：</h4>
+
+<div id="fourth-container" class="questionnaire-containers">
+    <dl class="item">
+        <dt data-type="checkbox_blank" data-name=question>1. （可多选）贵企业采取过的专利申请方式</dt>
+        <dd class="row">
+            <span class="col-sm-4 point">A.直接申请；</span>
+            <span class="col-sm-4 point">B. 请专利代理机构申请；</span>
+            <span class="col-sm-4 point">C.请熟悉专利的专业人士申请；</span>
+            <span class="col-sm-12 point">D.其他 <input style="border-bottom: 1px solid #000000;width:300px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio_blank" data-name=question>2. （单选）挑选专利代理机构看重的是？</dt>
+        <dd class="row">
+            <span class="col-sm-4 point">A.更注重质量；</span>
+            <span class="col-sm-4 point">B.更注重价格；</span>
+            <span class="col-sm-4 point">C.更注重服务；</span>
+            <span class="col-sm-12 point">D.其他<input style="border-bottom: 1px solid #000000;width:300px" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio_blank" data-name=question>3.（单选）贵企业最需要的专利咨询服务内容是什么？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.战略咨询服务；</span>
+            <span class="col-sm-3 point">B.政策咨询服务；</span>
+            <span class="col-sm-3 point">C.管理咨询服务；</span>
+            <span class="col-sm-3 point">E.实务咨询服务；</span>
+            <span class="col-sm-3 point">F.市场调查咨询服务；</span>
+            <span class="col-sm-6 point">G.其他<input style="border-bottom: 1px solid #000000;width:300px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio_blank" data-name=question>4.（单选）贵企业最需要的专利实务技能需求是什么？</dt>
+        <dd class="row">
+            <span class="col-sm-4 point">A.专利检索分析；</span>
+            <span class="col-sm-4 point">B.专利数据加工；</span>
+            <span class="col-sm-4 point">C.专利池构建；</span>
+            <span class="col-sm-9 point">D.其他<input style="border-bottom: 1px solid #000000;width:300px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="checkbox_blank" data-name=question>5. （可多选）如果您认为专利没有体现出价值，原因是：</dt>
+        <dd class="row">
+            <span class="col-sm-6 point">A.技术很快过时，无申请必要；</span>
+            <span class="col-sm-6 point">B.专利成果转化困难；</span>
+            <span class="col-sm-6 point">C.专利价值难以评估；</span>
+            <span class="col-sm-6 point">D.专利保护困难 </span>
+            <span class="col-sm-9 point">E.其他<input style="border-bottom: 1px solid #000000;width:300px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>6.（单选）贵企业参与过专利权许可、转让、购买等行为吗？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.听说过，没参与；</span>
+            <span class="col-sm-3 point">B.参与过，卖方；</span>
+            <span class="col-sm-3 point">C.参与过，买方；</span>
+            <span class="col-sm-3 point">D. 未听说过。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>7.（单选）贵企业参与过专利技术挖掘等行为吗？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.未听说过；</span>
+            <span class="col-sm-3 point">B.听说过，没参与；</span>
+            <span class="col-sm-3 point">C.参与过。</span>
+
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>8. （单选）贵企业是否有对专利数据分析或者专利预警的需求？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.未听说过；</span>
+            <span class="col-sm-3 point">B.听说过，没参与；</span>
+            <span class="col-sm-3 point">C.参与过。</span>
+
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio">9.（单选）贵企业是否遇到过专利侵权纠纷或诉讼？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.遇到过；</span>
+            <span class="col-sm-3 point">B.没有遇到过。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>10.（单选）贵企业的专利是否被他人侵犯过?</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.没有；</span>
+            <span class="col-sm-3 point">B.有；</span>
+            <span class="col-sm-3 point">C.不知道。</span>
+        </dd>
+        <dt data-type="checkbox_blank">（可多选）若有，贵企业的专利被他人侵犯时，如何处理？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.没理会；</span>
+            <span class="col-sm-3 point">B.寻求法律保护，但未成功；</span>
+            <span class="col-sm-3 point">C.寻求法律保护，获得赔偿；</span>
+            <span class="col-sm-3 point">D.双方和解； </span>
+            <span class="col-sm-6 point">E.其他<input style="border-bottom: 1px solid #000000;width:300px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="checkbox_blank" data-name=question>11.（可多选）贵企业被控侵权的主要原因是什么？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.没有发生过被控侵权；</span>
+            <span class="col-sm-3 point">B.企业技术研发之前未进行专利技术查新检索；</span>
+            <span class="col-sm-3 point">C.企业简单模仿国内外市场上出现的产品；</span>
+            <span class="col-sm-3 point">D.遭遇恶意诉讼，干扰正常市场秩序；</span>
+            <span class="col-sm-3 point">E.竞争对手采取的竞争手段；</span>
+            <span class="col-sm-6 point">F.其他<input style="border-bottom: 1px solid #000000;width:400px;" type="text"/>。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>12.（单选）贵企业参与过专利质押融资等行为吗？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.听说过，没参与；</span>
+            <span class="col-sm-3 point">B.参与过，卖方；</span>
+            <span class="col-sm-3 point">C.参与过，买方；</span>
+            <span class="col-sm-3 point">D. 未听说过。</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio">13. （单选）贵企业参与过知识产权评议行为吗？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.听说过，没参与；</span>
+            <span class="col-sm-3 point">B.参与过；</span>
+            <span class="col-sm-3 point">C.参与过，买方；</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio" data-name=question>14. 是否了解专利运营托管？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.不了解 ;</span>
+            <span class="col-sm-3 point">B.了解但未实际接触过 ；</span>
+            <span class="col-sm-3 point">C.了解并已经进行了托管；</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="radio_blank" data-name=question>15.（单选）贵企业是否有运用知识产权网络平台？</dt>
+        <dd class="row">
+            <span class="col-sm-3 point">A.无 ;</span>
+            <span class="col-sm-9 point">B.有，（网络平台名称）<input style="border-bottom: 1px solid #000000;width:350px;" type="text"/>；</span>
+        </dd>
+    </dl>
+    <dl class="item">
+        <dt data-type="blank" data-name=question>16. 贵企业目前专利申请、运用的困难还有哪些？</dt>
+        <dt class="row"><textarea style="padding: 8px;border: none;" cols="100" rows="5">答:</textarea></dt>
+    </dl>
+</div>
+<button id="submit" class="btn btn-danger" style="width:100px;display:block;height:33px;margin:44px auto">提交</button>
+</div>
+</div>
+<form method="post" id="submitForm" style="display: none"> {% raw xsrf_form_html() %}</form>
+{% end %}
+
+{% block javascript%}
+<script src="{{ static_url('js/jquery.form.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+if (!Array.indexOf) {
+    Array.prototype.indexOf = function (obj) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == obj) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+$(function () {
+    $("input").click(function (event) {
+        event.stopPropagation();
+    })
+    $('.point').click(function () {
+        var point_type = $(this).parent().prev().data('type');
+        if (point_type, ['radio', 'radio_blank'].indexOf(point_type) >= 0) {
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active')
+        }
+        else {
+//                if ($(this).hasClass('active')){
+//                    $(this).removeClass('active')
+//                }else{
+//                    $(this).addClass('active');
+//                }
+            $(this).toggleClass("active");
+        }
+        if ($(this).data('name') == 'fixed_blank_show') {
+            $(this).parent().next().next().attr('data-status', 1);
+            $(this).parent().siblings().show()
+        }
+
+        if ($(this).data('name') == 'fixed_blank_hide') {
+            $(this).parent().next().next().attr('data-status', 0);
+            $(this).parent().next().hide().children('input').val('');
+            $(this).parent().next().next().hide().children('span').removeClass('active');
+            $(this).parent().next().next().hide().find('input').val('');
+
+        }
+
+
+    })
+})
+
+
+setInterval(function () {
+    var $container_1 = $("#first-container").find("dt[data-name=question]");
+    var $container_2 = $("#second-container").find("dt[data-name=question]");
+    var $container_3 = $("#third-container").find("dt[data-name=question]");
+    var $container_4 = $("#fourth-container").find("dt[data-name=question]");
+    questionnaire_each($container_1, 0);
+    questionnaire_each($container_2, 1);
+    questionnaire_each($container_3, 2);
+    questionnaire_each($container_4, 3);
+
+
+    function questionnaire_each($obj, itm) {
+        var is_true = true;
+
+        $.each($obj, function (index, object) {
+            var input_value_arr = [];
+            input_value_arr = get_input_values($(object), input_value_arr);
+//                    console.log(input_value_arr)
+//                    console.log(check_value($(object).data('type'), input_value_arr));
+            if (!check_value($(object).data('type'), input_value_arr) && $(object).data('status') != 0) {
+                is_true = false;
+                return false
+            } else {
+//                    console.log(!check_value($(object).data('type'), input_value_arr) && $(object).data('status') != 0);
+                is_true = true;
+
+            }
+        });
+
+        if (is_true) {
+            $(".questionnaire-nav").eq(itm).addClass('current');
+        } else {
+            $(".questionnaire-nav").eq(itm).removeClass("current");
+        }
+    }
+},500);
+
+function check_value(q_type, input_value_arr) {
+    switch (q_type) {
+        case 'radio':
+        case 'checkbox':
+        case 'radio_blank':
+        case 'checkbox_blank':
+            return check_radio(q_type, input_value_arr);
+            break;
+        case 'blank':
+        case 'fixed_blank':
+        case 'blank_next':
+        case 'table_blank':
+            return check_blank(input_value_arr);
+            break;
+        default:
+
+            return false
+    }
+}
+
+function check_radio(q_type, input_value_arr) {
+    var checked_index = input_value_arr.indexOf(1);
+    if (checked_index == -1) {
+        return false
+    }
+    if (['radio_blank', 'checkbox_blank'].indexOf(q_type) >= 0) {
+        // 倒数第二个input被选中(其他), 并且最后的input 值为空
+        return !(input_value_arr[input_value_arr.length - 2] == 1 && input_value_arr[input_value_arr.length - 1] == '')
+    }
+    return true
+}
+
+function check_blank(input_value_arr) {
+    var none_blank_index = input_value_arr.indexOf('');
+    return none_blank_index < 0
+}
+
+function get_input_values(dt, input_value_arr) {
+    var inputs;
+    var dt_type = dt.data('type')
+    switch (dt_type) {
+        case 'radio':
+        case 'checkbox':
+            inputs = dt.next().find('span');
+            break;
+        case 'radio_blank':
+        case 'checkbox_blank':
+            inputs = dt.next().find('span');
+            inputs.push(dt.next().find('input'));
+            break;
+        case 'blank_next':
+            inputs = dt.next().find('input');
+            break;
+        case 'blank':
+        case 'fixed_blank':
+            inputs = dt.find('input');
+            break;
+        case 'table_blank':
+            inputs = dt.siblings('dt').find('input')
+    }
+    $.each(inputs, function (index, i_object) {
+        if (['radio_blank', 'checkbox_blank', 'radio', 'checkbox'].indexOf(dt_type) >= 0) {
+            if ($(i_object).hasClass('point')) {
+                input_value_arr.push($(i_object).hasClass('active') ? 1 : 0);
+            }
+        } else {
+            input_value_arr.push(i_object.value)
+        }
+
+    });
+    if (['radio_blank', 'checkbox_blank'].indexOf(dt_type) >= 0) {
+        input_value_arr.push(inputs[inputs.length - 1].val());
+    }
+    return input_value_arr
+}
+
+
+$(function () {
+    var submitForm = $('#submitForm');
+    $('#submit').click(function () {
+
+        var dts = $('dt[data-name=question]');
+        var is_submit = true;
+        $.each(dts, function (index, object) {
+
+//                var inputs = get_inputs_by_dt($(object));
+            var input_value_arr = [];
+            input_value_arr = get_input_values($(object), input_value_arr);
+            if (!check_value($(object).data('type'), input_value_arr) && $(object).data('status') != 0) {
+
+//                    alert(index+'-'+$(object).data('type')+'-'+ $(object).html());
+                alert('亲，还有题目没有填写完呢');
+                $(object).attr('border', 1);
+                is_submit = false;
+                submitForm.html('{% raw xsrf_form_html() %}');
+                return false
+            } else {
+                is_submit = true;
+            }
+            var arr_json = JSON.stringify(input_value_arr);
+            var a_input = $('<input type="text" name="answer_json">');
+            a_input.attr('value', arr_json);
+            $('#submitForm').append(a_input)
+
+        });
+        if (is_submit) {
+            submitForm.ajaxSubmit({
+                success: function () {
+                    $('.questionnaire-bounced').show();
+                    $('.questionnaire-mask').show();
+                }
+            })
+        }
+    })
+})
+
+
+</script>
+
+
+{% end %}

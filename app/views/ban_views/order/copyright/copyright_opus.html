@@ -1,0 +1,322 @@
+{% extends "../../layouts/application.html" %}
+{% block head%}
+<link href="{{ static_url('css/bootstrapValidator.min.css') }}" rel="stylesheet">
+{% end %}
+{% block body%}
+<div class="patent_application">
+    <div class="container" style="background-color: #fff;">
+        <div class="row" style="background-color: #EBF5FD;">
+            {% include "../../../layouts/left.html"%}
+            <div class="col-md-10" style="background-color: #fff;">
+                 <div class="patent_service_content">
+                     {% include comment_alert.html %}
+                     <div id="orderForm" class="form-horizontal">
+                         {% include ../order_media.html%}
+                         <div class="media">
+                            <div class="form-group border_line">
+                                <label class="col-sm-2 control-label">主体信息</label>
+                                <a id="applicant_form" name="get_form" href="javascript:;" data-target="/mark/reg/applicant"> <span class="glyphicon glyphicon-pencil"></span>编辑主体信息</a>
+                            </div>
+                             {% if order.status == 'write_info' %}
+                             <div class="ajaxForm_div">
+                                  {% include ../../copyright_opus/applicant.html %}
+                             </div>
+                             {% end %}
+                            <div class="group-wrap">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">主体类型</label>
+                                    <div class="col-sm-8" data-name="confirmed_required" id="applicantType">
+                                       {%if detail.applicant['app_type'] == 'person'%} 个人 {% elif detail.applicant['app_type'] == 'com'%} 公司 {% end %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">主体名称</label>
+                                    <div class="col-sm-8"  data-name="confirmed_required" id="applicantName">
+                                        {{detail.applicant['name']}}
+                                    </div>
+                                </div>
+                                <div class="add_group"></div>
+                                {% if detail.is_common_app%}
+                                <div class="form-group co_add">
+                                    <label class="col-sm-3 control-label">共同申请人</label>
+                                    <div class="col-sm-8" data-name="confirmed_required">
+                                    {% for co_app in detail.common_app_applicants %}
+                                        {{co_app['name']}}，
+                                    {% end %}
+                                    </div>
+                                    </div>
+                                {% end %}
+                            </div>
+                        </div>
+                         <div class="media border-top">
+                             <div class="form-group border_line">
+                                <label class="col-sm-2 control-label">版权信息</label>
+                                <a name="get_form" href="javascript:;" data-target="/mark/reg/applicant"> <span class="glyphicon glyphicon-pencil"></span>编辑版权信息</a>
+                            </div>
+                             {% if order.status == 'write_info' %}
+                             <div class="ajaxForm_div">
+                                 {% include ../../copyright_opus/opus_info.html %}
+                             </div>
+                             {% end %}
+                             <div class="group-wrap">
+                                 <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">作品名称</label>
+                                    <div class="col-sm-10 col-md-5 opus_name_text" data-name="confirmed_required">
+                                        {{detail.opus_name}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">作者姓名或名称</label>
+                                    <div class="col-sm-10 col-md-5 author_name_text" data-name="confirmed_required">
+                                        {{detail.author_name}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">作品创作性质</label>
+                                    <div class="col-sm-10 col-md-9 opus_nature_text" data-name="confirmed_required">
+                                        {{detail.opus_nature_title}}
+                                    </div>
+                                </div>
+                                 <div class="nature_description_content">
+                                     {% if detail.opus_nature != 1%}
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 col-md-3 control-label">作品创作性质说明</label>
+                                        <div class="col-sm-10 col-md-5 nature_description_text" data-name="confirmed_required">
+                                            {{detail.nature_description}}
+                                        </div>
+                                    </div>
+                                     {% end %}
+                                 </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">创作完成日期</label>
+                                    <div class="col-sm-10 col-md-5 opus_finish_date_text" data-name="confirmed_required">
+                                        {% if detail.opus_finish_date %}
+                                        {{detail.opus_finish_date}}
+                                        {% end %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">创作完成地点</label>
+                                    <div class="col-sm-10 col-md-5 opus_finish_country_text" data-name="confirmed_required">
+                                        {% if detail.opus_finish_country and detail.opus_finish_city %}
+                                        {{detail.opus_finish_country}}--{{detail.opus_finish_city}}
+                                        {% end %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">发表状态</label>
+                                    <div class="col-sm-10 col-md-5 publish_status_text" data-name="confirmed_required">
+                                        {{detail.publish_status_title}}
+                                    </div>
+                                </div>
+                                 <div class="first_publish_data_content">
+                                     {% if detail.publish_status == 1%}
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 col-md-3 control-label">首次发表时间</label>
+                                            <div class="col-sm-10 col-md-5 first_publish_data_text" data-name="confirmed_required">
+                                                {% if detail.first_publish_date %}
+                                                {{detail.first_publish_date}}
+                                                {% end %}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 col-md-3 control-label">首次发表地点</label>
+                                            <div class="col-sm-10 col-md-5 opus_finish_countrys_text" data-name="confirmed_required">
+                                                {% if detail.first_publish_country and detail.first_publish_city %}
+                                                {{detail.first_publish_country}}--{{detail.first_publish_city}}
+                                                {% end %}
+                                            </div>
+                                         </div>
+                                     {% end %}
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">作品样本上传</label>
+                                    <div class="col-sm-10 col-md-5 opus_sample_img" data-name="confirmed_required">
+                                        {% if biz.name == 'word_copyright' and detail.opus_sample %}
+                                            文件已上传
+                                        {% elif biz.name == 'art_copyright' and detail.opus_sample %}
+                                            <img width="100px" src="http://dev.b.i.cdn.eking99.cn/{{detail.opus_sample}}" alt=""/>
+                                        {% elif biz.name == 'other_copyright' and detail.opus_sample and detail.flag == 1%}
+                                            <img width="100px" src="http://dev.b.i.cdn.eking99.cn/{{detail.opus_sample}}" alt=""/>
+                                        {% elif biz.name == 'other_copyright' and detail.opus_sample and detail.flag == 2%}
+                                            文件已上传
+                                        {% end %}
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                         <div class="media border-top">
+                             <div class="form-group border_line">
+                                <label class="col-sm-3 control-label">版权状况说明</label>
+                                <a id="" name="get_form" href="javascript:;" data-target="/mark/reg/applicant"> <span class="glyphicon glyphicon-pencil"></span>编辑版权信息</a>
+                            </div>
+                             {% if order.status == 'write_info' %}
+                             <div class="ajaxForm_div">
+                                 {% include ../../copyright_opus/opus_description.html %}
+                             </div>
+                             {% end %}
+                             <div class="group-wrap">
+                                 <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">权利取得方式</label>
+                                    <div class="col-sm-10 col-md-9 right_get_way_txt" data-name="confirmed_required">
+                                        {{detail.right_get_way_title}}
+                                    </div>
+                                </div>
+                                <div class="right_get_description_block">
+                                    {% if detail.right_get_way != 1 %}
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 col-md-3 control-label">权利取得方式说明</label>
+                                        <div class="col-sm-10 col-md-9" data-name="confirmed_required">
+                                            {{detail.right_get_description}}
+                                        </div>
+                                    </div>
+                                    {% end %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">权利归属方式</label>
+                                    <div class="col-sm-10 col-md-9 right_ascription_way_txt" data-name="confirmed_required">
+                                        {{detail.right_ascription_way_title}}
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">权利归属方式说明</label>
+                                    <div class="col-sm-10 col-md-9 right_ascription_des_txt" data-name="confirmed_required">
+                                        {{detail.right_ascription}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">权利拥有状况</label>
+                                    <div class="col-sm-10 col-md-9" data-name="confirmed_required">
+                                        <span class="right_own_state_txt">{{detail.right_own_state_title}}</span>
+                                        <span class="right_own_state_txt_state">
+                                        {% for sl in detail.right_own_selects%}
+                                            {% if str(sl.id) in detail.right_own_select %}
+                                                ({{sl.opt_title}})
+                                            {% end %}
+                                        {% end %}
+                                        </span>
+                                    </div>
+                                </div>
+                                 <div id="right_own_des_block">
+                                     {% if detail.right_own_state != 1 and detail.right_own_des !='' %}
+                                     <div class="form-group">
+                                         <label for="" class="col-sm-2 col-md-3 control-label">权利拥有状况及其说明</label>
+                                        <div class="col-sm-10 col-md-9">
+                                            <span class="opus_purpose_txt">{{detail.right_own_des}}</span>
+                                        </div>
+                                     </div>
+                                     {% end %}
+                                 </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">创作目的</label>
+                                    <div class="col-sm-10 col-md-9">
+                                        <span class="opus_purpose_txt">{{detail.opus_purpose}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">创作过程</label>
+                                    <div class="col-sm-10 col-md-9">
+                                        <span class="opus_process_txt">{{detail.opus_process}}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 col-md-3 control-label">创作独创性</label>
+                                    <div class="col-sm-10 col-md-9">
+                                        <span class="opus_alone_create_txt">{{detail.opus_alone_create}}</span>
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                         {% include ../order_copyright_btn.html %}
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block javascript%}
+<script src="{{ static_url('js/jquery.form.min.js') }}" type="text/javascript"></script>
+<script src="{{ static_url('js/bootstrapValidator.min.js')}}    "></script>
+<script type="text/javascript" src="{{ static_url('js/moment.min.js')}}"></script>
+<script type="text/javascript" src="{{ static_url('js/daterangepicker.js')}}"></script>
+<script>
+
+    var biz_typeOb = {
+        {% if biz.name == 'word_copyright'%}
+            'arr':["doc", "docx"],
+                'accept':['image/doc','image/docx']
+             {% elif biz.name == 'art_copyright'%}
+            'arr':["jpeg", "jpg", "png"],
+                'accept':['image/jpeg','image/jpg','image/png']
+            {% elif biz.name == 'other_copyright'%}
+            'arr':["doc", "docx","jpeg", "jpg", "png"]
+            'accept':['image/jpeg','image/jpg','image/png','image/doc','image/docx']
+            {% end %}
+        };
+    IFrameupload(biz_typeOb.arr)
+    function IFrameupload(arr) {
+        var bef = $('<div class="file" state="load"><img width="140px" height="140px" src="/s/img/load.gif"></div>');
+        var $files_img = $('#files_img');
+        var iconhtml = $('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="{{ static_url('img/file-word-icon.png') }}"></div>');
+
+        $("#iFrameUpload_img").wIFrameUpload({
+            url: "/iframe_upload",
+            ossName: "yestar",
+            openPositionInterval: true,
+            beforeSubmit: function ($file_input_img) {
+                var file_name = $file_input_img.val();
+                if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+                    wModalDialog({
+                        content: '选择文件格式错误!',
+                        showAnimate: true,
+                        type: "failed"
+                    });
+                    return false
+                }
+                if ($files_img.html()) {
+                    $files_img.html('');
+                }
+                $files_img.html(bef);
+                return true;//返回false 阻止提交
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    var imghtml = $('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="' + data.downloadUrl + '"></div>');
+                    {% if biz.name == 'word_copyright'%}
+                         $files_img.css('display', 'block').html(iconhtml);
+                        Cleartype.cleardiabeld('opus_sample');
+
+                    {% elif biz.name == 'art_copyright'%}
+                         $files_img.css('display', 'block').html(imghtml);
+                        Cleartype.cleardiabeld('opus_sample');
+                    {% elif biz.name == 'other_copyright'%}
+                        var ossUrl = data.ossUrl;
+                        var popstr = ossUrl.split('.').pop();
+
+                        if( popstr !== 'doc' && popstr !== 'docx' ){
+                             $files_img.css('display', 'block').html(imghtml);
+
+                        }else{
+                            $files_img.css('display', 'block').html(iconhtml);
+                        }
+                    {% end %}
+                    Cleartype.cleardiabeld('opus_sample');
+                    $('#opus_sample').val(data.ossUrl);
+                    $('#iFrameUpload_img').html('修改');
+                    $('#iFrameUpload_img').attr('value', '111');
+                } else {
+                    wModalDialog({
+                        content: data.message,
+                        showAnimate: true,
+                        type: "failed"
+                    });
+                }
+            }
+        });
+    };
+    Cleartype.textmethod('opus_purpose_txt')
+    Cleartype.textmethod('opus_process_txt')
+    Cleartype.textmethod('opus_alone_create_txt')
+</script>
+{% end %}

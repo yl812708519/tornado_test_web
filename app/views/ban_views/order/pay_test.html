@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form action="/pay/notify/alipay" method="post" >
+    {% raw xsrf_form_html() %}
+    <!--<input type="hidden" value="_">-->
+    {% for k, v in result.items()%}
+        <input type="hidden" name="{{k}}" value="{{v[0]}}">
+    {% end %}
+    <input type="submit" value="测试支付回调">
+</form>
+</body>
+</html>

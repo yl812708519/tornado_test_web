@@ -1,0 +1,155 @@
+{% extends "../layouts/application.html" %}
+
+{% block description %}{{"冰狗网是国内首家面向中小微企业的O2O模式知识产权管理运营网络平台，在商标注册、商标变更、商标转让等领域实现 0服务费，在商标注册查询、专利检索、专利申请、知识产权贯标等知识产权相关服务领域运用O2O模式，便捷高效，值得信赖。"}}{% end %}
+{% block keywords %}{{"商标注册查询,商标转让,商标变更,专利检索,专利代理,专利申请, 知识产权贯标,商标注册, 知识产权,知识产权管理,知识产权代理,冰狗网"}}{% end %}
+{% block body %}
+<div id="homecontainer">
+    <div class="slider" style="background-color: #323644;height: 500px;">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <img src="{{static_url('img/bg-patent.png')}}" alt="...">
+                </div>
+                <div class="item">
+                  <img src="{{static_url('img/bg-patent.png')}}" alt="...">
+                </div>
+                <div class="item">
+                  <img src="{{static_url('img/bg-patent.png')}}" alt="...">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container p-services-bar">
+        <div class="block-title">
+            <h2 class="head-line" style="background-color: #fff;">商标服务</h2>
+
+            <div class="line"></div>
+        </div>
+        <div class="row container_icon" style="text-align: center">
+            <div class="col-sm-4 product_icon">
+                <a href="/mark/reg" class="media">
+                    <span class="free_icon"></span>
+                    <div class="product-img">
+                        <span class="Icon Icon1"></span>
+                    </div>
+                    <div class="caption">
+                        <h3>商标注册</h3>
+
+                        <div class="line"></div>
+                        <p style="color:#8c8c8c;">服务费：<em>0</em>元
+                            <del>(市场价：1400元)</del>
+                        </p>
+                        <p style="color:#8c8c8c;">官费：800元</p>
+                        <span class="btn-buy">立即办理</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-4 product_icon product_service">
+                <a href="/mark/cha" class="media ">
+                    <span class="free_icon"></span>
+                    <div class="product-img">
+                        <span class="Icon Icon2"></span>
+                    </div>
+                    <div class="caption">
+                        <h3>商标变更</h3>
+
+                        <div class="line"></div>
+                        <p style="color:#8c8c8c;">服务费：<em>0</em>元
+                            <del>(市场价：1500元)</del>
+                        </p>
+                        <p style="color:#8c8c8c;">官费：500元</p>
+                        <span class="btn-buy">立即办理</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-4 product_icon product_service">
+                <a href="/mark/transfer" class="media">
+                    <span class="free_icon"></span>
+                    <div class="product-img">
+                        <span class="Icon Icon3"></span>
+                    </div>
+                    <div class="caption">
+                        <h3>商标转让</h3>
+
+                        <div class="line"></div>
+                        <p style="color:#8c8c8c;">服务费：<em>0</em>元
+                            <del>(市场价：1300元)</del>
+                        </p>
+                        <p style="color:#8c8c8c;">官费：1000元</p>
+                        <span class="btn-buy">立即办理</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="block-title">
+            <h2 class="head-line" style="background-color: #fff;">专利/版权服务</h2>
+
+            <div class="line"></div>
+        </div>
+        <div class="row container_icon">
+            <div class="col-sm-6 product_i" style="display: table;">
+                <a href="/patent/applicant" class="media">
+                    <div class="product-img">
+                        <span class="Icon Icon4"></span>
+                    </div>
+                    <div class="caption">
+                        <h3>专利服务</h3>
+
+                        <div class="line"></div>
+                        <p style="color: #8c8c8c">国内外专业的专利服务项目</p>
+                        <span class="btn-buy">立即办理</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 product_i" style="display: table;">
+                <a href="/copyright/opus" class="media">
+                    <div class="product-img">
+                        <span class="Icon Icon5"></span>
+                    </div>
+                    <div class="caption">
+                        <h3>版权服务</h3>
+
+                        <div class="line"></div>
+                        <p style="color: #8c8c8c">作品著作权登记服务</p>
+                        <span class="btn-buy">立即办理</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主体 end-->
+{% end %}
+{% block javascript %}
+<script src="{{static_url('js/idangerous.swiper-2.1.min.js')}}"></script>
+<script>
+    $(".carousel-inner .item").first().addClass('active');
+    var $services_bar = $('.p-services-bar .media');
+
+    $services_bar.mouseenter(function (){
+        var $this = $(this);
+        $this.find('.Icon1').css('background-position','-5px -117px');
+        $this.find('.Icon2').css('background-position','-117px -117px');
+        $this.find('.Icon3').css('background-position','-227px -117px');
+        $this.find('.Icon4').css('background-position','-6px -337px');
+        $this.find('.Icon5').css('background-position','-115px -337px');
+    }).mouseleave(function (){
+        var $this = $(this);
+        $this.find('.Icon1').css('background-position','-5px -7px');
+        $this.find('.Icon2').css('background-position','-117px -7px');
+        $this.find('.Icon3').css('background-position','-226px -7px');
+        $this.find('.Icon4').css('background-position','-6px -227px');
+        $this.find('.Icon5').css('background-position','-117px -225px');
+    });
+
+</script>
+{% end %}

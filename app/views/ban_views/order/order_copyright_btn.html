@@ -1,0 +1,533 @@
+<div class="col-md-12 order_footer">
+    <div class="patent_service_content" style="padding-bottom: 88px;">
+        <div class="media">
+            <div class="form-group">
+                <div class="page-top clearfix" style="border-top:1px solid #f5f5f5;border-bottom: 1px solid #f5f5f5;padding: 30px 0px">
+                    {% if order.is_invoice_able%}
+                    <div class="alert alert-warning" style="font-size: 16px;">重要提示：如果你需要开具发票，请到 <a href="/invoice/demands">用户中心-发票管理</a> 中进行开具。</div>
+                    {% end%}
+                    <div class="col-md-12">
+                        <div class="col-sm-2" style="padding: 0;">
+                             <div style="color: #8c8c8c;font-size: 16px;margin-top: 10px;text-align: right;">打赏金：<span class="save_m" style="color: #ff3300;">{{order_tip.tip_price}}</span>元</div>
+                        </div>
+                        <div class="col-md-3">
+                            <div style="color: #8c8c8c;font-size: 16px;margin-top: 10px;text-align: right;">服务费：<span style="color: #ff3300;">{{biz.service_charge}}</span>元</div>
+                        </div>
+                        <div class="col-md-3">
+                             <div style="color: #8c8c8c;font-size: 16px;margin-top: 10px;text-align: right;">官方费用：<span style="color: #ff3300;">{{biz.official_charge}}</span>元</div>
+                        </div>
+                        <div class="col-md-4">
+                             <div style="color: #8c8c8c;font-size: 16px;text-align: right;">累计金额 : <span class="total_price" data-value="{{order.price}}" style="color: #ff3300;font-size: 28px;font-weight: bold">{{order.price}}
+                                 </span> 元
+                             </div>
+                        </div>
+                        {% if not order.is_paid and order.status != 'wait_delegate'%}
+                            {% if biz.service_charge == 0 %}
+                            <div class="checkbox col-sm-7 col-sm-offset-5" style="text-align: right;">
+                                <label style="color: #8c8c8c;">
+                                  <input type="checkbox" name="service_charge_price">需要发票( <span class="apply1 hidden">0</span>税点 <span class="apply2">{{round((biz.tax*100), 2)}}</span>%）
+                                </label>
+                            </div>
+                            {% end %}
+                        {% end %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="media">
+            <div class="col-md-8 col-sm-offset-2">
+                <!--没确认订单-->
+                {% if order.status != 'wait_delegate' %}
+                {% if not order.is_paid %}
+                     <form id="payForm" action="/order/pay" method="post">
+                        <input type="hidden" name="order_id" value="{{order.id}}">
+                        <input type="hidden" name="order_tip" value="0"/>
+                        <input type="hidden" name="is_invoice" value="0"/>
+                        <input type="hidden" name="order_price" value="{{order.price}}"/>
+                        {% raw xsrf_form_html()%}
+                    </form>
+                <a href="javascript:;" data-toggle="modal" data-target="#giveMoney" name="my_modals" id="tip_cs_btn" class="btn-blue" style="margin-right: 50px;">打赏客服</a>
+                <a href="javascript:;" class="btn-ori" id="order_delegate">专业人员代填</a>
+                <a class="btn-red pay_modal_btn" href="javascript:;" data-toggle="modal" data-target="#pay_order_modal" name="pay_modal" id="pay_order_btn" >确认支付</a>
+
+                {% end %}
+                {% end %}
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="pay_order_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">支付订单</h4>
+              </div>
+              <div class="modal-body" style="overflow: hidden;zoom:1;">
+                  <form action="" class="form-horizontal" role="form">
+                      <div class="form-group">
+                          <label class="control-label col-sm-3">应付金额</label>
+                          <div class="col-sm-9 top_padd" style="padding-top: 0;">
+                              <span class="real_money"></span>元
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label col-sm-3">发票信息</label>
+                          <div class="col-sm-9 top_padd is_service_charge">
+                              需要发票
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label col-sm-3">支付方式</label>
+                          <div class="col-sm-9">
+                              <label class="radio-inline">
+                                <input type="radio" name="pay-type" onclick="hideButton()" value="1"  checked="true"><img
+                                      src="{{ static_url('img/zhifubao.png') }}" alt="支付宝"/>
+                            </label>
+                             <label class="radio-inline">
+                                <input type="radio" name="pay-type" onclick="showButton()" value="0" >转账汇款
+                            </label>
+                          </div>
+                      </div>
+                      <div class="tips_block" style="display: none;">
+                          <div class="form-group">
+                              <label class="control-label col-sm-3">银行账户</label>
+                              <div class="col-sm-9 top_padd">
+                                  开户行：中国光大银行北京亚运村支行</br>账户名：北京易正达知识产权代理有限公司</br>账号：35090188000117913
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-sm-3">备注</label>
+                              <div class="col-sm-9 top_padd">
+                                  付款成功后请将流水单截图发于客服
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <a href="http://wpa.qq.com/msgrd?v=3&uin={{cs_user.qq}}&site=qq&menu=yes" class="btn btn-danger" id="go_kufu" style="display: none;">联系客服</a>
+                  <button type="button" class="btn btn-danger" id="go_pay_btn" onclick="if (check_order_filed()){$('#payForm').submit()}">去支付</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="giveMoney" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">请给予我们勤劳的客服一点恩惠吧！呵呵～</h4>
+              </div>
+              <div class="modal-body" style="overflow: hidden;zoom:1;">
+                  <!--<form action="" id="money_form">-->
+                      <div class="form-group">
+                        <label for="addmoney" class="col-sm-5 control-label">
+                            打赏客服
+                            <span style="color: #ff0000;margin-left: 10px;">¥</span><input type="text" name="order_tips" class="form-control" id="addmoney" style="display: inline-block;width: 50%;margin: 0 10px;">
+                        </label>
+                      </div>
+                  <!--</form>-->
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" id="save_change">确认</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              </div>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+    /*日历
+    * start.toISOString() 开始日期
+    * end.toISOString()结束日期
+    * Cleartype.clearcolor() 校验
+    * */
+     var Staticstr = {
+         fieldarr:['publish_date','soft_finish_date','opus_finish_date','first_publish']
+     };
+     var  DateCalendar = function (){
+         var DateRangePicker = {
+             daterangerpicker:function (fileld){
+                 var $fileld = $('#'+fileld);
+                    $fileld.daterangepicker({
+                        singleDatePicker: true,
+                        startDate:"{{detail.today}}",
+                        language:  'zh-CN'
+                    },function (start, end, label){
+
+                        var $now = end.toISOString().split('T')[0];
+                        var $today = '{{detail.today}}';
+
+                        if($now > $today){
+                            $fileld.val($today);
+                            wModalDialog({
+                                content: "您所选的日期已经超过今天的日期，请重新选择！",
+                                showAnimate: true,
+                                type: "failed"
+                            });
+                        }else{
+                            Cleartype.clearcolor(fileld);
+                        }
+
+                    })
+             },
+             whilemethod:function (arr){
+                 var len = arr.length;
+                 while(len--){
+                    DateRangePicker.daterangerpicker(arr[len])
+                }
+             }
+
+         };
+        return {
+            init:function (){
+                var fieldArr = Staticstr.fieldarr;
+                DateRangePicker.whilemethod(fieldArr)
+            }
+        }
+    }();
+    $(function (){
+        DateCalendar.init();
+    });
+    //获取 所需的form表单
+    $('form[name=ajaxForm]').off().on('submit',function(){
+        var form = $(this);
+        var form_v = form.data('bootstrapValidator');
+        // 非必填项没有检验
+        if (form_v){
+            form_v.validate();
+            if(!form_v.isValid()){
+                 return false
+            }
+        }
+        $(this).ajaxSubmit({
+            success: function(){
+                parse_functions[form.attr('id')]();
+                form.parent().slideUp();
+                form.parent().next().slideDown();
+            },
+            error: function (response) {
+                var errors = response.responseJSON.errors;
+                errors.forEach(function (field,msg){
+                    showErr(errors[msg].field,errors[msg].msg)
+                    console.log(errors[msg].field,errors[msg].msg)
+                })
+            }
+        });
+        return false
+
+    });
+     $("button[name=cancelForm]").click(function (){
+        $(this).closest('.ajaxForm_div').slideUp();
+        $(this).closest('.media').find('.group-wrap').slideDown();
+    });
+    var Cleartype = {
+        clearcolor:function (field){
+
+            var $fieldEl = $('#'+field);
+            $fieldEl.parents('.form-group').removeClass('has-error').addClass('has-success');
+            var len = $fieldEl.parents('.ajaxForm_div').find('.has-error').length;
+            if(len == 0){
+                $fieldEl.parents('.ajaxForm_div').find('input[type=submit]').removeAttr('disabled','')
+            }
+
+        },
+        cleardiabeld:function (types){
+            var $typeEl = $('small[data-bv-for='+types+']');
+            $typeEl.parents('.form-group').removeClass('has-error').addClass('has-success');
+            $typeEl.remove();
+            var len = $typeEl.parents('.ajaxForm_div').find('.has-error').length;
+            if(len == 0){
+
+               $typeEl.parents('.ajaxForm_div').find('input[type=submit]').removeAttr('disabled','')
+               $typeEl.remove();
+            }
+        },
+        textmethod:function (field,content){
+            var $filed = $('.'+field);
+            var content = content;
+            if(content){
+                var text = content;
+            }else{
+                var text = $filed.text();
+            }
+            var html = text.substr(0,200)+'.....';
+            var uphtml = $('<span class="color-po_btn">展开</span>');
+
+            var len = text.length;
+
+            if(len > 200){
+                $filed.html(html);
+                $filed.parent().find('.color-po_btn').remove();
+                $filed.after(uphtml);
+
+            }else{
+                $filed.html(text)
+                $filed.parent().find('.color-po_btn').remove();
+            }
+
+            var $hook = $filed.parent().find('.color-po_btn');
+            $hook.on('click',function (){
+                var $this = $(this);
+                if($this.hasClass('toggle')){
+                    $filed.text(html);
+                    $this.removeClass('toggle').html('展开')
+                }else{
+                    $filed.text(text);
+                    $this.addClass('toggle').html('收起');
+
+                }
+            })
+        }
+    };
+    var $form = [].slice.call($('a[name=get_form]'));
+
+    $form.forEach(function (item){
+        $(item).on('click',function (){
+            $(item).parents('.media').find('.ajaxForm_div').slideDown();
+            $(item).parents('.media').find('.ajaxForm_div input[type=submit]').removeAttr('disabled','');
+            $(item).parents('.media').find('.group-wrap').slideUp();
+        });
+    });
+
+
+    function getPrice(){
+        $('#orders').addClass('current');
+        $('input[name=service_charge_price]').click(function (){
+//            官费
+            var $order_price = '{{biz.official_charge+biz.service_charge}}';
+//            打赏金
+            var $save_price = $('input[name=order_tip]').val();
+//            快递，税点
+            var aftprice = parseFloat($('.apply1').text()) + parseFloat($('.apply2').text())/100 * parseFloat($order_price);
+//            总金额
+            var $tatal_price = parseFloat($order_price)+parseFloat($save_price)+parseFloat(aftprice);
+//           除去税金
+            var $bef_tatal = parseFloat($order_price)+parseFloat($save_price);
+
+            if($(this).is(':checked')){
+                $('input[name=is_invoice]').val(1);
+                $('input[name=order_price]').val($tatal_price);
+                $('.total_price').html($tatal_price.toFixed(2));
+                $('.total_price').attr('data-price',$bef_tatal.toFixed(2))
+                $('.total_price').attr('data-save',aftprice)
+            }else{
+                $('input[name=is_invoice]').val(0)
+                $('input[name=order_price]').val($bef_tatal.toFixed(2))
+                $('.total_price').html($bef_tatal.toFixed(2));
+                $('.total_price').removeAttr('data-save')
+            }
+        })
+    };
+    getPrice();
+    {% if order.status == 'wait_delegate' or order.is_paid %}
+        $('a[name=get_form]').remove();
+        $('a[name=my_modal]').remove();
+    {% end %}
+    ;function changeTips(index,content){
+        for(var j = 0;j<index;j++){
+            $('#schedule1 .sequence1:eq('+j+')').find('div:first').addClass('sequence-one').removeClass('sequence').parent().prev().css('background-color','#E33E23');
+        }
+        if (!content){
+            content = alert_list[index]
+        }
+        $('#tips_alert').text(content)
+    }
+
+    changeTips({{tips_index}});
+
+    function del_btn(){
+        $('#order_delegate').remove();
+        $('#pay_order_btn').remove();
+        $('#tip_cs_btn').remove();
+        $('.glyphicon-pencil').parent('a').remove();
+    };
+
+
+
+    function iterable_fields() {
+        var collection = $('div[data-name=confirmed_required]');
+        var label_arr = new Array();
+        $.each(collection, function (index, object) {
+            if ($(object).html().replace(/\s+/g, "") == '') {
+                var label_html = $(object).prev().html();
+                label_arr.push(label_html);
+                if ($(object).parents('.media').find('.ajaxForm_div').children().length > 0) {
+                    $(object).parents('.media').find('.ajaxForm_div').show();
+                    $(object).parents('.media').find('.group-wrap').hide();
+                }
+            }
+        });
+
+        return label_arr
+    }
+    // 将需要填写的表单展开
+    iterable_fields();
+
+    function check_order_filed(){
+        var arr = iterable_fields();
+        if (arr.length > 0){
+            wModalDialog({
+                content: '请先填写' + arr[0],
+                showAnimate: true,
+                type: "failed"
+            });
+            return false
+        }
+        return true
+    }
+
+
+    // 所有订单页面通用的js
+    function order_confirm(){
+        var order_id = {{order.id}}
+        wModalDialog({
+            content: '是否提交审核，提交后将不能修改',
+            showAnimate: false,
+            type: "confirm",
+            sureCallBack: function () {
+                var is_confirm_able = check_order_filed();
+                if (is_confirm_able) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/order/confirm',
+                        data: {
+                            'order_id': order_id,
+                            'order_name': '{{order.name}}',
+                            'order_type': '{{order.order_type}}',
+                            '_xsrf': $("input[name=_xsrf]").val(),
+                            '_method': 'put'
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.result == 1) {
+                                changeTips(2);
+                                del_btn();
+                                wModalDialog({
+                                    content: '订单已确认，请等待客服审核，审核通过将由短信通知您',
+                                    showAnimate: true,
+                                    type: "success",
+                                    cancelCallBack: function(){
+                                        window.location.href="/user/orders";
+                                    }
+                                });
+                            }
+                        },
+                        error: function (response) {
+                            wModalDialog({
+                                content: response.responseJSON['msg'],
+                                showAnimate: true,
+                                type: "failed"
+                            });
+                        }
+                    });
+                }
+
+            }
+        });
+    };
+    $('#save_change').click(function (){
+
+        var money = $('#addmoney').val();
+        var reg = new RegExp("^[0-9]*$");
+//        官费
+        var guan_m = $('.total_price').data('value');
+//        税点
+        var save_ =  $('.total_price').data('save') || 0;
+        save_ ? save_ : 0
+        var total_m = parseFloat(money)+parseFloat(guan_m)+parseFloat(save_);
+        var data_price = parseFloat(money)+parseFloat(guan_m)
+
+        if(money == ''){
+              showErr('order_tips','请输入金额！')
+              $('small[data-bv-for=order_tips]').css('margin-left','96px')
+        }else if(!reg.test(money)){
+             showErr('order_tips','请输入数字！')
+             $('small[data-bv-for=order_tips]').css('margin-left','96px')
+        } else{
+            $('input[name=order_tip]').val(money);
+            $('input[name=order_price]').val(total_m.toFixed(2));
+            $('.save_m').html(parseFloat(money).toFixed(2))
+            $('.total_price').html(total_m.toFixed(2));
+            $('.total_price').attr('data-price',data_price)
+            $('#giveMoney').modal('hide');
+        }
+
+
+    });
+    $(function(){
+        var condition = '{{detail.is_delegated}}' == 'True' || '{{detail.is_confirmed}}' == 'True' || '{{detail.is_delegated}}' == '1' || '{{detail.is_confirmed}}' == '1';
+        if (condition){
+//            del_btn()
+            $('#order_delegate').remove();
+            $('.glyphicon-pencil').parent('a').remove()
+        }
+        else{
+            $('#order_delegate').click(function(){
+                $.ajax({
+                    url: '/order/delegated',
+                    type: 'put',
+                    data: {'order_id':'{{order.id}}',
+                           'order_name': '{{order.name}}',
+                           '_xsrf': $("input[name=_xsrf]").attr('value')},
+                    dataType: 'json',
+                    success:function(response){
+                        changeTips(1);
+                        del_btn();
+                        wModalDialog({
+                            content: '您好，申请代填成功，请与客服联系, 客服信息请查看右上角 在线顾问',
+                            showAnimate:true,
+                            type:"success",
+                            cancelCallBack: function(){
+                                window.location.href="/user/orders";
+                            }
+
+                         });
+
+                    },
+                    error: function(response){
+                    }
+                })
+            })
+        }
+    });
+    {% if order.is_paid and order.status == 'stuff_send'%}
+        $('#orderForm').hide()
+        $('.order_footer').hide();
+    {% end %}
+//    提交订单
+    $('#pay_order_btn').click(function (){
+        var total_price = $('input[name=order_price]').val();
+        var is_invoice = $('input[name=is_invoice]').val();
+        is_invoice == 0 ? $('.is_service_charge').html('不需要发票') : $('.is_service_charge').html('需要发票');
+        $('.real_money').html(parseFloat(total_price).toFixed(2));
+        console.log(total_price)
+    });
+    function hideButton(){
+        $('.tips_block').hide();
+        $('#go_pay_btn').show();
+        $('#go_kufu').hide();
+    };
+    function showButton(){
+         $('.tips_block').show();
+        $('#go_kufu').show();
+         $('#go_pay_btn').hide();
+    };
+    {% if order.status != 'wait_delegate' %}
+         {% if not order.is_paid %}
+             var $order_price = $('.total_price').data('value');
+             var $order_tip_bef = $('input[name=order_tip]').val();
+             var $order_price_bef = $('input[name=order_price]').val();
+             var $is_invoice = $('input[name=is_invoice]').val();
+//          税金
+             var apply = parseFloat($('.apply2').text())/100 * parseFloat($order_price);
+
+             $is_invoice == 0 ? $('.total_price').attr('data-save',0) : $('.total_price').attr('data-save',apply);
+             $('.save_m').html(parseFloat($order_tip_bef).toFixed(2));
+             $('.total_price').html(parseFloat($order_price_bef).toFixed(2));
+          {% end %}
+        {% end %}
+
+</script>
+

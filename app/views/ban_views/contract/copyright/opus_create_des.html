@@ -1,0 +1,85 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <meta charset="UTF-8">
+    <title>作品创作说明书</title>
+    <style>
+        @font-face {
+                font-family: 'yahei';
+                src: url('{{font}}');
+            }
+
+        html,body{font-size: 10pt;padding-left: 30px;padding-top: 30px}
+        .footer_table_td{text-align: right}
+        ul li{list-style: none;}
+        p {text-indent: 30px}
+        .title_span{text-align: center; font-size: 18pt; }
+        .right_align_td {text-align: right; margin-right: 12px; width: 250px; vertical-align: top}
+        .fangkuai{font-size: 11pt}
+        td{line-height: 30px; text-align:left;}
+        table{padding: 0;table-layout:fixed;word-break:break-all}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: top;
+            word-break:break-all;
+            word-wrap:break-word;
+        }
+    </style>
+
+</head>
+<body>
+<div style="text-align: center"><span class="title_span">作&nbsp;&nbsp;&nbsp品&nbsp;&nbsp;&nbsp创&nbsp;&nbsp;&nbsp作&nbsp;&nbsp;&nbsp说&nbsp;&nbsp;&nbsp明&nbsp;&nbsp;&nbsp书</span></div>
+<br/>
+<div style="text-align: center">
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="right_align_td">作品名称：</td>
+            <td>{{detail.opus_name}}</td>
+        </tr>
+        <tr>
+            <td class="right_align_td">作品类型：</td>
+            <td>{{detail.opus_type}}</td>
+        </tr>
+        <tr>
+            <td class="right_align_td">1、 创作目的：</td>
+            <td>{{detail.opus_purpose}}</td>
+        </tr>
+        <tr>
+            <td class="right_align_td">2、 创作过程：</td>
+            <td>{{detail.opus_process}}</td>
+        </tr>
+        <tr>
+            <td class="right_align_td">3、 作品独创性：</td>
+            <td>{{detail.opus_alone_create}}</td>
+        </tr>
+        <tr>
+            <td class="right_align_td">4、 发表情况：</td>
+            {% if detail.publish_status == 1%}
+            <td>
+                <ul>
+                    <li>已发表</li>
+                    <li>首次发表日期：{{detail.first_publish_date}}</li>
+                    <li>首次发表地点：{{detail.first_publish_country}}-{{detail.first_publish_city}}</li>
+                </ul>
+            </td>
+             {% else %}
+                <td>未发表</td>
+            {% end %}
+        </tr>
+    </table>
+
+<br/><br/>
+        <p style="text-align: right; padding-right: 140px">申请人（签章）：</p>
+
+        <p style="padding-right: 140px; text-align: right; letter-spacing: 25">年月日</p>
+</div>
+<pdf:nextpage>
+
+</body>
+
+</html>
+

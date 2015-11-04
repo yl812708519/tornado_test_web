@@ -1,0 +1,266 @@
+<form class="form-horizontal" role="form" id="copyright_info_Form" name="ajaxForm" width="600px" action="/copyright/opus/info" method="post">
+    {% raw xsrf_form_html()%}
+    <input type="hidden" name="order_id" value="{{order.id}}">
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">作品名称</label>
+        <div class="col-sm-10 col-md-5">
+            <input id="opus_name" name="opus_name" value="{{detail.opus_name}}" class="form-control" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">作者姓名或名称</label>
+        <div class="col-sm-10 col-md-5">
+            <input id="author_name" name="author_name" value="{{detail.author_name}}" class="form-control" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">作品创作性质</label>
+        <div class="col-sm-10 col-md-9">
+            {% module radio(name="opus_nature",
+                                    value=detail.opus_nature,
+                                    radio_type="cus_inline",
+                                    options=[{"id":"1","name":"原创"},
+                                            {"id":"2","name":"改编"},
+                                            {"id":"3","name":"翻译"},
+                                            {"id":"4","name":"汇编"},
+                                            {"id":"5","name":"注释"},
+                                            {"id":"6","name":"整理"},
+                                            {"id":"7","name":"其他"}],
+                                    value_field='id',
+                                    name_field='name',
+                                    ext_class='opus_nature_list')%}
+        </div>
+    </div>
+    <div class="form-group" id="discription_content" style="display: none;">
+        <label for="" class="col-sm-2 col-md-3 control-label">作品创作性质说明</label>
+        <div class="col-sm-10 col-md-8">
+            <textarea name="nature_description" id="nature_description" class="form-control" rows="2">{{detail.nature_description}}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">创作完成时间</label>
+        <div class="col-sm-10 col-md-5">
+            <div class="form-horizontal">
+                 <fieldset>
+                  <div class="control-group">
+                    <div class="controls">
+                     <div class="input-prepend input-group">
+                         <input type="text" readonly="readonly" style="width: 200px" placeholder="请选择时间" name="opus_finish_date" id="opus_finish_date" class="form-control" value="{% if detail.opus_finish_date %}{{detail.opus_finish_date}}{% else %}{% end %}">
+                     </div>
+                    </div>
+                  </div>
+                 </fieldset>
+               </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">创作完成地点</label>
+        <div class="col-sm-10 col-md-2">
+            <select name="opus_finish_country" class="form-control wordCountry" id="opus_finish_country"></select>
+        </div>
+        <div class="col-sm-10 col-md-2">
+            <input type="text" value="{{detail.opus_finish_city}}" name="opus_finish_city" class="form-control" id="opus_finish_city" placeholder="城市"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">发表状态</label>
+        <div class="col-sm-10 col-md-5 ">
+            {% module radio(name="publish_status",
+                                    value=detail.publish_status,
+                                    radio_type="cus_inline",
+                                    options=[{"id":"1","name":"已发表"},
+                                            {"id":"2","name":"未发表"}],
+                                    value_field='id',
+                                    name_field='name',
+                                    ext_class='publish_status_list')%}
+        </div>
+    </div>
+    <div id="unpublished_hiden">
+        <div class="form-group">
+            <label for="" class="col-sm-2 col-md-3 control-label">首次发表时间</label>
+            <div class="col-sm-10 col-md-5">
+                <div class="form-horizontal">
+                     <fieldset>
+                      <div class="control-group">
+                        <div class="controls">
+                         <div class="input-prepend input-group">
+                             <input type="text" readonly="readonly" style="width: 200px" name="first_publish_date" id="first_publish" placeholder="请选择时间" class="form-control" value="{% if detail.first_publish_date %}{{detail.first_publish_date}}{% else %}{% end %}">
+                         </div>
+                        </div>
+                      </div>
+                     </fieldset>
+                   </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 col-md-3 control-label">首次发表地点</label>
+            <div class="col-sm-10 col-md-2">
+                <select name="first_publish_country" class="form-control wordCountry" id="opus_finish_countrys"></select>
+            </div>
+            <div class="col-sm-10 col-md-2">
+                <input type="text" name="first_publish_city" value="{{detail.first_publish_city}}" class="form-control" id="opus_finish_citys" placeholder="城市"/>
+            </div>
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">作品样本上传</label>
+        <div class="col-sm-10 col-md-5">
+            <input type="hidden" name="opus_sample" id="opus_sample" value="{{detail.opus_sample}}"/>
+            <ul>
+                <li><div id="files_img"></div></li>
+                <li style="margin-bottom: 10px;"><button type="button" class="btn btn-defaults" name="btn_sub1" id="iFrameUpload_img">上传</button></li>
+                {% if biz.name == 'word_copyright' %}
+                <li>提醒：请上传doc,docx格式文件</li>
+                {% elif biz.name == 'art_copyright' %}
+                <li>提醒：请上传jpg,png,jpeg格式图片</li>
+                {% elif biz.name == 'other_copyright' %}
+                <li>提醒：请上传doc,docx格式文件或jpg,png,jpeg格式图片</li>
+                {% end %}
+
+            </ul>
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 40px;">
+        <div class="col-sm-6 col-sm-offset-4 col-md-4col-md-offset-8" style="text-align: right;">
+            <input type="submit" class="btn-next" value="保存">
+            <button type="button" name="cancelForm" class="btn-pre">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    $('.opus_nature_list li').click(function (){
+        var data_value =  $(this).attr('data-value');
+        data_value == 1 ? $('#discription_content').hide() : $('#discription_content').show();
+    });
+    $('.publish_status_list li').click(function (){
+        var data_value =  $(this).attr('data-value');
+        data_value != 1 ? $('#unpublished_hiden').hide() : $('#unpublished_hiden').show();
+    });
+//    校验
+    $('#copyright_info_Form').bootstrapValidator({
+            fields:{
+                opus_name:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写作品名称！'
+                        }
+                    }
+                },
+                nature_description:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写作品创作性质说明！'
+                        },
+                        stringLength: {
+                            max: 100,
+                            message: '最多不超过100个字符！'
+                        }
+                    }
+                },
+                author_name:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写作者姓名或名称！'
+                        }
+                    }
+                },
+                opus_finish_city:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写城市！'
+                        }
+                    }
+                },
+                first_publish_city:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写城市！'
+                        }
+                    }
+                }
+            }
+        });
+    function copyrightinfo_Form(){
+        var $opus_nature = $('.opus_nature_list li[data-value='+$('input[name="opus_nature"]').val()+']').text();
+        var $publish_status = $('.publish_status_list li[data-value='+$('input[name="publish_status"]').val()+']').text();
+        var $publist = $('input[name="publish_status"]').val()
+        var data = {
+            'opus_name':$('#opus_name').val(),
+            'author_name':$('#author_name').val(),
+            'opus_nature':$opus_nature,
+            'nature_description':$('#nature_description').val(),
+            'opus_finish_date':$('#opus_finish_date').val(),
+            'opus_finish_country':$('#opus_finish_country').val(),
+            'opus_finish_city':$('#opus_finish_city').val(),
+            'publish_status':$publish_status,
+            'first_publish_data':$('#first_publish').val(),
+            'opus_finish_countrys':$('#opus_finish_countrys').val(),
+            'opus_finish_citys':$('#opus_finish_citys').val(),
+            'opus_sample':$('#opus_sample').val()
+        };
+        $('.opus_name_text').text(data.opus_name);
+        $('.author_name_text').text(data.author_name);
+        $('.opus_nature_text').text(data.opus_nature);
+        data.nature_description !== '' ? $('.nature_description_content').html(' <div class="form-group"><label for="" class="col-sm-2 col-md-3 control-label">说明</label><div class="col-sm-10 col-md-5 nature_description_text" data-name="confirmed_required">'+
+        data.nature_description+'</div></div>') : $('.nature_description_content').html('');
+        $('.opus_finish_date_text').text(data.opus_finish_date);
+        $('.opus_finish_country_text').text(data.opus_finish_country+data.opus_finish_city);
+        $('.publish_status_text').text(data.publish_status);
+        if($publist == 2 ){
+            $('.first_publish_data_content').html('');
+        }else{
+            $('.first_publish_data_content').html(' <div class="form-group"><label for="" class="col-sm-2 col-md-3 control-label">首次发表时间</label><div class="col-sm-10 col-md-5 first_publish_data_text" data-name="confirmed_required">'+
+                                            data.first_publish_data+' </div></div><div class="form-group"><label for="" class="col-sm-2 col-md-3 control-label">首次发表地点</label> <div class="col-sm-10 col-md-5 opus_finish_countrys_text" data-name="confirmed_required"> '+
+                                            data.opus_finish_countrys+data.opus_finish_citys+'</div></div>')
+        }
+        {% if biz.name == 'word_copyright'%}
+           $('.opus_sample_img').html('文件已上传')
+        {% elif biz.name == 'art_copyright'%}
+           $('.opus_sample_img').html('<img width="100px" src="'+oss_url(data.opus_sample)+'" />');
+        {% elif biz.name == 'other_copyright'%}
+            var oss = data.opus_sample;
+            var popstr = oss.split('.').pop();
+
+            if(popstr !== 'doc' && popstr !== 'docx'){
+                $('.opus_sample_img').html('<img width="100px" src="'+oss_url(data.opus_sample)+'" />');
+            }else{
+                $('.opus_sample_img').html('文件已上传')
+            }
+        {% end %}
+
+    }
+    parse_functions['copyright_info_Form'] = copyrightinfo_Form;
+    function submitBef(){
+//      是否原创
+        var $detail_opus_nature = '{{detail.opus_nature}}';
+        $detail_opus_nature == 1 ? $('#discription_content').hide() : $('#discription_content').show();
+//       是否发表
+        var $detail_publish_status = '{{detail.publish_status}}';
+        $detail_publish_status == 1 ? $('#unpublished_hiden').show() : $('#unpublished_hiden').hide();
+//        上传图片
+        var upload_img =  '{{detail.opus_sample}}';
+        var oss_img = oss_url(upload_img);
+        {% if biz.name == 'word_copyright'%}
+          upload_img !== '' ? $('#files_img').css('display','block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="{{ static_url('img/file-word-icon.png') }}"></div>') :  $('#files_img').html('');
+        {% elif biz.name == 'art_copyright'%}
+           upload_img !== '' ? $('#files_img').css('display','block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="' +oss_img+ '"></div>') :  $('#files_img').html('');
+        {% elif biz.name == 'other_copyright'%}
+            if(upload_img.split('.')[1] !== 'doc' && upload_img.split('.')[1] !== 'docx'){
+                upload_img !== '' ? $('#files_img').css('display','block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="' +oss_img+ '"></div>') :  $('#files_img').html('');
+            }else{
+                upload_img !== '' ? $('#files_img').css('display','block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="{{ static_url('img/file-word-icon.png') }}"></div>') :  $('#files_img').html('');
+            }
+
+        {% end %}
+//        国家
+        var $opus_finish_country = '{{detail.opus_finish_country}}';
+        var $first_publish_country = '{{detail.first_publish_country}}';
+        $opus_finish_country !== '' ? $('#opus_finish_country').find('option[data-content='+$opus_finish_country+']').attr('selected',''):$('#opus_finish_country').find('option[data-content=中国]').attr('selected','');
+        $first_publish_country !== '' ? $('#opus_finish_countrys').find('option[data-content='+$first_publish_country+']').attr('selected',''):$('#opus_finish_countrys').find('option[data-content=中国]').attr('selected','');
+
+    }
+    $(function (){
+        wordCountry();
+        submitBef();
+    });
+</script>

@@ -1,0 +1,178 @@
+<form class="form-horizontal applicant_new" role="form" id="infoForm" name="ajaxForm" action="/mark/apply/info" method="post">
+    {% raw xsrf_form_html()%}
+    <input type="hidden" value="{{order.id}}" name="order_id">
+    <input type="hidden" value="易正达知识产权代理公司" name="agency">
+    <div class="form-group">
+        <label for="new_applicant" class="col-sm-2 control-label">主体</label>
+        <div class="col-sm-10">
+            <a href="/applicant/new" name="new_applicant" class="btn-add"><span class="glyphicon glyphicon-plus"></span> 添加新主体</a>
+        </div>
+    </div>
+    {% if app_total == 0%}
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                <div class="alert alert-info">
+                    <p><span class="glyphicon glyphicon-hand-up" style="font-size: 20px;padding-right: 10px;"></span>您还未添加主体，请点击添加</p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="form-group applicant-group">
+            <label for="applicant" class="col-sm-2 control-label">申请人名称</label>
+            <div class="col-sm-6">
+                {% module select(select_id="info_applicant",
+                                            is_multiple=False,
+                                            name='applicant_id',
+                                            value=detail.applicant_id,
+                                            has_null=True,
+                                            null_value="",
+                                            null_text="==请选择==",
+                                            options=applicants,
+                                            value_field='id',
+                                            name_field='name',
+                                            sub_type_field='None',
+                                            ext_class='',
+                                            data=dict(address='register_address'),
+                                            cascade_options = None)%}
+            </div>
+        </div>
+    {% end %}
+    <!--<div class="form-group">-->
+        <!--<label for="apply_address" class="col-sm-2 col-md-2 control-label">申请人地址</label>-->
+        <!--<div class="col-sm-8">-->
+            <!--<input id="apply_address" name="address" value="{{detail.applicant['register_address']}}" class="form-control" >-->
+        <!--</div>-->
+        <!--<div class="col-md-5"></div>-->
+    <!--</div>-->
+    <div class="form-group">
+        <label for="mark_reg_num" class="col-sm-2 col-md-2 control-label">商标注册号</label>
+        <div class="col-sm-8">
+            <input id="mark_reg_num" name="mark_reg_num" value="{{detail.mark_reg_num}}" class="form-control" >
+        </div>
+        <div class="col-md-5"></div>
+    </div>
+    <div class="form-group" style="margin-top: 40px;">
+        <div class="col-sm-6 col-sm-offset-4 col-md-4col-md-offset-8" style="text-align: right;">
+            <input type="submit" class="btn-next" value="保存">
+             <button type="button" name="cancelForm" class="btn-pre">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    {% if len(applicants) == 0%}
+        $('.applicant_new').bootstrapValidator({
+            fields:{
+                new_applicant:{
+                    validators:{
+                        notEmpty:{
+                            message:'请添加主体！'
+                        }
+                    }
+                },
+                address:{
+                    validators:{
+                        notEmpty:{
+                            message:'请输入您的详细地址！'
+                        }
+                    }
+                },
+                mark_reg_num:{
+                    validators:{
+                        notEmpty:{
+                            message:'商标注册号，不能为空！'
+                        },
+                         regexp: {
+                            regexp:/^[1-9]\d*$/,
+                            message: '请输入完整的商标注册号！'
+                         }
+                    }
+                }
+            }
+        });
+    {% end%}
+    $('#last_reg_applicant').bootstrapValidator({
+        fields:{
+            applicant_id:{
+                validators:{
+                    notEmpty:{
+                        message:'请选择主体！'
+                    }
+                }
+            },
+            address:{
+                validators:{
+                    notEmpty:{
+                        message:'请输入您的详细地址！'
+                    }
+                }
+            },
+            post_num:{
+                validators:{
+                    notEmpty:{
+                        message:'邮编不能为空！'
+                    },
+                    regexp: {
+                        regexp:/^[a-zA-Z0-9]{6}$/,
+                        message: '请输入所在区域邮编'
+                     }
+                }
+            },
+            link_man:{
+                validators:{
+                    notEmpty:{
+                        message:'请输入联系人！'
+                    },
+                    regexp: {
+                        regexp:/[\u4e00-\u9fa5]{2,4}/,
+                        message: '请输入联系人'
+                     }
+                }
+            },
+            phone:{
+                validators:{
+                    notEmpty:{
+                          message:'请输入手机号码'
+                      },
+                     regexp: {
+                        regexp:/^0?(13[0-9]|15[012356789]|17[0-9]|18[02356789]|14[57])[0-9]{8}$/,
+                        message: '请输入正确的手机号码'
+                     }
+                }
+            },
+            mark_reg_num:{
+                validators:{
+                    notEmpty:{
+                        message:'商标注册号，不能为空！'
+                    },
+                     regexp: {
+                        regexp:/^[1-9]\d*$/,
+                        message: '请输入完整的商标注册号！'
+                     }
+                }
+            }
+        }
+    });
+
+
+    var parse_functions = new Array();
+    function parse_apply_info(){
+
+        var num = $('#info_applicant').val();
+        var option = $('option[value='+num+']');
+        $('.detail_applicant_txt').text(option.text());
+        $('.detail_aregister_address_txt').text(option.data('address'));
+        $('.detail_post_num_txt').text($('#post_num').val());
+        $('.detail_link_man_txt').text($('#link_man').val());
+        $('.detail_phone_txt').text($('#phone').val());
+        $('.detail_mark_reg_num_txt').text($('#mark_reg_num').val());
+    }
+    parse_functions['infoForm'] = parse_apply_info;
+
+</script>
+
+
+
+
+
+
+

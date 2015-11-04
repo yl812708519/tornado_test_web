@@ -1,0 +1,143 @@
+{% extends "../layouts/application.html" %}
+{% block body %}
+<div class="patent_application">
+    <div class="container right-content">
+        <div class="row">
+            {% include "../../layouts/left.html"%}
+            <div class="col-sm-10 top">
+                {% if invoice_basic %}
+                <div class="col-sm-12 clearfix">
+                    <div class="color" style="background: none repeat scroll 0 0 #e33e23;float: left;height: 22px; margin-bottom: 30px;margin-right: 9px; margin-top: 10px;width: 3px;"></div>
+                    <div class="content_title" style="font-size: 20px;margin-top:10px;font-weight: 700;">发票信息</div>
+
+                    <div class="alert alert-warning" style="margin-top: 65px"><span class="glyphicon glyphicon-ok" style="font-size: 16px;padding-right: 5px;"></span>发票信息有效! <span style="float: right;"><a
+                            href="/invoice_basic/{{invoice_basic.id}}/change">修改发票信息?</a></span></div>
+                </div>
+                <div class="panel-body col-md-12 col-sm-12" style="margin-top: -5px">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" style="color: #848484;">
+                            <thead>
+                            <tr class="tr_bg" style="background-color:#EDF9FF">
+                                <th class="table_list" style="text-align: left">发票详情</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="background-color: #fff">
+                                    <div class="col-sm-10 " style="margin-left: -25px">
+                                        {% if invoice_basic.make_invoice_type == "person"%}
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">开具类型：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.make_invoice_type_temp}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">发票抬头：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.title}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">发票类型：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.invoice_type_temp}}</span>
+                                        </div>
+                                        {% elif invoice_basic.make_invoice_type == "com" and invoice_basic.invoice_type == "normal" %}
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">开具类型：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.make_invoice_type_temp}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">发票抬头：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.title}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">发票类型：</label>
+                                            <span class="invoice_span_color"> {{invoice_basic.invoice_type_temp}}</span>
+                                        </div>
+                                        {% elif invoice_basic.make_invoice_type == "com" and invoice_basic.invoice_type == "special" %}
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">开具类型：</label>
+                                            <span class="invoice_span_color"> {{invoice_basic.make_invoice_type_temp}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">发票抬头：</label>
+                                            <span class="invoice_span_color"> {{invoice_basic.title}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">发票类型：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.invoice_type_temp}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">税务登记证号：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.tax_reg_certi_num}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">基本户开户银行名称：</label>
+                                            <span class="invoice_span_color">{{invoice_basic.bank_name}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">基本户开户账号：</label>
+                                            <span class="invoice_span_color"> {{invoice_basic.bank_account}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">注册场所地址：</label>
+                                            <span class="invoice_span_color"> {{invoice_basic.register_address}}</span>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class=" control-label lable_color">注册固定电话：</label>
+                                            <span class="invoice_span_color"> {{invoice_basic.register_phone}}</span>
+                                        </div>
+                                        <div class="form-group" style="margin-left: 15px">
+                                            <label class=" control-label lable_color">营业执照复印件：</label>
+                                            <img src="{{invoice_basic.download_certi_img_url}}" style="width: 80px;height:80px;"/>
+                                        </div>
+                                        <div class="form-group " style="margin-left: 15px">
+                                            <label class=" control-label lable_color">税务登记复印件：</label>
+                                            <img src="{{invoice_basic.download_tax_certi_img_url}}" style="width: 80px;height: 80px;"/>
+                                        </div>
+                                        <div class="form-group " style="margin-left: 15px">
+                                            <label class=" control-label lable_color" style="width:109px;">一般纳税人资格认证复印件：</label>
+                                            <img src="{{invoice_basic.download_taxpayer_certi_img_url}}" style="width: 80px;height: 80px;"/>
+                                        </div>
+                                        {% end %}
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-md-10 col-xs-10 col-sm-9">
+                    <div class="color"></div>
+                    <div class="content_title">发票信息</div>
+                    <br style="clear:both;">
+                </div>
+                <div class="col-sm-12" style="margin-top: 30px">
+                    <div class="col-sm-4"></div>
+                        <div class="col-sm-4 yet_sty">
+                        如果你还没有发票信息
+                        </div>
+                    <div class="col-sm-4"></div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-4"></div>
+                        <div class="col-sm-4 yet_stys">
+                            <a href="/invoice_basic/new" class="btn btn-danger btn_add_sty"><span class="glyphicon glyphicon-plus"style="margin-right: 5px"></span>添加发票信息</a>
+                        </div>
+                    <div class="col-sm-4"></div>
+                </div>
+                {% end %}
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block javascript %}
+<script src="{{ static_url('js/validator.min.js') }}"></script>
+<script>
+function showDefaut(){
+    var img_src = $('img[src="http://dev.b.i.cdn.eking99.cn/"]')
+    if(img_src){
+        img_src.attr('src','/s/img/default_img.jpg')
+    }
+}showDefaut()
+</script>
+{% end %}

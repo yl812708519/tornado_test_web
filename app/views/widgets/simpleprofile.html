@@ -1,0 +1,35 @@
+{% comment '传入参数: $user $current_user $profile $is_following' %}
+    <div class="full">
+        <div class="profile vcard profile-freeagent group">
+            <img alt="{{ user.name }}" class="photo" src="{% module useravatar(user=user, style='big') %}" />
+            <h1><span class="fn edit">{{ user.name }}</span></h1>
+            <ul class="profile-details">
+                <li><span class="locality"></span></li>
+{% import re %}
+{% if profile.website %}<li><a target="_blank" rel="me" class="url" href="{{ profile.website }}">{{ re.sub("(http|https):\/\/",'', profile.website) }}</a></li>{% end %}
+                <li></li>
+{% if profile.sina_weibo %}<li><a target="_blank" rel="me" class="sinaweibo-player-link" 
+href="http://weibo.com/{{ re.sub("http:\/\/(weibo\.com|t\.sina\.com\.cn)\/",'', profile.sina_weibo) }}">
+{{ re.sub("http:\/\/(weibo\.com|t\.sina\.com\.cn)\/",'', profile.sina_weibo) }}</a></li>{% end %}
+            </ul>
+            {% if current_user %}
+            {% if current_user.id == user.id %}
+            <a href="/account/profile" class="action edit-account"><span>修改个人信息</span></a>
+            {% elif is_following %}
+			<div class="follow-prompt">
+			<form method="post" action="/u/{% module userdomain(user=user) %}/followers/{% module userdomain(user=current_user) %}">
+				<input type="hidden" value="delete" name="_method">
+				<a title="你已经关注了{{ user.name }}. 点击后可以取消关注." class="action following" href="#"><span>已关注</span></a>
+			</form>
+			</div>
+			{% else %}
+			<div class="follow-prompt">
+			<form method="post" action="/u/{% module userdomain(user=user) %}/followers/{% module userdomain(user=current_user) %}">
+				<input type="hidden" value="put" name="_method">
+				<a title="你已经关注了{{ user.name }}. 点击后可以取消关注." class="action follow" href="#"><span>关注</span></a>
+			</form>
+			</div>
+            {% end %}
+            {% end %}
+        </div>
+    </div>

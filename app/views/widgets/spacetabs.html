@@ -1,0 +1,11 @@
+<ul class="tabs">
+<li class="{%if active == 'deals_likes' %}active{% end %}">
+	<a href="/u/{% module userdomain(user=user) %}/stories"> 我的空间<span class="meta"></span></a>
+</li>
+<li class="{%if active == 'deals_likes' %}active{% end %}">
+	<a href="/u/{% module userdomain(user=user) %}/deals/likes"> 喜欢的团购 <span class="meta">{{ like_count }}</span></a>
+</li>
+<li class="{%if active == 'shops_likes' %}active{% end %}">
+	<a href="/u/{% module userdomain(user=user) %}/shops/likes"> 喜欢的店铺<span class="meta">{{ like_count }}</span></a>
+</li>
+</ul>

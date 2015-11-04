@@ -1,0 +1,27 @@
+#starting options have parameter --runmod default is:development
+development:
+  yestar:
+    regional_node: oss-cn-beijing.aliyuncs.com
+    id: KhdcgpeQH4TuplJe
+    key: hJqiOPu7g59mGNwXWtZU1r4Fxs5aZK
+    bucket: eking-yestar-test
+    download_site: http://eking-yestar-test.oss-cn-beijing.aliyuncs.com/
+    download_image_site: http://dev.b.i.cdn.eking99.cn/
+
+test:
+  yestar:
+    regional_node: oss-cn-beijing.aliyuncs.com
+    id: KhdcgpeQH4TuplJe
+    key: hJqiOPu7g59mGNwXWtZU1r4Fxs5aZK
+    bucket: eking-yestar-test
+    download_site: http://eking-yestar-test.oss-cn-beijing.aliyuncs.com/
+    download_image_site: http://dev.b.i.cdn.eking99.cn/
+
+production:
+  yestar:
+    regional_node: oss-cn-beijing.aliyuncs.com
+    id: UZyXKqa1E7kPYkrk
+    key: fn4qIFpVKdzIGMAWA4KlFrUJv85CHf
+    bucket: bingoip
+    download_site: http://b.s.eking99.cn/
+    download_image_site: http://b.i.cdn.eking99.cn/

@@ -1,0 +1,164 @@
+<!--当前未使用-->
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <meta charset="UTF-8">
+    <title>商标代理委托书</title>
+    <style>
+        @font-face {
+                font-family: 'yahei';
+                src: url('{{font}}');
+            }
+        {% if render_type == 'view'%}
+        html{text-align: left; width: 800px; padding-left: 20%; line-height: 25px; font-size: 20px}
+        table{line-height: 25px; font-size: 20px}
+        {%else%}
+        html,body{line-height:24pt;font-size: 11pt;padding-left: 30px;margin: 0;padding-top: 30px}
+        {% end %}
+        .footer_table{margin-left: 30px}
+        .title_span{text-align: center; font-size: 18pt; }
+        .fangkuai{font-size: 15pt}
+        .underline{text-decoration:underline}
+        .right_align_td {text-align: right; margin-right: 12px; width: 200px}
+        table{padding: 0;table-layout:fixed;word-break:normal;}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: top;
+            word-break:normal;
+            word-wrap:break-word;
+        }
+        p{width:300px}
+    </style>
+
+</head>
+<body>
+{% for delegate_name in delegate_names%}
+<div style="text-align: center"><span class="title_span">商&nbsp;&nbsp;&nbsp;标&nbsp;&nbsp;&nbsp;代&nbsp;&nbsp;&nbsp;理&nbsp;&nbsp;&nbsp;委&nbsp;&nbsp;&nbsp;托&nbsp;&nbsp;&nbsp;书&nbsp;&nbsp;&nbsp;</span></div>
+{% if render_type != 'view'%}
+<div style="text-indent: 1cm;font-size: 12pt;">
+委托人<span class="underline"> &nbsp;&nbsp;&nbsp;{{delegate_name}}&nbsp;&nbsp;&nbsp; </span>是 <span class="underline">
+    &nbsp; &nbsp; &nbsp;{% if apply_app['region'] != 'other'%} 中 {% end %}&nbsp; &nbsp; &nbsp;</span>国国籍、依
+    <span class="underline">&nbsp; {% if apply_app['region'] != 'other'%} 中 {% end %} &nbsp;</span>国法律组成，现委托
+    <span class="underline"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{delegate['agency']}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span> 代理
+    <span class="underline"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{getattr(detail,'mark_type', '') or getattr(detail,'mark_reg_num', '')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </span>商标的如下“√”事宜。<br>
+</div>
+{% else %}
+
+<span>委托人{{delegate_name}} 是  {% if apply_app['region'] != 'other'%} 中 {% end %}国国籍、依 {% if apply_app['region'] != 'other'%}     中 {% end %}国法律组成，</span><br>
+<span>现委托 {{delegate['agency']}} 代理 {{getattr(detail,'mark_type', '') or getattr(detail,'mark_reg_num', '')}} 商标的如下“√”事宜。</span><br>
+{%end%}
+
+<table cellpadding="0" cellspacing="0" style="margin-left: 30px">
+    <tr >
+        <td>{% if order.order_type in ('mark_reg', 'collective_mark_reg', 'prove_mark_reg')%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}商标注册申请</td>
+        <td><span class="fangkuai">□</span>撤销成为商品/服务通用名称注册商标申请</td>
+    </tr>
+    <tr >
+        <td><span class="fangkuai"><span class="fangkuai">□</span></span>商标异议申请</td>
+        <td><span class="fangkuai">□</span>撤销连续三年不使用注册商标提供证据</td>
+    </tr>
+    <tr >
+        <td><span class="fangkuai">□</span>商标异议答辩</td>
+        <td style="padding-left: 7px">撤销成为商品/服务通用名称注册商标答辩</td>
+    </tr>
+    <tr>
+        <td>{% if order.order_type == 'correct_mark_reg_items'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}更正商标申请/注册事项申请</td>
+        <td>{% if order.order_type == 'reissue_mark_transfer'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}补发变更/转让/续展证明申请</td>
+    </tr>
+    <tr>
+        <td>{% if order.order_type == 'reg_col_pro_applicant'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}变更商标申请人/注册人名义/地址 变更集体商标</td>
+        <td>{% if order.order_type == 'reissue_reg_credential'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}补发商标注册证申请</td>
+    </tr>
+    <tr>
+        <td style="padding-left: 7px">/证明商标管理规则/集体成员名单申请</td>
+        <td>{% if order.order_type == 'provide_mark_reg_proof'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}出具商标注册证明申请</td>
+    </tr>
+    <tr>
+        <td>{% if order.order_type == 'age_rec_applicant'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}变更商标代理人/文件接收人申请</td>
+        <td><span class="fangkuai">□</span>出具优先权证明文件申请</td>
+    </tr>
+    <tr>
+        <td>{% if order.order_type == 'sub_service_applicant'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}删减商品/服务项目申请</td>
+        <td><span class="fangkuai">□</span>撤回商标注册申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标续展注册申请</td>
+        <td><span class="fangkuai">□</span>撤回商标异议申请</td>
+    </tr>
+    <tr>
+        <td>{% if order.order_type == 'mark_transfer_apply'%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}转让/移转申请/注册商标申请</td>
+        <td><span class="fangkuai">□</span>撤回变更商标申请人/注册人名义/地址 变更集体</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标使用许可备案</td>
+        <td style="padding-left: 7px">商标/证明商标管理规则/集体成员名单申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>变更许可人/被许可人名称备案</td>
+        <td><span class="fangkuai">□</span>撤回变更商标代理人/文件接收人申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标使用许可提前终止备案</td>
+        <td><span class="fangkuai">□</span>撤回删减商品/服务项目申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标专用权质权登记申请</td>
+        <td><span class="fangkuai">□</span>撤回商标续展注册申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标专用权质权登记事项变更申请</td>
+        <td><span class="fangkuai">□</span>撤回转让/移转申请/注册商标申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标专用权质权登记期限延期申请</td>
+        <td><span class="fangkuai">□</span>撤回商标使用许可备案</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标专用权质权登记证补发申请</td>
+        <td><span class="fangkuai">□</span>撤回商标注销申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标专用权质权登记注销申请</td>
+        <td><span class="fangkuai">□</span>撤回撤销连续三年不使用注册商标申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>商标注销申请</td>
+        <td><span class="fangkuai">□</span>撤回撤销成为商品/服务通用名称注册商标申请</td>
+    </tr>
+    <tr>
+        <td><span class="fangkuai">□</span>撤销连续三年不使用注册商标申请</td>
+        <td><span class="fangkuai">□</span>其他__________________</td>
+    </tr>
+
+
+
+</table>
+<br/><br/>
+<table cellpadding="0" cellspacing="0" class="footer_table">
+    <tr >
+        <td width="400px" colspan="3">委托人地址：<span class="underline">&nbsp;&nbsp;&nbsp;{{apply_app['register_address']}} &nbsp;&nbsp;&nbsp;</span></td>
+    </tr>
+    <tr >
+        <td>联  系  人：<span class="underline"> &nbsp;&nbsp;{{delegate['link_man']}}&nbsp;&nbsp;&nbsp; </span></td>
+        <td style="padding-left: 60px" colspan="2">委托人章戳（签字）</td>
+    </tr>
+    <tr >
+        <td>电      话：<span class="underline">&nbsp;&nbsp;{{delegate['phone']}}&nbsp;&nbsp;&nbsp; </span></td>
+    </tr>
+    <tr>
+        <td >邮政编码 ：<span class="underline"> &nbsp;&nbsp;{{delegate['post_num']}} &nbsp;&nbsp;&nbsp;</span></td>
+        <td  style="letter-spacing: 15;padding-left: 70px" colspan="2">年    月    日</td>
+    </tr>
+
+</table>
+    <pdf:nextpage>
+{% end %}
+</body>
+
+</html>
+

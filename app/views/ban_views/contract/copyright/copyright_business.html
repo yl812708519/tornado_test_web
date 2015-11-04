@@ -1,0 +1,225 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <meta charset="UTF-8">
+    <title>著作权登记服务协议</title>
+    <style>
+        @font-face {
+            font-family: 'yahei';
+            font-size: 12px;
+            src: url('{{font}}');
+        }
+        @page {
+            margin: 1cm;
+            margin-bottom: 2.5cm;
+            border: 0pt solid white;
+            @frame footer {
+                -pdf-frame-content: footerContent;
+                font-size: 5px;
+                bottom: 0.7cm;
+                height: 1cm;
+                text-align: center;
+            }
+        }
+        {% if render_type == 'view'%}
+        #footerContent{display: none}
+        html{text-align: left; width: 1000px; padding-left: 20%}
+        {%else%}
+        html,body{line-height:16pt;font-size: 10pt;}
+        {% end %}
+        .str_in_td{text-align: left; padding-left: 7px}
+        .title_span{text-align: center; font-size: 14pt; }
+        .underline{text-decoration:underline}
+        .p_indent{text-indent: 0.75cm}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: top;
+            word-break:normal;
+            word-wrap:break-word;
+        }
+    </style>
+
+</head>
+<body style="padding-left: 15px">
+<div id="footerContent" style="vertical-align: bottom;margin-right: 20px;"><p style="text-align: right; font-size: 6pt"><pdf:pagenumber>&nbsp;&nbsp; / &nbsp;&nbsp;4</p></div>
+
+<div style="text-align: center"><span class="title_span">著&nbsp;&nbsp;&nbsp;作&nbsp;&nbsp;&nbsp;权&nbsp;&nbsp;&nbsp;登&nbsp;&nbsp;&nbsp;记&nbsp;&nbsp;&nbsp;服&nbsp;&nbsp;&nbsp;务&nbsp;&nbsp;&nbsp;协&nbsp;&nbsp;&nbsp;议&nbsp;&nbsp;&nbsp;同&nbsp;&nbsp;&nbsp;</span></div>
+<br/><br/>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="300px" colspan="2">甲方：{{apply_app['name']}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">通讯地址：{{user_profile.address}}</td>
+        </tr>
+        <tr>
+            <td>联系人： {{user_profile.nickname}}</td>
+            <td>联系电话： {{user_profile.mobile}}</td>
+        </tr>
+
+    </table>
+<br/>
+    <table cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="300px" colspan="2">乙方：易清互动（北京）信息技术有限公司</td>
+        </tr>
+        <tr>
+            <td colspan="2">通讯地址：北京市朝阳区北三环东路28号易亨大厦10层</td>
+        </tr>
+        <tr>
+            <td>联系人：收文部</td>
+            <td>联系电话：010-56204326</td>
+        </tr>
+
+    </table>
+<br/>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="300px" colspan="2">丙方：北京易正达知识产权代理有限公司</td>
+        </tr>
+        <tr>
+            <td colspan="2">通讯地址：北京市朝阳区北三环东路28号易亨大厦10层</td>
+        </tr>
+        <tr>
+            <td>联系人：收文部 </td>
+            <td>联系电话：010-56204326</td>
+        </tr>
+    </table>
+<br>
+<p class="p_indent"> 甲方为乙方互联网线上交易客户，有著作权登记的需要，为顺利完成甲方的著作权登记服务，甲方同意，乙方
+    指定丙方为甲方提供具体的著作权登记服务，甲方不再与丙方单独签订著作权登记服务合同，视为甲方委托丙方进行登
+    记服务，但均由乙方代表丙方与甲方独立承担相关法律责任，为明确三方各自的权利义务关系，经三方经友好协商，就
+    甲方所需要著作权登记服务的相关事宜，按照《中华人民共和国著作权法》及相关法律法规，本着平等互利、诚实信用
+    原则，达成如下协议，以资共同遵守。
+</p>
+<p>一、三方具体服务关系</p>
+<p>1.乙方为冰狗网（www.bingoip.com）运营商，负责业务承接及业务相关的后续法律服务和业务相关咨询</p>
+<p>2.丙方为乙方战略合作伙伴，乙方指定丙方具体承办甲方的著作权登记事务。</p>
+<p>3.甲方在著作权登记服务中产生的权利与义务，均只针对乙方，由乙方独立对甲方负责；丙方作为服务提供
+    方仅独立对乙方负责，不对甲方承担任何法律责任。</p>
+<p>二、服务项目：</p>
+
+<table border="1px" align="center" width="450" style="padding-top:4px;padding-left: 7px; ">
+    <tr>
+        <td class="str_in_td" width="130px">申请人名称</td>
+        <td class="str_in_td">{{apply_app.name}}</td>
+    </tr>
+    <tr>
+        <td class="str_in_td">服务项目</td>
+        <td class="str_in_td">{{order.name}}</td>
+    </tr>
+    <tr>
+        <td class="str_in_td">费用合计</td>
+        <td class="str_in_td">人民币：{{order_payment.pay_fee-order_payment.order_tip}}</td>
+    </tr>
+</table>
+
+<p>注：</p>
+
+<p class="p_indent">
+    单价：<span class="underline"> &nbsp;&nbsp;&nbsp;{{order_payment.pay_fee-order_payment.order_tip}} &nbsp;&nbsp;&nbsp;</span> 元/件(含税费：{{float((order_payment.service_charge + order_payment.official_charge)*order_payment.tax)}}元)。
+</p>
+<p class="p_indent">
+    上述费用共计人民币 {{order_payment.pay_fee-order_payment.order_tip}} 元，大写 {{order_cn_price}} 。
+</p>
+<p class="p_indent">
+    上述申请人为企业或其它法人的，申请名称需与营业执照或登记证书信息一致，申请人为自然人的，申请人名称需与身份证信息一致。
+</p>
+
+
+
+<br>
+<p>三、甲方的权利和义务：</p>
+<p>1、甲方有权监督、检查、询问乙方为甲方办理服务事项的工作进程。</p>
+<p>2、甲方有权要求乙方陈述与相应服务有关的事实情况。</p>
+<p>3、甲方有权要求乙方提供完整、有效的联系方式（包括文件邮寄地址、联系人、联系电话、邮箱）给甲方，并在联系方
+    式发生变化时，及时以书面方式通知甲方，否则由此造成的一切后果均由乙方承担。</p>
+<p>4、甲方需按约定的付款方式及时、全额付款，以确保商标注册的顺利进行。甲方所委托丙方的代理事务不得有弄虚作假
+    或侵犯他人的合法权益等不正当行为，经发现和证实后，甲方应当承担相关一切责任，乙方有权解除协议，所收取费用
+    均不予退回。</p>
+<br>
+<p>四、乙方的权利和义务：</p>
+<p>1、乙方就办理著作权登记服务事项可通过冰购网（www.bingoip.com）向甲方提供注册查询、业务咨询、资料收集等服务。</p>
+<p>2、乙方在甲方完成申报资料填写后应按要求及时联系甲方，并在收到甲方所提交的准确资料后，及时向相关主管部门递
+    交相关申报文件，完成相应业务申报工作；或由乙方将文件交与丙方，由丙方及时向相关主管部门递交相关申报文件，并
+    完成相应业务申报工作。</p>
+<p>3、乙方有权要求甲方陈述与服务事务有关的事务情况，并在乙方所要求的期限内提供详细、真实的资料及证明文件，否
+    则一切因此造成的后果将由甲方承担。</p>
+<p>4、乙方应在本服务事项中，对官方的每一个阶段性结果以邮件或短信的方式告知甲方结果。</p>
+<p>5、乙方有权对甲方所需事项所提及的材料进行审核，若发现甲方有弄虚作假或侵犯他人的合法权益等不正当行为，乙方
+    有权解除合同，所收费用均不予退回。</p>
+<p>6、乙方有权按照约定的付款方式要求甲方向丙方账户支付著作权登记服务费，并有权在甲方未按约定支付著作权登记服务费的情况下
+    指示丙方暂停代理工作；</p>
+<p>7、乙方有权要求甲方提供完整、有效的联系方式（包括文件邮寄地址、联系人、联系电话、邮箱）给乙方，并在联系方
+    式发生变化时，及时以书面方式通知乙方，否则由此造成的一切后果均由甲方承担。</p>
+<br>
+<p>五、费用、支付时间及支付方式：</p>
+<p>经三方平等协商，甲方在付款之日起三个工作日内签订本协议。丙方在收到协议款项之后启动前述服务工作。丙方在收到
+    协议款项之后启动前述服务工作。{% if order.is_invoice_able or order.is_invoiced%}丙方收到款后一周内将全额有效发票寄给甲方。 {% end %}</p>
+<br/>
+<p>六、账户信息：</p>
+<p>开户人：北京易正达知识产权代理有限公司</p>
+<p>开户行：中国光大银行北京亚运村支行</p>
+<p>账&nbsp;&nbsp;号：35090188000117913</p>
+<br/>
+<p>七、退款条款</p>
+<p>1、甲方在支付完成6个月内，如出现下列情况，甲方可要求乙方退还所收取费用。</p>
+<p>&nbsp;&nbsp;&nbsp;（1）甲方完成支付后，由于乙方（或丙方）工作失误而造成业务不能申报的。</p>
+<p>&nbsp;&nbsp;&nbsp;（2）甲方完成支付后，乙方（或丙方）未进行相应业务服务事宜。</p>
+<br/>
+<p>八、保密条款 </p>
+<p>1、甲、乙、丙三方均对本合同及相关内容负有保密义务，保密期限不限于本合同履行期限，也不因合同的解除、终止、
+    无效或被撤销而失效。即甲方对乙方服务、丙方代理本案的服务内容负有保密义务，乙方、丙方对合同履行中了解到
+    的甲方的相关商业秘密负有保密义务。乙方、丙方承诺保密资料的使用只限于本合同项目，未经甲方同意，不得将保密
+    资料用于其他目的。</p>
+<p>2、以下信息不属于保密资料：</p>
+<p>&nbsp;&nbsp;&nbsp;（1）乙方、丙方从公开渠道获取的且公开的与本项目有关的信息;</p>
+<p>&nbsp;&nbsp;&nbsp;（2）并非由乙方、丙方从事本项目有关人员披露或乙方、丙方从事本项目有关人员授权披露的信息。</p>
+<p>&nbsp;&nbsp;&nbsp;（3）从其他渠道获得的信息，且乙方、丙方有理由相信该渠道对该类信息的拥有不是由于违反了其对其他方的保密义
+    &nbsp;&nbsp;&nbsp;务的结果。</p>
+<br/>
+<p>九、不可撤销条款</p>
+<p>除甲方或乙方有充分理由和证据表明对方已经实施了实质性损害行为并严重影响了协议全面履行，协议目的不能实现，
+    构成根本性违约的情况外，任何一方均不得无故解除合同。</p>
+<br/>
+<p>十、争议解决的方式</p>
+<p>1、协议履行期间如发生纠纷，三方应本着互惠、互利、友好的原则协商解决。</p>
+<p>2、若经过双方协商，仍达不成一致意见，任何一方均可向乙方所在地有管辖权的人民法院提起诉讼。</p>
+<br/>
+<p>十一、违约责任</p>
+<p>1、甲方未在指定时间内提供乙丙方所需资料或甲方提供的资料不实，所造成的著作权登记失败及其造成的其他后果由甲
+    方承担；</p>
+<p>2、甲方若延迟付款，应事先通知乙方并征得其同意后方可延迟。若甲方未按约定时间付款导致注册延误而造成的损失
+    ，由甲方自行承担；</p>
+<br/>
+<p>十二、其他</p>
+<p>1.协议中除双方签章外，均为印刷字体，手写部分（包括但不限于添加、删除、修改）须双方在手写处签字盖章确认后
+    才具备法律效力，红色与黑色印章效力相同。</p>
+<p>2、除本协议其他条款另有约定外，合同各方之间所达成的共识或者承诺等，须签订书面补充协议或书面文件并加盖公章
+    ，除此以外的口头、书面形式等任何形式约定的内容均无效。</p>
+<p>3、本协议未尽事宜，三方另行协商。</p>
+<p>4、本合同（协议）经双方签章之日起生效。</p>
+<p>5、本协议经双方签章之日起生效。、本协议一式叁份，甲、乙、丙三方各执一份。</p>
+
+<table align="center" style="padding: 0;">
+    <tr>
+        <td width="340px">甲方（盖章）：</td>
+        <td width="340px">乙方(盖章):{% if render_type != 'view'%}<img width="220px" src="{{seal['eking']}}">{%end%}</td>
+        <td width="340px">丙方(盖章):{% if render_type != 'view'%}<img width="220px" src="{{seal['yestar']}}">{%end%}</td>
+    </tr>
+    <tr>
+        <td>签署日期：</td>
+        <td>签署日期：{%if render_type == 'download'%}{{today}}{%end%}</td>
+        <td>签署日期：{%if render_type == 'download'%}{{today}}{%end%}</td>
+    </tr>
+
+</table>
+
+
+</body>
+</html>
+

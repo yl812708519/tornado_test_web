@@ -1,0 +1,159 @@
+{% extends "../layouts/application.html" %}
+{% block body %}
+<!--商标申请页面  -->
+<div class="container patent_application" style="background-color: #fff">
+    <div class="row">
+         {% include "../layouts/aside.html"%}
+        <div class="col-md-10 right-content col-xs-12" style="padding-right:0px;margin-top:30px">
+            <div class="col-md-12">
+                <div class="clear">
+                    <div class="color" style="margin-left: 5px"></div>
+                    <div class="content_title">版权检索</div>
+                </div>
+            </div>
+            <div style="margin-top:15px;">
+                <form class="form-horizontal index" action="/copyright" method="post" role="form" id="addForm0" style="display:block">
+                    {% raw xsrf_form_html()%}
+                    {% if copyright.id%}
+                        <input name="_method" type="hidden" value="put"/>
+                        <input id="copyright_id" name="copyright.id" type="hidden" value="{{copyright.id}}"/>
+                    {% end %}
+                    <div class="col-md-12" style="padding-left: 0px;margin-top: 20px;">
+                        <div class="col-md-12 info">
+                            <div class="alert alert-info alert-dismissable" style="width: 95%">
+                                <button class="close" type="button">×</button>
+                                <div class="header_size_sty">如果您需要注册版权或其它知识产权，请填写以下表格并提交。</div>
+                                <div style="text-indent:2em;margin-top: 5px">所有提交给冰狗网的信息都会被严格保密，当您提交表格之后我们的工作人员会在一个工作日内给你反馈感谢您选择冰狗知识产权！</div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                        <div class="title_sty">填写版权信息<span class="title_sty_span">以下*号为必选项</span></div>
+                        <div class="form-group" style="margin-top: 20px">
+                            <label class="col-sm-2 control-label"><span class="span_col">*</span>申报版权名称</label>
+                            <div class="col-sm-9">
+                                <input name="copyright.copyright_name" value="{{copyright.copyright_name}}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label "><span class="span_col">*</span>版权类型</label>
+                            <div class="col-sm-9">
+                                {% module select(select_id="copyright_type",
+                                is_multiple=False,
+                                name='copyright.copyright_type',
+                                value= copyright.copyright_type,
+                                has_null=True,
+                                null_value="",
+                                null_text="==请选择==",
+                                options=copyright_types,
+                                value_field='opt_value',
+                                name_field='opt_title',
+                                sub_type_field='sub_opt_type',
+                                ext_class='',
+                                cascade_options = None)%}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="span_col">*</span>联系人</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="copyright.applicant_name" value="{{copyright.applicant_name}}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="span_col">*</span>手机号</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="copyright.applicant_mobile" value="{{copyright.applicant_mobile}}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="span_col">*</span>邮箱</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="copyright.applicant_email" value="{{copyright.applicant_email}}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-7">
+                                <textarea name="copyright.remark" id="remark" class="form-control" cols="30" rows="5">{{copyright.remark}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <input type="submit" value="提交" class="btn-red"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+             </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block javascript %}
+<script>
+    $('#art_word').addClass('current')
+$('#addForm0').bootstrapValidator({
+    verbose: false,
+    feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+    },
+    fields: {
+        "copyright.copyright_name": {
+            validators: {
+                notEmpty: {
+                    message: '请输入版权名称！'
+                },
+                stringLength: {
+                    min: 1,
+                    max: 50,
+                    message: '最大字符不能超过50个'
+                }
+            }
+        },
+        "copyright.copyright_type":{
+            validators: {
+                notEmpty: {
+                    message: '请选择版权类型！'
+                }
+            }
+        },
+        "copyright.applicant_name":{
+            validators: {
+                notEmpty: {
+                    message: '请输入您的姓名！'
+                }
+            }
+        },
+        "copyright.applicant_mobile":{
+            validators:{
+                  notEmpty:{
+                      message:'请输入手机号码'
+                  },
+                 regexp: {
+                    regexp:/^0?(13[0-9]|15[012356789]|17[0-9]|18[02356789]|14[57])[0-9]{8}$/,
+                    message: '请输入正确的手机号码'
+                 }
+              }
+        },
+        "copyright.applicant_email":{
+            validators: {
+                notEmpty: {
+                    message: '电子邮件地址是必需的，不能为空'
+                },
+                emailAddress: {
+                    regexp: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ ,
+                    message: '电子邮件地址无效'
+                }
+            }
+        }
+    }
+});
+//关闭提示框
+$('.close').click(function () {
+    $(this).parents('.info').remove();
+});
+
+</script>
+{%end%}

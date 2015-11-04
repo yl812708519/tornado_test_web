@@ -1,0 +1,131 @@
+{% extends "../layouts/application.html" %}
+{% block body%}
+<div class="patent_application">
+   <div class="container right-content">
+       <div class="row">
+           {% include "../layouts/aside.html"%}
+           <div class="col-sm-10">
+               <h3 class="page-head" style="padding-left: 15px;">商标注册检索</h3>
+               <form class="form-horizontal" role="form" id="markForm" action="/mark/reg/forecast" method="post">
+                    {% raw xsrf_form_html()%}
+                    <div class="form-group">
+                        <label for="mark_name" class="col-sm-2 col-md-2 control-label">商标名称</label>
+                        <div class="col-sm-10 col-md-5">
+                            <input id="mark_name" name="mark_name" value="{{mark.name}}" class="form-control" >
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mark_desc" class="col-sm-2 control-label">商标说明</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control"  id="mark_desc" name="mark_desc" rows="5" placeholder="请填写商标说明以及该商标主要从事的行业">{{mark.description}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mark_img" class="col-sm-2 control-label">商标图片上传</label>
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-defaults" id="iFrameUpload_img" style="margin-left: 1px">上传图片</button>
+                            <p>提醒：请上传JPG格式、小于200K，像素介于“400*400”至“1500*1500”之间的正方形图片</p>
+                            <input type="hidden" id="mark_img" name="mark_img" value="{{mark.mark_img}}" class="form-control">
+                        </div>
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="clear" id="files_img" style="margin-top: 20px;"></div>
+                        </div>
+                        <div id="files_hidden_img"></div>
+                    </div>
+                    <div class="form-group" style="margin-top: 60px;">
+                        <div class="col-sm-6 col-sm-offset-6 col-md-4col-md-offset-8" style="text-align: right;">
+                            <button type="submit" id="submitBtn" class="btn-next">提交</button>
+                        </div>
+                    </div>
+                </form>
+           </div>
+       </div>
+    </div>
+</div>
+{% end %}
+{% block javascript %}
+<script src="{{ static_url('js/jquery.form.min.js') }}" type="text/javascript"></script>
+<script>
+    $("#iFrameUpload_img").wIFrameUpload({
+        url: "/iframe_upload",
+        ossName: "yestar",
+        openPositionInterval: true,
+        beforeSubmit: function ($file_input_img) {
+            var file_name = $file_input_img.val();
+            var arr = ["gif", "jpeg", "jpg", "bmp", "png"];
+            if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+                wModalDialog({
+                    content:'选择文件错误,图片类型必须是(gif,jpeg,jpg,bmp,png)中的一种',
+                    showAnimate:true,
+                    type:"failed"
+                 });
+                return false
+            }
+            if ($('#files_img').html()) {
+                $('#file_hidden_img').html('');
+                $('#files_img').html('');
+            }
+            $('#files_img').html('<div class="file" state="load"><img width="140px" height="140px" src="/s/img/load.gif"></div>');
+            return true;//返回false 阻止提交
+        },
+        success: function (data) {
+            if (data.status == 1) {
+                $('#files_img').css('display', 'block');
+                $('#files_img').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="' + data.downloadUrl + '"></div>');
+                $('#mark_img').val(data.ossUrl);
+                $('#iFrameUpload_img').html('修改图片');
+                $('#iFrameUpload_img').attr('value', '111');
+            } else {
+                wModalDialog({
+                    content: data.message,
+                    showAnimate:true,
+                    type:"failed"
+                 });
+            }
+        }
+    });
+    $('#mark_reg').addClass('current');
+    $('#markForm').bootstrapValidator({
+        verbose:false,
+        submitButtons:"#submitBtn",
+         feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields:{
+            mark_name:{
+                validators:{
+                    notEmpty: {
+                        message: '请输入商标名称'
+                    }
+
+                }
+            },
+            mark_desc:{
+                validators:{
+                    notEmpty:{
+                        message: '请输入商标的描述'
+                    }
+                }
+            }
+
+        }
+    });
+     $('#Cancel_form8').click(function (){
+           $(this).closest('.ajaxForm_div').slideUp();
+            $(this).closest('.media').find('.group-wrap').slideDown();
+        });
+</script>
+
+{% end %}
+
+
+
+
+
+
+

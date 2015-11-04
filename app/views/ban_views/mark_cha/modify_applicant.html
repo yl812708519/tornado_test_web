@@ -1,0 +1,323 @@
+<form class="form-horizontal applicant_new" role="form" id="applicantForm" name="ajaxForm" action="/mark/change/applicant" method="post">
+    {% raw xsrf_form_html()%}
+    <input type="hidden" value="{{order.id}}" name="order_id">
+    <input type="hidden" value="{{detail.biz}}" name="biz">
+    <div class="form-group">
+        <label for="new_applicant" class="col-sm-2 control-label">主体</label>
+        <div class="col-sm-10">
+            <a href="/applicant/new" name="new_applicant" class="btn-add"><span class="glyphicon glyphicon-plus"></span> 添加新主体</a>
+        </div>
+    </div>
+    {% if app_total == 0%}
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                <div class="alert alert-info">
+                    <p><span class="glyphicon glyphicon-hand-up" style="font-size: 20px;padding-right: 10px;"></span>您还未添加主体，请点击添加</p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="form-group applicant-group">
+            <label for="applicant" class="col-sm-2 control-label">选择主体</label>
+            <div class="col-sm-8">
+                {% module select(select_id="applicant",
+                                            is_multiple=False,
+                                            name='applicant_id',
+                                            value=detail.applicant_id,
+                                            has_null=True,
+                                            null_value="",
+                                            null_text="==请选择==",
+                                            options=applicants,
+                                            value_field='id',
+                                            name_field='name',
+                                            sub_type_field='None',
+                                            ext_class='',
+                                            data=dict(type='app_type'),
+                                            cascade_options = None)%}
+            </div>
+        </div>
+    {%end %}
+    <div class="form-group">
+        <label for="address_en" class="col-sm-2 control-label">共有商标</label>
+        <div class="col-sm-9">
+            <div class="radio-inline">
+                <label>
+                    <input id="no_" type="radio" value="0" {% if not detail.is_co_applicants %} checked="checked" {%end%} name="is_co_applicants">无
+                </label>
+            </div>
+            <div class="radio-inline">
+                <label>
+                    <input id="yes_" type="radio" value="1" {% if detail.is_co_applicants %} checked="checked" {%end%} name="is_co_applicants">有
+                </label>
+            </div>
+        </div>
+    </div>
+    <div id="mark_common" {% if not detail.is_co_applicants %} style="display: none;" {%end%}">
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                {% if detail.biz == 'reg_col_pro_applicant' %}
+                <a href="/applicant/new" name="new_applicant" class="btn-add"><span class="glyphicon glyphicon-plus"></span> 添加共有人</a>
+                {% else %}
+                <a href="/applicant/new" name="new_applicant" class="btn-add"><span class="glyphicon glyphicon-plus"></span> 添加共有人</a>
+                {% end %}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="applicant" class="col-sm-2 control-label">商标共有人</label>
+            <div class="col-sm-10 label_style">
+                {% for applicant in applicants%}
+                    <div class="checkbox">
+                        <label>
+                             <input data="{{applicant.app_type}}" data-value={{applicant.get('name')}} type="checkbox" value="{{applicant.id}}" {% if str(applicant.id) in detail.co_app_ids%} checked="checked" {% end %} id="co_applicant{{applicant.get('id')}}" name="co_applicant_ids">{{applicant.get('name')}}
+                        </label>
+                    </div>
+                {% end %}
+            </div>
+        </div>
+        {% if detail.biz == 'reg_col_pro_applicant' %}
+        <div class="form-group">
+            <label for="address_en" class="col-sm-2 control-label">变更共有人</label>
+            <div class="col-sm-10" style="margin-bottom: 15px;">
+                <div class="radio-inline">
+                    <label>
+                        <input id="emptyC" type="radio" value="0" {% if not detail.is_co_app_changed %} checked="checked" {%end%} name="is_co_app_changed">否
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        <input id="fullC" type="radio" value="1" {% if detail.is_co_app_changed %} checked="checked" {%end%} name="is_co_app_changed">是
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="Cotainer" {% if not detail.is_co_app_changed %} style="display: none;" {%end%}">
+            <div class="col-sm-10 col-sm-offset-2">
+               <a href="/applicant/new" name="new_applicant" class="btn-add"><span class="glyphicon glyphicon-plus"></span> 添加共有人</a>
+            </div>
+            <div class="col-sm-10 col-sm-offset-2">
+                <div class="form-group add_group">
+                {% for index in xrange(len(detail.after_co_app_ids)) %}
+                    <div class="item">
+                        <div class="col-sm-4 ">
+                            <input type="hidden" name="before_co_app_ids" value="{{detail.before_co_apps[index].id}}}">
+                            <input class="default" type="text" data-id="{{detail.before_co_apps[index].id}}" data-name="default-name" value="{{detail.before_co_apps[index].name}}" readonly="readonly"/>
+                        </div>
+                        <div class="col-sm-2 blue_color">变更为</div>
+                        <div class="col-sm-4">
+                            <input type="hidden" name="after_co_app_ids" value="{{detail.after_co_apps[index].id}}}">
+                            <input class="default" data-id="{{detail.after_co_apps[index].id}}" type="text" data-name="default-name" value="{{detail.before_co_apps[index].name}}" readonly="readonly"/>
+                        </div>
+                        <div class="col-sm-2"><span data-first="{{detail.before_co_apps[index].id}}" data-second="{{detail.after_co_apps[index].id}}" class="glyphicon glyphicon-remove-circle canel"></span></div>
+                    </div>
+                {% end %}
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <input type="hidden" name="cha_common_ids"/>
+                        <select name="before_cp_app_ids" class="change_bef default">
+                            <option value="">请选择</option>
+                            {% for applicant in applicants %}
+                                <option id="{{applicant.get('id')}}">{{applicant.get('name')}}</option>
+                            {% end %}
+                        </select>
+                    </div>
+                    <div class="col-sm-2 blue_color">变更为</div>
+                    <div class="col-sm-4">
+                        <select name="after_co_app_ids" class="change_aft default"></select>
+                    </div>
+                    <div class="col-sm-2"><span class="success_btn glyphicon glyphicon-plus-sign"></span></div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-sm-offset-2 label_style">
+
+            </div>
+        </div>
+        {% end %}
+    </div>
+    <div class="form-group" style="margin-top: 40px;">
+        <div class="col-sm-6 col-sm-offset-4 col-md-4col-md-offset-8" style="text-align: right;">
+            <input type="submit" class="btn-next" value="保存">
+             <button type="button" name="cancelForm" class="btn-pre">取消</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    //选择商标共有人
+    {% if len(applicants) > 0%}
+    $('#applicantForm').bootstrapValidator({
+            fields:{
+                applicant_id:{
+                    validators:{
+                        notEmpty:{
+                            message:'请选择主体！'
+                        }
+                    }
+                }
+            }
+        });
+    {% else %}
+        $('#applicantForm').bootstrapValidator({
+            fields:{
+                new_applicant:{
+                    validators:{
+                        notEmpty:{
+                            message:'请添加主体！'
+                        }
+                    }
+                }
+            }
+        });
+    {% end %}
+    $('#no_').click(function(){
+        $('#mark_common').slideUp()
+        $('#mark_common input[name=common_ids]').removeAttr('checked','')
+        $('#Cotainer .canel').click();
+    });
+    $('#yes_').click(function(){
+        $('#mark_common').slideDown()
+    });
+    $('#emptyC').click(function (){
+        $('#Cotainer').slideUp()
+        $('#Cotainer .canel').click();
+    });
+    $('#fullC').click(function (){
+        $('#Cotainer').slideDown()
+    })
+// 去除共同申请人列表中的  被选择的申请主体信息
+    var app_id = $('#applicant').val()
+    change_app(app_id)
+    function change_app(app_id){
+        var co_app_checkbox = $('#co_applicant'+app_id).parents('.checkbox')
+        co_app_checkbox.hide();
+        co_app_checkbox.find('input[name=co_applicant_ids]').removeAttr('checked','')
+        co_app_checkbox.siblings().show()
+    }
+    $('#applicant').change(function (){
+        var $this =  $(this).find('option:selected').val();
+        change_app($this)
+    });
+    //去除被选中的主体 结束
+
+    $('#have').click(function(){
+        $('#co_applicants').slideDown()
+    });
+    $('#not_have').click(function(){
+        $('#co_applicants').slideUp()
+    });
+
+    {% if app_total == 0%}
+        $('.applicant_new').bootstrapValidator({
+            fields:{
+                new_applicant:{
+                    validators:{
+                        notEmpty:{
+                            message:'请选择主体！'
+                        }
+                    }
+                }
+            }
+        });
+    {% else %}
+         $('.applicant_new').bootstrapValidator({
+            fields:{
+                applicant:{
+                    validators:{
+                        notEmpty:{
+                            message:'请选择主体！'
+                        }
+                    }
+                }
+            }
+        });
+     {%end %}
+    var parse_functions = new Array()
+    function parse_applicantForm(){
+
+        var $applicant_val = $("#applicant").find("option:selected").text();
+        var $applicant_data = $("#applicant").find("option:selected").data('type');
+        var $co_app = $('input[name=common_ids]:checked');
+        var html = '';
+        for(var o = 0;o < $co_app.length;o++){
+            var $item = $co_app.eq(o).data('value')
+            html += '<span>'+$item+',</span>'
+        };
+       html ? $('.group-wrap .add-group').html('<div class="form-group"><label class="col-sm-3 control-label">商标共有人</label><div class="col-sm-8" data-name="confirmed_required">'+html+'</div></div>'):$('.group-wrap .add-group').html('');
+        var arr = [];
+        var txt = ''
+        var len = $('.canel').length;
+        for(var i = 0;i<len;i++){
+            var first = $('.canel:eq('+i+')').data('first');
+            var second = $('.canel:eq('+i+')').data('second');
+            arr[i] = {'source_id':first,'target_id':second}
+            txt += '<span>'+$('#'+arr[i].source_id).text()+'</span>变更为<span>'+$('#'+arr[i].target_id).text()+'</span>,&nbsp;'
+        }
+        $('input[name=cha_common_ids]').val(JSON.stringify(arr));
+        txt ? $('.after-group').html('<div class="form-group"><label class="col-sm-3 control-label">变更共有人</label><div class="col-sm-8" data-name="confirmed_required">'+txt+'</div></div>'):$('.after-group').html('');
+            switch($applicant_data){
+                case 'person':
+                    $('#applicantType').text('个人');
+                    break;
+                case 'com':
+                    $('#applicantType').text('企业主体');
+                    break;
+            };
+        $('#applicantName').text($applicant_val);
+        $('.co_add').hide();
+    }
+        parse_functions['applicantForm'] = parse_applicantForm;
+
+    {% for change_co_app_id in (detail.after_co_app_ids + detail.before_co_app_ids) %}
+        var arrs = [];
+        var len = $('input[data-name=default-name]').length;
+        for (var i = 0; i < len; i++) {
+            arrs.push($('input[data-name=default-name]:eq(' + i + ')').data('id'));
+            $('select[name=modify_select]').find('option[id=' + arrs[i] + ']').hide();
+            $('select[name=modify_select]').val('');
+        }
+    {% end %}
+    function changeSelect(){
+        $(".change_bef").change(function (){
+            var $this = $(this);
+            var this_code = $this.find('option:selected').attr('id');
+            $('.change_aft').html($('.change_bef').html())
+            $('.change_aft').find('option[id='+this_code+']').hide();
+        });
+        $('.success_btn').click(function (){
+            var first_name = $('.change_bef').find('option:selected').text();
+            var second_name = $('.change_aft').find('option:selected').text();
+            var first_id = $('.change_bef').find('option:selected').attr('id');
+            var second_id = $('.change_aft').find('option:selected').attr('id');
+            if(!first_id || !second_id){return false};
+            $('<div class="item"><div class="col-sm-4 "><input type="hidden" name="before_co_app_ids" value="'+first_id+'"><input class="default" type="text" data-id="'+first_id+'" data-name="default-name" value="'+first_name
+            +'" readonly="readonly"/></div><div class="col-sm-2 blue_color">变更为</div><div class="col-sm-4"><input type="hidden" name="after_co_app_ids" value="'+second_id+'"><input  class="default" data-id="'+second_id+'" type="text" data-name="default-name" value="'+second_name
+            +'" readonly="readonly"/></div><div class="col-sm-2"><span data-first="'+first_id+'" data-second="'+second_id+'" class="glyphicon glyphicon-remove-circle canel"></span></div></div>').appendTo($('#Cotainer .add_group'));
+            var arr = [];
+            var len = $('input[data-name=default-name]').length + $('input[data-name=default-name]').length;
+            for (var i = 0; i < len; i++) {
+                arr.push($('input[data-name=default-name]:eq(' + i + ')').data('id'));
+                $('select[name=modify_select]').find('option[id=' + arr[i] + ']').hide();
+                $('select[name=modify_select]').val('');
+            }
+
+        });
+        $(document).on('click','.canel',function (){
+
+           $(this).parents('.item').remove();
+            var add_first = $(this).data('first');
+            var add_second = $(this).data('second');
+            $('select[name=modify_select]').find('option[id='+add_first+']').show();
+            $('select[name=modify_select]').find('option[id='+add_second+']').show();
+            console.log(add_first,add_second)
+
+        });
+
+    }changeSelect();
+</script>
+
+
+
+
+
+
+

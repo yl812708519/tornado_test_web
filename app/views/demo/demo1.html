@@ -1,0 +1,215 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<style type="text/css">  
+body, html,#l-map {width: 100%;height: 100%;overflow: hidden;margin:0;}  
+</style>  
+<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=xalgCTzlaZ65OS6dGg5xYRas&v=1.0"></script>
+    <!--<script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=mS13ZLK1nRGAlyzQszkFfrht&v=1.0"></script>-->
+<title>显示地图</title>  
+</head>
+<style>
+    .searchbar{background: #ddd;position: absolute;top: 0;width: 100%;z-index: 2;}
+    .searchbar .search-input input{height: 34px;margin: 10px 12px;width: 75%;border: none;outline: none;border-radius: 10px;padding: 3px 8px;}
+    .searchlist{width: 100%;height: 100%;position: absolute;z-index: 1;background-color: #fff;display: block;top:0px;padding-top: 60px;}
+    #list-block li{border-bottom: 1px solid #ccc;}
+</style>
+<body>  
+<div id="l-map"></div>
+<div class="searchbar">
+    <div class="search-input">
+        <input type="text" id="searchinput"  placeholder="请输入"/>
+    </div>
+    <div class="canel" id="canel" style="color: #007aff;cursor: pointer;position: absolute;top: 23px;right: 10px;display: none;">取消</div>
+    <div class="canel save" data-lng="116.404" data-lat="39.915" style="color: #007aff;cursor: pointer;position: absolute;top: 23px;right: 10px;">保存</div>
+</div>
+<div class="searchlist" id="list-block" style="display: none;"></div>
+<div id="log"></div>
+</body>
+</html>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+    $(document).on('click','#popup-localtion',function (){
+        var address = $('#address').val();
+
+    });
+    $(document).on('click','.save',function (){
+
+    })
+    var map = new BMap.Map("l-map");
+    var zoomControl = new BMap.ZoomControl();
+              map.addControl(zoomControl);
+              // 添加比比例尺
+              var scaleControl = new BMap.ScaleControl();
+              map.addControl(scaleControl);
+  function SaveData(e){
+      var new_point = e.currentTarget.centerPoint;
+      var centerlng = new_point.lng;
+      var centerlat = new_point.lat;
+      $('.save').attr('data-lng',centerlng);
+      $('.save').attr('data-lat',centerlat);
+  }
+  function getMap(){
+      var map = new BMap.Map("l-map");
+      var point = new BMap.Point(116.404, 39.915);
+      var myGeo = new BMap.Geocoder();
+      myGeo.getPoint("", function(point){
+          if (point) {
+              map.centerAndZoom(point, 16);
+          }
+      });
+      map.centerAndZoom(point, 14);
+       // 添加缩放控件
+      var zoomControl = new BMap.ZoomControl();
+      map.addControl(zoomControl);
+      // 添加比比例尺
+      var scaleControl = new BMap.ScaleControl();
+      map.addControl(scaleControl);
+      //  移动获取中心点
+      fixIcon();
+      map.addEventListener('moveend',function (e){
+          SaveData(e)
+      });
+      map.addEventListener("zoomend", function(e){
+          SaveData(e)
+      });
+
+      $('#toBack').off('click').on('click',function (){
+          alert('a')
+      })
+
+  };
+// center icon
+  function fixIcon(){
+    var wFocus = ($('#l-map').width() - 30) / 2;
+    var hFocus = $('#l-map').height() / 2 - 30;
+    var hBack = $('#l-map').height() - 60;
+    $('#l-map').append('<img id="position" src="/s/img/biaoji.png" style="position:absolute;top:' + hFocus + 'px;left:' + wFocus + 'px;width:30px;height:30px;">');
+    $('#l-map').append('<img src="/s/img/nav.png" class="toBack" style="position:absolute;top:' + hBack + 'px;right:7px;width:40px;height:40px;">');
+  }
+//  定位是否成功
+    var Location = function (){
+        getLocation();
+        function getLocation(){
+            if(navigator.geolocation){
+               navigator.geolocation.getCurrentPosition(showPosition);
+                getMap();
+              }else{
+                getMap();
+              }
+           };
+            function locationError(error)
+              {
+              switch(error.code)
+                {
+                case error.PERMISSION_DENIED:
+                  getMap();
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                   getMap();
+                  break;
+                case error.TIMEOUT:
+                   getMap();
+                  break;
+                case error.UNKNOWN_ERROR:
+                   getMap();
+                  break;
+                }
+              }
+        function showPosition(position){
+            lat=position.coords.latitude;
+            lon=position.coords.longitude;
+
+            //var map = new BMap.Map("container");
+            // 创建Map实例
+            var map = new BMap.Map("l-map");
+            var point = new BMap.Point(lon, lat);    // 创建点坐标
+            map.centerAndZoom(point,14);
+
+            var zoomControl = new BMap.ZoomControl();
+              map.addControl(zoomControl);
+              // 添加比比例尺
+              var scaleControl = new BMap.ScaleControl();
+              map.addControl(scaleControl);
+
+              var marker = new BMap.Marker(point);
+              map.addOverlay(marker)
+
+          }
+    }()
+
+//  搜索
+    var searchIn = function (){
+
+        var $searchInput = document.getElementById('searchinput');
+        var $searchList = document.getElementById('list-block');
+        var $canel = document.getElementById('canel');
+
+        $searchInput.onfocus = function(){
+            $searchList.style.display = "block";
+            $canel.style.display = "block";
+        };
+        $canel.onclick = function (){
+            $searchList.style.display = "none";
+            $canel.style.display = "none";
+        };
+
+
+        $searchInput.oninput = function (){
+
+            var $results = $searchInput.value;
+            getResult($results)
+        };
+        function getResult(data){
+            var options = {
+                onSearchComplete: function (results) {
+                    if (local.getStatus() == BMAP_STATUS_SUCCESS) {
+                        var html = "";
+
+                        for(var i = 0;i<results.getCurrentNumPois();i++){
+
+                            html += "<li data-lng="+results.getPoi(i).point.lng+" data-lat="+results.getPoi(i).point.lat+" data-value="+
+                                    results.getPoi(i).title+"><h4>"+results.getPoi(i).title+"</h4><h5>"+results.getPoi(i).address+"</h5></li>";
+                        }
+
+                        document.getElementById('list-block').innerHTML = html
+
+                    }
+                }
+            }
+            var map = new BMap.Map("l-map");
+            var point = new BMap.Point(116.404, 39.915)
+            map.centerAndZoom(point, 14);
+            var local=  new BMap.LocalSearch(map,options)
+            local.search(data)
+        };
+//       search after
+        $('#list-block').on('click','li',function (){
+            var $this = $(this);
+            var lng_ = $this.data('lng');
+            var lat_ = $this.data('lat');
+            $('.save').attr('data-lng',lng_);
+            $('.save').attr('data-lat',lat_);
+            var map = new BMap.Map("l-map");
+            var point = new BMap.Point(lng_, lat_);
+            var inputVal = $this.data('value');
+            $('#searchinput').val(inputVal)
+            map.centerAndZoom(point, 14);
+            fixIcon();
+            map.addEventListener('moveend',function (e){
+                  var new_point = e.currentTarget.centerPoint;
+
+                  var centerlng = new_point.lng;
+                  var centerlat = new_point.lat;
+                  $('.save').attr('data-lng',centerlng);
+                  $('.save').attr('data-lat',centerlat);
+                console.log(new_point)
+              });
+
+            $('.searchlist').css('display','none');
+        });
+
+    }()
+</script>

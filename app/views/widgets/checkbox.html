@@ -1,0 +1,23 @@
+{% if is_inline %}
+    {% for option in options %}
+        <label class="checkbox-inline {{ext_class}}">
+        {% if str(option.get(value_field)) in value %}
+            <input type="checkbox" name="{{name}}" value="{{option.get(value_field)}}" checked> {{option.get(name_field)}}
+        {% else %}
+            <input type="checkbox" name="{{name}}" value="{{option.get(value_field)}}"> {{option.get(name_field)}}
+        {% end %}
+        </label>
+    {% end %}
+{% else %}
+    {% for option in options %}
+        <div class="checkbox {{ext_class}}">
+            <label>
+            {% if str(option.get(value_field)) in value %}
+                <input type="checkbox" name="{{name}}" value="{{option.get(value_field)}}" checked> {{option.get(name_field)}}
+            {% else %}
+                <input type="checkbox" name="{{name}}" value="{{option.get(value_field)}}"> {{option.get(name_field)}}
+            {% end %}
+            </label>
+        </div>
+    {% end %}
+{% end %}

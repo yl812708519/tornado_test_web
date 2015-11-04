@@ -1,0 +1,52 @@
+{% if is_multiple %}
+    <select id="{{select_id}}" multiple class="form-control {{ext_class}}" name="{{name}}">
+        {% if has_null%}
+            <option value="{{null_value}}" selected>{{null_text}}</option>
+        {% end %}
+        {% for option in options %}
+            {% if str(option.get(value_field)) in value %}
+                <option value="{{option.get(value_field)}}" {% for k,v in data.items()%}  data-{{k}}="{{option.get(v)}}" {% end %} selected>{{option.get(name_field)}}</option>
+            {% else %}
+                <option value="{{option.get(value_field)}}" {% for k,v in data.items()%} data-{{k}}="{{option.get(v)}}" {% end %} >{{option.get(name_field)}}</option>
+            {% end %}
+        {% end %}
+    </select>
+{% else %}
+    <select id="{{select_id}}" class="form-control {{ext_class}}"  name="{{name}}">
+        {% if has_null%}
+            <option value="{{null_value}}" selected>{{null_text}}</option>
+        {% end %}
+        {% for option in options %}
+            {% if sub_type_field %}
+                {% set sub_type = option.get(sub_type_field)%}
+            {% end %}
+            {% if str(option.get(value_field)) in value %}
+            <option value="{{option.get(value_field)}}" {% for k,v in data.items()%} data-{{k}}="{{option.get(v)}}" {% end %}   sub_type="{{sub_type}}" selected>{{option.get(name_field)}}</option>
+            {% else %}
+            <option value="{{option.get(value_field)}}" {% for k,v in data.items()%} data-{{k}}="{{option.get(v)}}" {% end %}  sub_type="{{sub_type}}">{{option.get(name_field)}}</option>
+            {% end %}
+        {% end %}
+    </select>
+{% end %}
+<!--处理级联-->
+{% if cascade_options %}
+<script>
+    $(function(){
+        wCascadeSelect({
+            parentSelectId:"{{select_id}}",
+            childSelectId:'{{cascade_options.get("child_select_id","")}}',
+            hasNull:'{{cascade_options.get("has_null","true")}}',
+            nullValue:'{{cascade_options.get("null_value","")}}',
+            nullText:'{{cascade_options.get("null_text","==请选择==")}}',
+            dataUrl:'{{cascade_options.get("data_url","")}}',
+            idField:'{{cascade_options.get("id_field","id")}}', // ajax 后台获取父级value的变量名
+            valueField:'{{cascade_options.get("value_field","id")}}',
+            nameField:'{{cascade_options.get("name_field","name")}}',
+            subTypeField:'{{cascade_options.get("sub_type_field","sub_type")}}',
+            complete:function(){}
+        });
+    })
+</script>
+{% end %}
+
+

@@ -1,0 +1,93 @@
+{% extends "layouts/application.html" %}
+{% block body %}
+<div class="ban-logo" id="logo">
+   <a href="/" ><img src="{{static_url('img/bg_logo.png')}}"/></a>
+</div>
+<div id="password_reset_panel" class="wrap">
+        <form action="/password/reset/login" id="password_reset" class="sign-wrap form-horizontal" method="post">
+            <h3 class="panel-title">重新设置密码</h3>
+            {% raw xsrf_form_html() %}
+            <input type="hidden" name="_method" value="put" />
+            <input type="hidden" name="mobile" id="mobile" value="{{mobile}}">
+            <input type="hidden" name="country_code" id="country_code" value="{{country_code}}">
+            <input type="hidden" name="verification_token" value="{{verification_token}}">
+            <input type="hidden" value="{{next}}" name="next"/>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">新密码</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" placeholder="请输入6位以上的新密码"
+                           name="password" id="password"
+                           value="{{password}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">确认密码</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" placeholder="请再次输入新密码"
+                           name="password_confirm" id="password_confirm"
+                           value="{{password_confirm}}">
+                    </div>
+                </div>
+                {% if globals().get('validation_errors') %}
+                <!--{% for field, error in validation_errors.iteritems() %}<h2 class='errmsg'>{{ error }}</h2>{% end %}-->
+                {% end %}
+                <input type="submit" id="next_btn" class="btn btn-blue" value="确认" style="width: 100%;"/>
+            </fieldset>
+        </form>
+</div>
+{% end %}
+{% block javascript %}
+<script type="text/javascript" src="{{static_url('js/jquery.form.min.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/bootbox.js')}}"></script>
+<script type="text/javascript">
+   $(document).ready(function (){
+         $('#password_reset').bootstrapValidator({
+             submitButtons:"#next_btn",
+              verbose:false,
+             fields:{
+                 password:{
+                      message:'The username is not valid',
+                      validators:{
+                          notEmpty:{
+                              message:'密码不少于6位！'
+                          },
+                          stringLength:{
+                              min:6,
+                              message:'密码不少于6位！'
+                          },
+                           identical:{
+                              field:'password_confirm',
+                              message:'两次密码要保持一致！'
+                          }
+                      }
+                  },
+                 password_confirm:{
+                     message:'The username is not valid',
+                      validators:{
+                          notEmpty:{
+                              message:'密码不一致'
+                          },
+                          stringLength:{
+                              min:6,
+                              message:'密码不一致'
+                          },
+                          identical:{
+                              field:'password',
+                              message:'密码不一致'
+                          }
+                      }
+                 }
+             }
+         })
+
+    })
+
+{% if globals().get('validation_errors') %}
+            {% for field, error in validation_errors.iteritems() %}
+            showErr("{{field}}","{{ error }}");
+            {% end %}
+     {% end %}
+
+</script>
+{% end %}

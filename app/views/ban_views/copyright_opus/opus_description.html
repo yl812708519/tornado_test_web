@@ -1,0 +1,218 @@
+<form class="form-horizontal" role="form" id="copyright_att_Form" name="ajaxForm" width="600px" action="/copyright/opus/att" method="post">
+    {% raw xsrf_form_html()%}
+    <input type="hidden" name="order_id" value="{{order.id}}">
+    <div class="form-group">
+        <label class="col-sm-2 col-md-3 control-label">权利取得方式</label>
+        <div class="col-sm-10 col-md-9">
+            {% module radio(name="right_get_way",
+                                    value=detail.right_get_way,
+                                    radio_type="cus_inline",
+                                    options=[{"id":"1","name":"原始"},
+                                            {"id":"2","name":"继承"},
+                                            {"id":"3","name":"承受"},
+                                            {"id":"4","name":"其他"}],
+                                    value_field='id',
+                                    name_field='name',
+                                    ext_class='right_get_way_list')%}
+        </div>
+    </div>
+    <div class="form-group" id="right_get_description_block" style="display: none;">
+        <label class="col-sm-2 col-md-3 control-label">权利取得方式说明</label>
+        <div class="col-sm-10 col-md-8">
+            <textarea name="right_get_description" id="right_get_description" class="form-control" rows="2">{{detail.right_get_description}}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 col-md-3 control-label">权利归属方式</label>
+        <div class="col-sm-10 col-md-9">
+            {% module radio(name="right_ascription_way",
+                                    value=detail.right_ascription_way,
+                                    radio_type="cus_inline",
+                                    options=[{"id":"1","name":"个人作品"},
+                                            {"id":"2","name":"合作作品"},
+                                            {"id":"3","name":"法人作品"},
+                                            {"id":"4","name":"职务作品"},
+                                            {"id":"5","name":"委托作品"}],
+                                    value_field='id',
+                                    name_field='name',
+                                    ext_class='right_ascription_way_list')%}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 col-md-3 control-label">权利归属方式说明</label>
+        <div class="col-sm-10 col-md-8">
+            <textarea name="right_ascription" id="right_ascription" class="form-control" rows="2">{{detail.right_ascription}}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 col-md-3 control-label">权利拥有状况</label>
+        <div class="col-sm-10 col-md-9">
+            {% module radio(name="right_own_state",
+                                    value=detail.right_own_state,
+                                    radio_type="cus_inline",
+                                    options=[{"id":"1","name":"全部"},
+                                            {"id":"2","name":"部分"}],
+                                    value_field='id',
+                                    name_field='name',
+                                    ext_class='right_own_state_list')%}
+        </div>
+        <div class="col-sm-10 col-md-9 col-md-offset-3" id="right_own_list">
+            {% for right_own in detail.right_own_selects %}
+                <label>
+                    <input type="checkbox" disabled value="{{right_own.id}}" {% if str(right_own.id) in detail.right_own_select%} checked="checked" {% end %} name="right_own_select">{{right_own.opt_title}}
+                </label>
+            {% end %}
+        </div>
+    </div>
+    <div class="form-group" id="right_own_des_content" style="display: none;">
+        <label class="col-sm-2 col-md-3 control-label">权利拥有状况及其说明</label>
+        <div class="col-sm-10 col-md-9">
+            <textarea name="right_own_des" id="right_own_des" class="form-control" rows="2">{{detail.right_own_des}}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">创作目的</label>
+        <div class="col-sm-10 col-md-9">
+            <textarea name="opus_purpose" id="opus_purpose" class="form-control" rows="3">{{detail.opus_purpose}}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 col-md-3 control-label">创作过程</label>
+        <div class="col-sm-10 col-md-9">
+            <textarea name="opus_process" id="opus_process" class="form-control" rows="3">{{detail.opus_process}}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 col-md-3 control-label">创作独创性</label>
+        <div class="col-sm-10 col-md-9">
+            <textarea name="opus_alone_create" id="opus_alone_create" class="form-control" rows="3">{{detail.opus_alone_create}}</textarea>
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 40px;">
+        <div class="col-sm-6 col-sm-offset-4 col-md-4col-md-offset-8" style="text-align: right;">
+            <input type="submit" class="btn-next" value="保存">
+            <button type="button" name="cancelForm" class="btn-pre">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    $('.right_own_state_list li').click(function (){
+        var data_value =  $(this).attr('data-value');
+        var $input = $('#right_own_list input');
+        var $content = $('#right_own_des_content');
+        var $right_own_des = $('#right_own_des');
+        if(data_value == 2 ){
+            $input.removeAttr('disabled','')
+            $content.show();
+        }else{
+            $input.attr('disabled','').removeAttr('checked','');
+            $right_own_des.val('');
+            $content.hide();
+            $input.parents('.form-group').removeClass('has-error').removeClass('has-success').find('small[data-bv-for=right_own_select]').css('display','none').attr('data-bv-result','NOT_VALIDATED')
+            $input.parents('.ajaxForm_div').find('input[type=submit]').removeAttr('disabled','')
+
+        }
+    });
+//    校验
+    $('#copyright_att_Form').bootstrapValidator({
+            fields:{
+                right_get_description:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写权利取得方式说明！'
+                        }
+                    },
+                    stringLength:{
+                        max:100,
+                        message:'请填写此说明，100字以内！'
+                    }
+                },
+                right_ascription:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写权利归属方式说明！'
+                        },
+                        stringLength:{
+                            max:100,
+                            message:'请填写此说明，100字以内！'
+                        }
+                    }
+                },
+                opus_purpose:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写创作目的！'
+                        }
+                    }
+                },
+                opus_process:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写创作过程！'
+                        }
+                    }
+                },
+                opus_alone_create:{
+                    validators:{
+                        notEmpty:{
+                            message:'请填写创作独创性！'
+                        }
+                    }
+                }
+            }
+        });
+    function copyrightatt_Form(){
+        var $right_get_way_text = $('.right_get_way_list li[data-value='+$('input[name="right_get_way"]').val()+']').text();
+        var $right_ascription_way_text = $('.right_ascription_way_list li[data-value='+$('input[name="right_ascription_way"]').val()+']').text();
+        var $right_own_state_text = $('.right_own_state_list li[data-value='+$('input[name="right_own_state"]').val()+']').text();
+        var $right_own_select = $('input[name=right_own_select]:checked');
+        var html = '';
+        for(var i = 0;i < $right_own_select.length;i++){
+            var $item = $right_own_select.eq(i).parent().text();
+            html += '('+'<span>'+$item+'</span>'+')'
+        }
+        var data = {
+            'right_get_way':$right_get_way_text,
+            'right_get_description':$('#right_get_description').val(),
+            'right_ascription_way':$right_ascription_way_text,
+            'right_ascription':$('#right_ascription').val(),
+            'right_own_state':$right_own_state_text,
+            'opus_purpose':$('#opus_purpose').val(),
+            'opus_process':$('#opus_process').val(),
+            'opus_alone_create':$('#opus_alone_create').val(),
+            'right_own_des':$('#right_own_des').val()
+        };
+        $('.right_get_way_txt').text(data.right_get_way);
+        data.right_get_description !== '' ? $('.right_get_description_block').html('<div class="form-group"><label for="" class="col-sm-2 col-md-3 control-label">说明</label><div class="col-sm-10 col-md-9" data-name="confirmed_required">'+
+        data.right_get_description+'</div></div>') : $('.right_get_description_block').html();
+        if($('#right_own_des').val() == ''){
+            $('#right_own_des_block').html('');
+        }else{
+            $('#right_own_des_block').html('<div class="form-group"><label for="" class="col-sm-2 col-md-3 control-label">权利拥有状况及其说明</label><div class="col-sm-10 col-md-9" data-name="confirmed_required">'+
+        data.right_own_des+'</div></div>')
+        }
+        $('.right_ascription_way_txt').text(data.right_ascription_way);
+        $('.right_ascription_des_txt').text(data.right_ascription);
+        $('.right_own_state_txt').text(data.right_own_state);
+        $('.right_own_state_txt_state').html(html);
+        Cleartype.textmethod('opus_purpose_txt',data.opus_purpose);
+        Cleartype.textmethod('opus_process_txt',data.opus_process);
+        Cleartype.textmethod('opus_alone_create_txt',data.opus_alone_create);
+    }
+    parse_functions['copyright_att_Form'] = copyrightatt_Form;
+    function opus_description_bef(){
+        var $right_get_description = '{{detail.right_get_description}}';
+        $right_get_description == 0 ? $('#right_get_description_block').hide() : $('#right_get_description_block').show();
+
+        $('.right_get_way_list li').click(function (){
+            var data_value =  $(this).attr('data-value');
+            data_value == 1 ? $('#right_get_description_block').hide() : $('#right_get_description_block').show();
+        });
+        var $right_own_state = '{{detail.right_own_state}}';
+        $right_own_state == 2 ?
+                $('#right_own_list input').removeAttr('disabled','') : $('#right_own_list input').attr('disabled','').removeAttr('checked','')
+    }
+    $(function (){
+        opus_description_bef();
+    })
+</script>

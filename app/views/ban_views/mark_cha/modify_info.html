@@ -1,0 +1,190 @@
+
+    <form class="form-horizontal canel_change_form" role="form" id="infoForm" name="ajaxForm" action="/mark/change/info" method="post">
+        {% raw xsrf_form_html()%}
+        <input type="hidden" name="order_id" value="{{order.id}}">
+        <input type="hidden" name="biz" value="{{detail.biz}}"/>
+        <div class="form-group">
+            <label for="mark_reg_num" class="col-sm-3 control-label">商标申请号/注册号</label>
+            <div class="col-sm-8">
+                <input id="mark_reg_num" name="mark_reg_num" value="{{detail.mark_reg_num}}" class="form-control">
+            </div>
+        </div>
+        {% if detail.biz == 'age_rec_applicant' %}
+        <div class="form-group">
+            <label for="cha_file_rec_name" class="col-sm-3 control-label">变更后文件接收人名称</label>
+            <div class="col-sm-8">
+                <input id="cha_file_rec_name" name="changed_recv_name" value="{{detail.changed_recv_name}}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cha_file_rec_name" class="col-sm-3 control-label">变更后邮政编码</label>
+            <div class="col-sm-8">
+                <input id="cha_aft_postal_code" name="changed_post_num" value="{{detail.changed_post_num}}"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cha_file_rec_address" class="col-sm-3 control-label">变更后文件接收人地址</label>
+            <div class="col-sm-8">
+                <input id="cha_file_rec_address" name="changed_recv_addr" value="{{detail.changed_recv_addr}}"
+                       class="form-control">
+            </div>
+        </div>
+        {% end %}
+        {% if detail.biz == 'reg_col_pro_applicant' %}
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">变更前申请人名义(中文)</label>
+            <div class="col-sm-8">
+                <input id="name_cn" name="before_app_name" value="{{detail.before_app_name}}" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name_en" class="col-sm-3 control-label">变更前申请人名义(英文)</label>
+            <div class="col-sm-8">
+                <input id="name_en" name="before_app_name_en" value="{{detail.before_app_name_en}}" class="form-control">
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+        <div class="form-group">
+            <label for="cha_file_rec_address" class="col-sm-3 control-label">变更前申请人地址(中文)</label>
+            <div class="col-sm-8">
+                <input id="address_cn" name="before_app_addr" value="{{detail.before_app_addr}}" class="form-control">
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+        <div class="form-group">
+            <label for="address_en" class="col-sm-3 control-label">变更前申请人地址(英文)</label>
+            <div class="col-sm-8">
+                <input id="address_en" name="before_app_addr_en" value="{{detail.before_app_addr_en}}" class="form-control">
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+        {% end %}
+        {% if detail.biz == 'sub_service_applicant' %}
+        <div class="form-group">
+            <label class="col-sm-3 control-label">删减商标类别</label>
+            <div class="mark_cate_inputs">
+                {% for code in detail.category_codes %}
+                    <input type="hidden" value="{{code}}" name="cut_category"/>
+                {% end %}
+            </div>
+            <div class="col-sm-8 mark_cate_list">
+                {% for i in range(1, 46) %}
+                    {% if i < 10 %}
+                        <span class="first_type_btn {% if i in [int(code) for code in detail.cut_category] %} active {% end %}">0{{i}}</span>
+                    {% else %}
+                        <span class="first_type_btn {% if i in [int(code) for code in detail.cut_category] %} active {% end %}">{{i}}</span>
+
+                    {% end %}
+                {% end %}
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">删减商品/服务项目</label>
+            <div class="col-sm-8">
+                <textarea class="form-control" placeholder="分类填写" id="category_write" name="cut_items" rows="3">{{detail.cut_items}}</textarea>
+            </div>
+        </div>
+        {% end %}
+        <div class="form-group" style="margin-top: 60px;">
+            <div class="col-sm-6 col-sm-offset-4 col-md-4col-md-offset-8" style="text-align: right;">
+                <input type="submit" class="btn-next" value="保存">
+                 <button type="button" name="cancelForm" class="btn-pre">取消</button>
+            </div>
+        </div>
+    </form>
+
+<script>
+    /*保存赋值*/
+    $('#infoForm').bootstrapValidator({
+        fields:{
+            'mark_change.mark_reg_num':{
+                validators:{
+                    notEmpty:{
+                        message:'商标注册号，不能为空！'
+                    },
+                     regexp: {
+                        regexp:/^[1-9]\d*$/,
+                        message: '请输入完整的商标注册号！'
+                     }
+                }
+            },
+            'mark_change.name':{
+                validators:{
+                    notEmpty:{
+                          message:'请输入变更前申请人名义！'
+                      }
+                }
+            },
+//            'detail.cha_file_rec_address':{
+//                validators:{
+//                    notEmpty:{
+//                          message:'请输入变更前申请人地址！'
+//                      }
+//                }
+//            },
+          'mark_change.cha_file_rec_name':{
+                validators:{
+                    notEmpty:{
+                          message:'变更前申请人名义不能为空！'
+                      }
+                }
+            },
+            'mark_change.category_write':{
+                validators:{
+                    notEmpty:{
+                          message:'请填写要删减的项目！'
+                      }
+                }
+            }
+        }
+    });
+
+    getfirstType('cut_category');
+    function parse_infoForm(){
+
+        var biz_type = '{{detail.biz}}';
+
+        if($('.mark_cate_inputs input').length == 0 && biz_type == 'sub_service_applicant'){
+            if($('.mark_small').length){
+                return
+            }else {
+                $('.mark_cate_list').parent().after('<small class="help-block mark_small col-sm-offset-3 col-sm-9" data-bv-validator="notEmpty" data-bv-result="INVALID" style="color:#a94442;">请选择要删除的商标类别！</small>');
+            }
+            return
+        }else{
+            var code_len = $('.mark_cate_list .active').length;
+            var arr = [];
+            for (var i = 0; i < code_len; i++) {
+                arr.push($('.mark_cate_list .active:eq(' + i + ')').text() + ',')
+            }
+            var data = {
+                name_cn: $('#name_cn').val(),
+                name_en: $('#name_en').val(),
+                address_cn: $('#address_cn').val(),
+                address_en: $('#address_en').val(),
+                mark_reg_num: $('#mark_reg_num').val(),
+                category_write: $('#category_write').val(),
+                cha_file_rec_name: $('#cha_file_rec_name').val(),
+                cha_file_rec_address: $('#cha_file_rec_address').val(),
+                cha_aft_postal_code: $('#cha_aft_postal_code').val()
+
+
+            };
+            $('#markReg_num').html(data.mark_reg_num);
+            $('#mark_desc_txt').html(data.category_write);
+            $('#name_cn1').html(data.name_cn);
+            $('#name_en1').html(data.name_en);
+            $('#address_cn1').html(data.address_cn);
+            $('#address_en1').html(data.address_en);
+            $('#cha_file_rec_name1').html(data.cha_file_rec_name);
+            $('#cha_file_rec_address1').html(data.cha_file_rec_address);
+            $('#cha_aft_postal_code1').html(data.cha_aft_postal_code);
+            $('#mark_type_txt').html(arr);
+
+        }
+    }
+    parse_functions['infoForm'] = parse_infoForm
+</script>

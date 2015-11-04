@@ -1,0 +1,110 @@
+{% extends "../layouts/application.html" %}
+{% block head%}
+<link href="{{ static_url('css/bootstrapValidator.min.css') }}" rel="stylesheet">
+{% end %}
+{% block body%}
+<div class="container-fluid">
+    <div class="row" >
+        {% include "layouts/aside.html"%}
+        <div class="col-md-9" style="padding-left: 35px;">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="h_txt_title">
+                        <div class="content_title">
+                            {% if biz_type == 'reg'%}
+                                商标注册
+                            {% elif biz_type == 'cha'%}
+                                商标变更
+                            {% elif biz_type == 'transfer'%}
+                                商标转让
+                            {% elif biz_type == 'opus'%}
+                                文字/美术版权
+                            {% elif biz_type == 'soft'%}
+                                软件版权
+                            {% end %}
+                        </div>
+                    </div>
+                    <form action="/mark/{{biz_type}}" class="form-horizontal" {% if handler.current_user %}target="_blank"{% end %} id="serviceForm" role="form" method="post">
+                        {% raw xsrf_form_html() %}
+                        <div class="form-group">
+                            <label class="col-xs-12">服务类别</label>
+                            <div class="col-xs-12">
+                                {% module radio(name="biz_type",
+                                                value = bizs[0].name,
+                                                radio_type="cus_inline",
+                                                options=bizs,
+                                                value_field='name',
+                                                name_field='produce',
+                                                data_fields=('service_charge', 'official_charge', 'market_price'),
+                                                ext_class='')%}
+                            </div>
+                        </div>
+                        <div class="form-group" id="category_tip" style="margin-bottom: 30px;">
+                            <label class="col-sm-12">商标类别</label>
+                            <div class="col-sm-12">每个商标类别，可以选择10个小项，额外每增加1个小项，相应增加80元官费</div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 35px;">
+                            <label class="col-sm-12">费用</label>
+                            <div class="col-sm-12">
+                                <span>官方费用：<em id="official_charge">{{bizs[0].service_charge}}</em>元，</span>
+                                <span>服务费用：<em id="service_charge">{{bizs[0].official_charge}}</em>元，</span>
+                                <span>市场价 <del id="market_price" >{{bizs[0].market_price}}</del>元</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <p style="padding: 36px 0 26px 0;border-top: 1px solid #ededed">总费用：<em id="total_price">{{bizs[0].service_charge + bizs[0].official_charge}}</em>元</p>
+                                <input type="submit" value="立即办理" class="patent-btn" style="margin-right: 20px;margin-bottom: 20px;"/>
+                                {% if biz_type == 'reg'%}
+                                <a href="/mark/reg/forecast" id="prognosis" class="btn-sea">专家免费检索</a>
+                                {% end %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% end %}
+
+{% block javascript %}
+
+<script>
+
+    function change_charge(ele){
+        $('#market_price').html(ele.data('market_price'));
+        $('#official_charge').html(ele.data('official_charge'));
+        $('#service_charge').html(ele.data('service_charge'));
+        $('#total_price').html(parseInt(ele.data('official_charge'))+parseInt(ele.data('service_charge')));
+        if (ele.data('value') == 'mark_reg'){
+                $('#category_tip').show();
+                $('#prognosis').show()
+            }else{
+                $('#category_tip').hide();
+                $('#prognosis').hide()
+            }
+    }
+
+    var $data_ =  $('input[name=biz_type]').val();
+    var li = $('.cus_radio li[data-value='+$data_+']')
+    li.addClass('btn-pink').removeClass('btn-wrap').siblings('li').removeClass('btn-pink').addClass('btn-wrap');
+    change_charge(li);
+
+    console.log();
+    // 处理下方价格变动
+    $('.cus_radio li').click(function (){
+        change_charge($(this));
+    });
+
+</script>
+
+{% end %}
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+#starting options have parameter --runmod default is:development
+development:
+  sitename: 瞎搞着玩 
+  wetsite: mine.test.web
+  cookie_secret: vB5pHrS9QWuy798u5h7vyTPdTWwXe0LYvVbzoPc1l5M=
+  xsrf_cookies: True
+  static_url_prefix: /s/
+
+test:
+  sitename: 冰狗网
+  wetsite: www.yestar.com
+  cookie_secret: MWC+GdAzRXe5R8l2ecTwvw0fZQIR9k4Do/Kwr89hMTQ=
+  xsrf_cookies: True
+  static_url_prefix: /s/
+
+testonline:
+  sitename: 冰狗网
+  wetsite: test.yizhengda.com
+  cookie_secret: 4YeacdYUSv2fjMFxQ+xbhi4OSDH8T0c9tyjJaHJJB2Y=
+  xsrf_cookies: True
+  static_url_prefix: /s/
+
+production:
+  sitename: 冰狗网
+  wetsite: www.bingoip.com
+  cookie_secret: wS8E1B40Sca8HSn6s8AO9H/x7NkgVE7Yv/bzyxP0GEo=
+  xsrf_cookies: True
+  static_url_prefix: http://b.s.cdn.eking99.cn/s/

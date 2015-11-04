@@ -1,0 +1,260 @@
+{% extends "../layouts/application.html" %}
+{% autoescape %}
+{% block left %}
+{% end %}
+{% block body %}
+<!--版权列表页面  -->
+<div class="patent_application">
+	<div class="container right-content">
+        <div class="row">
+            {% include "../../layouts/left.html"%}
+             <div class="col-md-10 " style="padding-right: 0px">
+                <div class="col-md-10 col-xs-10 col-sm-9" style="padding-left:-10px;margin-top: 30px">
+                    <div class="color"></div>
+                    <div class="content_title" style="margin-top: 10px;">检索商标列表</div>
+                    <div class="clear"></div>
+                </div>
+             </div>
+             <!--申请列表-->
+             {% if len(marks) >0%}
+             <div class="panel-body col-md-10">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" style="border:none;text-align: center;margin-left: 15px">
+                        <thead>
+                        <tr style="background-color: #edf9ff;border: 1px solid #e1e1e1">
+                            <th class="order_list" style="width:15%">商标名称</th>
+                            <th class="order_list" style="width: 35%">商标描述</th>
+                            <th class="order_list">创建时间</th>
+                            <th class="order_list">状态</th>
+                            <th class="order_list">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                           {% for mark in marks %}
+                            <tr style="border: 1px solid #e1e1e1">
+                                <td class="order_list_td">{{mark.name}}</td>
+                                <td class="order_list_td">{{mark.description}}</td>
+                                <td class="order_list_td">{{mark.created_at}}</td>
+                                <!--<td class="order_list_td">{{forecast_status.get(mark.status)}}</td>-->
+
+                                {% if mark.status=='apply_able' %}
+                                <td style="border: none">
+                                    <div class="application-btn">可申请</div>
+                                </td>
+                                {% end %}
+
+                                {% if mark.status=='review' %}
+                                <td style="border: none">
+                                    <div class="review-btn">审核中</div>
+                                </td>
+                                {% end %}
+
+                                {% if mark.status=='non_apply' %}
+                                <td style="border: none">
+                                    <div class="invalid-btn">不可申请</div>
+                                </td>
+                                {% end %}
+
+                                {% if mark.status=='applied' %}
+                                <td style="border: none">
+                                    <div class="paid-btn">已申请</div>
+                                </td>
+                                {% end %}
+
+
+                                <td class="order_list_td" style="position: relative;">
+                                    {% if mark.status == "apply_able" %}
+                                        <a style="margin-right: 5px;" href="javascript:;" data-toggle="modal" name="go_apply_btn" data-target="#go_apply_modal"  data-value="{{mark.id}}">去申请</a>
+                                    {% else %}
+                                        <a style="margin-right: 5px;color: #ccc;" href="javascript:;" data-value="{{mark.id}}">去申请</a>
+                                    {% end %}
+
+                                        <a style="margin-right: 5px;" href="javascript:;" data-value="{{mark.id}}" name="delete">删除</a>
+
+                                    {% if mark.status == "non_apply" %}
+                                        <a style="margin-right: 5px;" href="javascript:;" class="reject_tab" data-toggle="modal" data-target="#reject_tab_modal" data-value="{{mark.id}}">驳回理由</a>
+                                        <div class="tooltag" style="left: 60px;">
+                                             <div class="arrow">
+                                                 <em></em><span></span>
+                                                </div>
+                                                <ul class="list">
+                                                    <li>{{mark.reject_reason}}</li>
+                                                </ul>
+                                            </div>
+                                    {% else %}
+                                        <a style="margin-right: 5px;color: #ccc;" href="javascript:;" data-value="{{mark.id}}">驳回理由</a>
+                                    {% end %}
+
+                                </td>
+                                <input type="hidden" name="reject_reason" value="{{mark.reject_reason}}">
+                                {% for img in mark.feedback_imgs%}
+                                <input type="hidden" name="feedback_imgs" value="{{oss_img_url(img)}}">
+                                {% end %}
+
+                            </tr>
+                            {% end %}
+                        </tbody>
+                    </table>
+                    <div class="wtable-footer col-md-12">
+                        <div id="pagination-container" class="paging_sty"></div>
+                    </div>
+                </div>
+            </div>
+            {% else%}
+            <div class="col-md-3 col-md-offset-4" style="margin-top: 100px;text-align: center;">
+                <p style="margin: 15px 0;">快来进行商标检索吧！</p>
+                <a href="/mark/reg/forecast" class="btn btn-danger" style="border-radius: 0"><span class="glyphicon glyphicon-plus"></span>商标检索</a>
+            </div>
+            {% end %}
+            <form id="forecast_apply_form" method="post">{% raw xsrf_form_html()%}</form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="go_apply_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">去申请</h4>
+              </div>
+              <div class="modal-body" style="overflow: hidden;zoom:1;">
+                  <div class="form-group">
+                      <label class="col-sm-12 control-label" data-name="feedback_imgs">近似商标</label>
+                      <div class="col-sm-5 col-sm-offset-2">
+                          <p data-name="feedback_imgs"><img src="" alt="" width="200px" height="200px"/></p>
+                      </div>
+                      <div class="col-sm-5">
+                          <p data-name="feedback_imgs"><img src="" alt="" width="200px" height="200px"/></p>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer" style="text-align: left;">
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label">情况说明</label>
+                      <div class="col-sm-10">
+                          <p data-name="reject_reason"></p>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <input type="hidden" name="forecast_id"/>
+                  <a href="javascript:;" name="go_apply"  class="btn btn-danger">立即办理</a>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              </div>
+        </div>
+      </div>
+    </div>
+<div class="modal fade" id="reject_tab_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">驳回理由</h4>
+              </div>
+              <div class="modal-body" style="overflow: hidden;zoom:1;">
+                  <div class="form-group">
+                      <label class="col-sm-12 control-label" data-name="feedback_imgs">说明图片</label>
+                      <div class="col-sm-5 col-sm-offset-2">
+                          <p data-name="feedback_imgs"><img src="" alt="" width="200px" height="200px"/></p>
+                      </div>
+                      <div class="col-sm-5">
+                          <p data-name="feedback_imgs"><img src="" alt="" width="200px" height="200px"/></p>
+                      </div>
+                  </div>
+
+              </div>
+              <div class="modal-footer" style="text-align: left;">
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label">情况说明</label>
+                      <div class="col-sm-10">
+                          <p data-name="reject_reason"></p>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <input type="hidden" name="reject_tab"/>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              </div>
+        </div>
+      </div>
+    </div>
+{% end %}
+{% block javascript %}
+<script type="text/javascript" src="{{static_url('js/w-page.min.js')}}"></script>
+<script>
+    $(function(){
+        $('a[name=go_apply_btn]').click(function (){
+            var forecast_id = $(this).data('value');
+            $('input[name=forecast_id]').val(forecast_id);
+        });
+
+        $('a[data-toggle=modal]').click(function(){
+            var parent_tr = $(this).parent().parent();
+            var target_id = $(this).data('target');
+            var target = $(target_id);
+            var imgs = target.find('p[data-name=feedback_imgs] img');
+            var img_inputs = parent_tr.children('input[name=feedback_imgs]');
+            if (target_id == '#go_apply_modal' && img_inputs.length == 0){
+
+                target.find('a[name=go_apply]').click()
+                return false
+            }
+            for (var i = 0; i<img_inputs.length; i++){
+                $(imgs[i]).attr('src',img_inputs[i].value);
+            }
+
+
+//            if (target_id == '#reject_tab_modal'){
+            var reject_reason = parent_tr.find('input[name=reject_reason]').val();
+            if (reject_reason == ''){
+                $('p[data-name=reject_reason]').parents('.modal-footer').hide()
+            }else{
+                $('p[data-name=reject_reason]').parents('.modal-footer').show().html(reject_reason)
+            }
+//            }
+
+        });
+        $('a[name=go_apply]').click(function(){
+            var forecast_id = $('input[name=forecast_id]').val();
+            var form = $('#forecast_apply_form');
+            form.action = '/user/forecast';
+            form.append("<input type='hidden' value='"+ forecast_id +"' name='forecast_id'>");
+            form.submit()
+        });
+        hideContent('reject_tab','tooltag',function(){});
+        $('a[name=delete]').click(function () {
+            var id = $(this).data('value');
+            var $this = $(this);
+            wModalDialog({
+                content: '您确定删除此条预判信息吗？',
+                showAnimate:false,
+                type:"confirm",
+                sureCallBack:function (){
+                     $.ajax({
+                        type: 'post',
+                        url: '/user/forecast',
+                        data: {'forecast_id': id,
+                                '_method': 'delete',
+                                '_xsrf': $('input[name=_xsrf]').val()},
+                        dataType: 'json',
+                        success: function (response) {
+                            if(response.result == 1){
+                                /*wModalDialog({
+                                    content: '已删除',
+                                    showAnimate:true,
+                                    type:"success"
+                                 });*/
+                                //  tr删掉。
+                                $this.parents('tr').remove()
+                            }
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    })
+                }
+            });
+        });
+    })
+</script>
+{% end %}

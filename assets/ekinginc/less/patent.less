@@ -1,0 +1,330 @@
+/*交易大厅——专利出售等头部*/
+p{
+  word-break:break-all;
+  word-wrap:break-word;
+  overflow:hidden;
+}
+.group-block-bg{
+  background-image: url("/s/img/bg-patent.png");
+  background-repeat: no-repeat;
+  background-color: #363C4C;
+  @media (max-width: 768px){
+    margin-top: 20px;
+  }
+}
+.special-title{
+    font-size: 20px;
+    color: #fff;
+    display: block;
+    width: 124px;
+    height: 32px;
+    background-color: #30b0d5;
+    text-align: center;
+    line-height: 32px;
+  }
+.special-container{
+  margin-bottom: 55px;
+  .items{
+    background-color: #fff;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    &:hover{
+      border: 1px solid #30b0d5;
+    }
+    .img{
+      img{
+        width: 224px;
+        height: 224px;
+      }
+    }
+    .item{
+      margin-bottom: 0px;
+      ul {
+        padding: 5px 0;
+        border-top: 1px solid #ebebeb;
+        width: 224px;
+        text-align: left;
+        margin: 0 auto;
+        li {
+          margin: 3px 0;
+          a {
+            font-size: 16px;
+            color: #38485a;
+            font-weight: 700;
+            display: block;
+            height: 22px;
+            overflow: hidden;
+            &:hover {
+              color: #51aded;
+              text-decoration: underline;
+            }
+          }
+        }
+        .text-red {
+          font-size: 26px;
+          color: #ff0000;
+        }
+      }
+    }
+  }
+}
+.tradingcontainer{
+  .trading_bar{
+    margin-top: 25px;
+    border-bottom: 3px solid #31b0d5;
+    .active{
+      background-color: #31b0d5;
+      a{
+        color: #fff;
+      }
+    }
+    li{
+      float: left;
+      text-align: center;
+      background-color: #fff;
+      margin-right: 1px;
+      a{
+        width: 105px;
+        padding: 7px 0 4px;
+        color: #333;
+        display: block;
+        font-size: 16px;
+      }
+    }
+  }
+}
+/*专利出售*/
+@media(max-width: 768px){
+  .patent_form{
+    select{
+      margin-bottom: 5px;
+    }
+  }
+}
+.patent_form{
+  li{
+     display: inline-block;
+     width: 84px;
+     height: 34px;
+     margin-bottom: 5px;
+    line-height: 34px;
+   }
+  padding-top: 25px;
+  label{
+      font-size: 14px;
+      color: #fff;
+      font-weight: normal;
+  }
+  .cus_radio{
+    .btn-wrap{
+      color: #cfcfcf;
+    }
+  }
+}
+.msg{
+  font-size: 14px;
+  color: #fff;
+  padding-bottom: 5px;
+}
+.searchclumn{
+  background-color: #ededed;
+  padding-top: 20px;
+  strong{
+    font-weight: normal;
+  }
+  .sales{
+    border: 1px solid #fff;
+    &:hover{
+      border: 1px solid #51aded;
+    }
+    background-color: #fff;
+    h5{
+      margin-top: 25px;
+    }
+    p{
+      height: 16px;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp:1;
+      -webkit-box-orient: vertical;
+    }
+    .img{
+      padding: 0;
+      img{
+        width: 228px;
+        padding: 3px;
+        width: 235px;
+        border-right: 1px solid #ededed;
+      }
+    }
+  }
+  .buys{
+    border: 1px solid #fff;
+    &:hover{
+      border: 1px solid #51aded;
+    }
+    background-color: #fff;
+    h5{
+      padding: 15px 0;
+    }
+    p{
+      height: 63px;
+      overflow: hidden;
+    }
+  }
+  .item{
+    margin-bottom: 32px;
+    .thumbnail{
+      img{
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+    h5{
+      a{
+        font-size: 16px;
+        color: #38485a;
+        font-weight: bold;
+        &:hover{
+          color: #51aded;
+          text-decoration: underline;
+        }
+      }
+    }
+    p{
+      font-size: 13px;
+      color: #747f8c;
+      line-height: 1.62;
+    }
+    .text{
+       h5{color: #38485a;}
+    }
+    .text_add{
+      li{
+        text-align: center;
+      }
+      .text-red{
+        font-size: 26px;
+        color: #ff0000;
+      }
+    }
+    .caption{
+      p{
+        margin-bottom: 5px;
+        span{
+          color: #333;
+        }
+      }
+    }
+  }
+  .text-red{
+    color: #ff4c4c;
+  }
+  .tab{
+    color: #fff;
+    font-size: 10px;
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    text-align: center;
+    width: 38px;
+  }
+  .statu_col_two {
+    background-color: #fe8250;
+  }
+  .statu_col_three {
+    background-color: #edd152;
+  }
+  .statu_col_for {
+    background-color: #01c9c2;
+  }
+}
+.alertclumn{
+  background-color: #D9EDF7;
+  padding: 30px 0;
+  dt{
+    padding: 5px 0;
+  }
+  dd{
+    padding-bottom: 5px;
+  }
+  .alert{
+    margin-bottom: 50px;
+  }
+  .text_info{
+    h5{
+      font-size: 16px;
+      color: #333;
+      padding: 10px 0;
+    }
+    p{
+      text-indent: 2em;
+      line-height: 1.62;
+      margin-bottom: 20px;
+    }
+  }
+}
+.patent_detailclumu{
+  h5{
+    font-size: 18px;
+    }
+  ul{
+    li{
+      display: block;
+      padding: 5px 0;
+      span{
+        padding-left: 10px;
+      }
+    }
+  }
+}
+
+.btn-red {
+  cursor: pointer;
+  display: inline-block;
+  width: 100px;
+  height: 38px;
+  color: #fff;
+  text-align: center;
+  line-height: 38px;
+  background-color: #c9302b;
+  &:hover {
+    color: #fff;
+    background-color: #9B1510;
+  }
+  &:focus{
+    color: #fff;
+  }
+  &:visited{
+    color: #fff;
+  }
+}
+.btn-blue{
+  cursor: pointer;
+  display: inline-block;
+  width: 100px;
+  height: 38px;
+  color: #fff;
+  text-align: center;
+  line-height: 38px;
+  background-color: #418bca;
+  &:hover {
+    color: #fff;
+    background-color: #0176bb;
+  }
+}
+
+
+#img_sub:hover{
+  background-color: #c9302c;
+}
+
+
+
+
+
+
+
+
+

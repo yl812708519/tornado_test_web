@@ -1,0 +1,124 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <meta charset="UTF-8">
+    <title>补发变更/转让/续展证明申请书</title>
+    <style>
+        @font-face {
+                font-family: 'yahei';
+                src: url('{{font}}');
+            }
+        {% if render_type == 'view'%}
+        html{text-align: left; width: 1000px; padding-left: 20%}
+        .footer_table{margin-left: 20%}
+        .footer_table_td{text-align: right;width:200px}
+        {%else%}
+        html,body{line-height:16pt;font-size: 12pt;padding-left: 30px;margin: 0; padding-top: 30px}
+        .footer_table_td{text-align: right}
+        {% end %}
+
+        h1{text-align: center}
+        .right_align_td {text-align: right; margin-right: 12px; width: 300px}
+        td{text-align: left; line-height: 40px}
+        table{padding: 0;table-layout:fixed;word-break:normal;}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: top;
+            word-break:normal;
+            word-wrap:break-word;
+        }
+    </style>
+
+</head>
+<body>
+<h1>补发变更/转让/续展证明申请书</h1>
+<br/>
+<!--业务信息表格，规范格式-->
+<table cellpadding="0" cellspacing="0">
+    <tr >
+        <td class="right_align_td">申请人名称：</td>
+        <td width="240px">{{apply_app.name}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">申请人地址：</td>
+        <td>{{apply_app.register_address}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">邮政编码：</td>
+        <td>{{delegate['post_num']}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">联系人：</td>
+        <td>{{delegate['link_man']}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">电话：</td>
+        <td>{{delegate['phone']}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">代理机构名称：</td>
+        <td>北京易正达知识产权代理有限公司</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">商标注册号：</td>
+        <td>{{detail.mark_reg_num}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">补发证明事项：</td>
+    </tr>
+    <tr >
+        <td></td>
+        <td>□变更证明</td>
+    </tr>
+    <tr >
+        <td></td>
+        <td style="margin-left: 15px">变更前注册人名义（地址）：</td>
+    </tr>
+    <tr >
+        <td></td>
+        <td style="margin-left: 15px">变更后注册人名义（地址）：</td>
+    </tr>
+    <tr >
+        <td></td>
+        <td>{% if order.order_type == 'reissue_mark_transfer'%}<span style="font-size: 14px">√</span>{% end%}转让证明</td>
+    </tr>
+    <tr >
+        <td></td>
+        <td style="margin-left: 15px" colspan="2">转让人名称：{{detail.transfer_name}}</td>
+        <td></td>
+    </tr>
+    <tr >
+        <td></td>
+        <td style="margin-left: 15px" colspan="2">受让人名称：{{detail.acceptor_name}}</td>
+        <td></td>
+    </tr>
+    <tr >
+        <td></td>
+        <td>□续展证明</td>
+    </tr>
+    <tr >
+        <td></td>
+        <td style="margin-left: 15px">商标续展注册有效期：</td>
+    </tr>
+    <tr><td></td> <td colspan="2">(以上具体事项如未填写，视为补发该项最近一次业务证明)</td></tr>
+
+</table>
+
+<br><br><br><br>
+
+<table class="footer_table">
+    <tr>
+        <td class="footer_table_td">申请人章戳（签字）：</td><td class="footer_table_td">代理机构章戳：</td><td style="height: auto"></td>
+    </tr>
+    <tr><td></td><td class="footer_table_td">代理人签字：</td></tr>
+</table>
+
+
+</body>
+
+</html>
+

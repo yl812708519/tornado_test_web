@@ -1,0 +1,252 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        @font-face {
+                font-family: 'yahei';
+                src: url('{{font}}');
+            }
+        {% if render_type == 'view'%}
+        html{text-align: left; width: 1000px; padding-left: 20%}
+        .footer_table{margin-left: 20%}
+        .footer_table_td{text-align: right;width:200px}
+        {%else%}
+        html,body{line-height:21pt;font-size: 12pt;padding-left: 30px;margin: 0; padding-top: 30px}
+        .footer_table_td{text-align: right}
+        {% end %}
+        .fangkuai{font-size: 15pt}
+        h1{text-align: center}
+        .right_align_td {text-align: right; margin-right: 12px; width: 350px}
+        table{padding: 0;table-layout:fixed;word-break:normal}
+        td{height: 30px; text-align: left; line-height: 45px}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: top;
+            word-break:normal;
+            word-wrap:break-word;
+        }
+    </style>
+
+</head>
+<body>
+<h1>变更商标申请人/注册人名义/地址变更集体商标/
+    证明商标管理规则/集体成员名单申请书</h1>
+<!--业务信息表格，规范格式-->
+<div style="text-align: center">
+<table cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="right_align_td">申请人名称(中文)：</td>
+        <td>{% if apply_app.app_type == 'person'%}{{apply_app.person_name}} {%elif apply_app.app_type == 'com'%}{{apply_app.company_name}}{%end%}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">（英文）：</td>
+        <!--<td>{{apply_app.person_en_name}}</td>-->
+        <td>{% if apply_app.app_type == 'person'%}{{apply_app.person_en_name}} {%elif apply_app.app_type == 'com'%}{{apply_app.company_en_name}}{%end%}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">邮政编码：</td>
+        <td colspan="2">{{delegate['post_num']}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">联系人：</td>
+        <td colspan="2">{{delegate['link_man']}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">电话：</td>
+        <td colspan="2">{{delegate['phone']}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">代理机构名称：</td>
+        <td colspan="2">{{delegate['agency']}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">商标申请号/注册号：</td>
+        <td colspan="2">{{detail.mark_reg_num}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">是否共有商标：</td>
+        <td>{% if detail.is_common_mark%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}是</td>
+        <td>{% if not detail.is_common_mark%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}否</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">变更前名义(中文)：</td>
+        <td colspan="2">{{detail.cha_file_rec_name}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">（英文）：</td>
+        <td colspan="2">{{detail.name_en}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">变更前地址(中文)：</td>
+        <td colspan="2">{{detail.cha_file_rec_address}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">（英文）：</td>
+        <td colspan="2">{{detail.address_en}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">变更管理规则：</td>
+        <td>{% if detail.is_man_rule%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}是</td>
+        <td>{% if not detail.is_man_rule%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}否</td>
+
+    </tr>
+    <tr>
+        <td class="right_align_td">变更集体成员名单：</td>
+        <td>{% if detail.is_collective_names%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}是</td>
+        <td>{% if not detail.is_collective_names%}<span style="font-size: 12px">√</span>{% else %}<span class="fangkuai">□</span>{% end %}否</td>
+
+    </tr>
+</table>
+</div>
+<br><br>
+
+<table class="footer_table">
+    <tr>
+        <td class="footer_table_td">申请人章戳（签字）：</td><td class="footer_table_td">代理机构章戳：</td><td style="height: auto"></td>
+    </tr>
+    <tr><td></td><td class="footer_table_td">代理人签字：</td></tr>
+</table>
+
+{% if (detail.is_common_mark == 1 and detail.is_change_common == 1) or (detail.is_common_mark == 1 and detail.is_change_common == 0)%}
+<pdf:nextpage>
+<h1>更商标申请人/注册人名义/地址变更集体商标/
+    证明商标管理规则/集体成员名单申请书（附页）</h1>
+<h3 align="center">其他共有人</h3>
+{% end %}
+<div style="text-align: center">
+    <table cellpadding="0" cellspacing="0">
+        {% if detail.is_common_mark == 1 and detail.is_change_common == 1%}
+            {% for i, cha_common_mark in enumerate(detail.cha_common_marks) %}
+                {% if cha_common_mark['source_id'].app_type == 'person' %}
+                    <tr>
+                        <td class="right_align_td">{{i+1}}、变更前名义(中文)：</td>
+                        <td>{{cha_common_mark['source_id'].person_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['source_id'].person_en_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">变更前地址(中文)：</td>
+                        <td>{{cha_common_mark['source_id'].person_address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['source_id'].person_en_address}}</td>
+                    </tr>
+                {% elif cha_common_mark['source_id'].app_type == 'com' %}
+                    <tr>
+                        <td class="right_align_td">{{i+1}}、变更前名义(中文)：</td>
+                        <td>{{cha_common_mark['source_id'].company_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['source_id'].company_en_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">变更前地址(中文)：</td>
+                        <td>{{cha_common_mark['source_id'].register_address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['source_id'].register_address}}</td>
+                    </tr>
+                {% end %}
+                {% if cha_common_mark['target_id'].app_type == 'person' %}
+                    <tr>
+                        <td class="right_align_td">变更后名义(中文)：</td>
+                        <td>{{cha_common_mark['target_id'].person_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['target_id'].person_en_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">变更后地址(中文)：</td>
+                        <td>{{cha_common_mark['target_id'].person_address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['target_id'].person_en_address}}</td>
+                    </tr>
+                {% elif cha_common_mark['target_id'].app_type == 'com' %}
+                     <tr>
+                        <td class="right_align_td">变更后名义(中文)：</td>
+                        <td>{{cha_common_mark['target_id'].company_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['target_id'].company_en_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">变更后地址(中文)：</td>
+                        <td>{{cha_common_mark['target_id'].register_address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{cha_common_mark['target_id'].register_en_address}}</td>
+                    </tr>
+                {% end %}
+            {% end %}
+        {%elif detail.is_common_mark == 1 and detail.is_change_common == 0%}
+            {% for i, common_mark in enumerate(detail.common_marks)%}
+                {% if common_mark['app_type'] == 'person'%}
+                    <tr>
+                        <td class="right_align_td">{{i+1}}、名义(中文)：</td>
+                        <td>{{common_mark['person_name']}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{common_mark['person_en_name']}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">地址(中文)：</td>
+                        <td>{{common_mark['person_address']}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{common_mark['person_en_address']}}</td>
+                    </tr>
+                {% elif common_mark['app_type'] == 'com'%}
+                    <tr>
+                        <td class="right_align_td">{{i+1}}、名义(中文)：</td>
+                        <td>{{common_mark['company_name']}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{common_mark['company_en_name']}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">地址(中文)：</td>
+                        <td>{{common_mark['register_address']}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right_align_td">（英文）：</td>
+                        <td>{{common_mark['register_en_address']}}</td>
+                    </tr>
+                {% end %}
+            {% end %}
+
+    </table>
+</div>
+        {% end %}
+<!--<table border="1" width="300px">-->
+    <!--<tr><td style="border: 1px;height: 300px"></td></tr>-->
+<!--</table>-->
+<!--<pdf:nextpage>-->
+
+
+<!--<h1>变更商标申请人/注册人名义/地址变更集体商标/-->
+    <!--证明商标管理规则/集体成员名单申请书（附页）</h1>-->
+<!--<h3>变更后的管理规则/集体成员名单:</h3>-->
+
+</body>
+
+</html>
+

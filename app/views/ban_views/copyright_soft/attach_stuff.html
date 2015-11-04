@@ -1,0 +1,120 @@
+<form class="form-horizontal" role="form" id="copyright_att_Form" name="ajaxForm" width="600px" action="/copyright/soft/att" method="post">
+    {% raw xsrf_form_html()%}
+    <input type="hidden" name="order_id" value="{{order.id}}">
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">源程序</label>
+        <div class="col-sm-10 col-md-7">
+            <ul>
+                <li><p id="files_img1"></p></li>
+                <li style="margin: 10px;"><button type="button" class="btn btn-defaults" name="btn_sub1" id="source_program">上传</button></li>
+                <input type="hidden" name="source_program" id="source_program_url" value="{{detail.source_program}}"/>
+                <li>提醒：请上传doc,docx格式文件</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-md-3 control-label">程序使用说明书</label>
+        <div class="col-sm-10 col-md-5">
+            <ul>
+                <li><p id="files_img2"></p></li>
+                <li style="margin: 10px;"><button type="button" class="btn btn-defaults" name="btn_sub1" id="program_description">上传</button></li>
+                <input type="hidden" name="program_description" id="program_description_url" value="{{detail.program_description}}"/>
+                <li>提醒：请上传doc,docx格式文件</li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 40px;">
+        <div class="col-sm-6 col-sm-offset-4 col-md-4col-md-offset-8" style="text-align: right;">
+            <input type="submit" class="btn-next" value="保存">
+            <button type="button" name="cancelForm" class="btn-pre">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+$("#source_program").wIFrameUpload({
+    url: "/iframe_upload",
+    ossName: "yestar",
+    openPositionInterval: true,
+    beforeSubmit: function ($file_input_img) {
+        var file_name = $file_input_img.val();
+        var arr = ['doc','docx'];
+        if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+            wModalDialog({
+                content: '选择文件doc,docx格式错误!',
+                showAnimate: true,
+                type: "failed"
+            });
+            return false
+        }
+        if ($('#files_img1').html()) {
+            $('#files_img1').html('');
+        }
+        $('#files_img1').html('<div class="file" state="load"><img width="140px" height="140px" src="/s/img/load.gif"></div>');
+        return true;//返回false 阻止提交
+    },
+    success: function (data) {
+        if (data.status == 1) {
+            $('#files_img1').css('display', 'block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="{{ static_url('img/file-word-icon.png') }}"></div>');
+            $('#source_program_url').val(data.ossUrl);
+            $('#source_program').html('修改');
+            $('#source_program').attr('value', '111');
+        } else {
+            wModalDialog({
+                content: data.message,
+                showAnimate: true,
+                type: "failed"
+            });
+        }
+    }
+});
+$("#program_description").wIFrameUpload({
+    url: "/iframe_upload",
+    ossName: "yestar",
+    openPositionInterval: true,
+    beforeSubmit: function ($file_input_img) {
+        var file_name = $file_input_img.val();
+        var arr = ['doc','docx'];
+        if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+            wModalDialog({
+                content: '选择文件doc,docx格式错误!',
+                showAnimate: true,
+                type: "failed"
+            });
+            return false
+        }
+        if ($('#files_img2').html()) {
+            $('#files_img2').html('');
+        }
+        $('#files_img2').html('<div class="file" state="load"><img width="140px" height="140px" src="/s/img/load.gif"></div>');
+        return true;//返回false 阻止提交
+    },
+    success: function (data) {
+        if (data.status == 1) {
+            $('#files_img2').css('display', 'block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="{{ static_url('img/file-word-icon.png') }}"></div>');
+            $('#program_description_url').val(data.ossUrl);
+            $('#program_description').html('修改');
+            $('#program_description').attr('value', '111');
+        } else {
+            wModalDialog({
+                content: data.message,
+                showAnimate: true,
+                type: "failed"
+            });
+        }
+    }
+});
+function copyright_att_Form(){
+
+    $('.source_program_text').text('文件已上传');
+    $('.program_description_text').text('文件已上传')
+
+}
+parse_functions['copyright_att_Form'] = copyright_att_Form;
+$(function (){
+    var $source_program  = '{{detail.source_program}}';
+    var $program_description = '{{detail.program_description}}';
+    $source_program !== '' ?$('#files_img1').css('display','block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="{{ static_url('img/file-word-icon.png') }}"></div>') :  $('#files_img1').html('');
+    $program_description !== '' ? $('#files_img2').css('display','block').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="{{ static_url('img/file-word-icon.png') }}"></div>') :  $('#files_img2').html('');
+
+})
+</script>

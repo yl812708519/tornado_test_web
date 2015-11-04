@@ -1,0 +1,147 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <!--无用，提供的是上传的申请表-->
+    <meta charset="UTF-8">
+    <title>软件著作权申请表</title>
+    <style>
+        @font-face {
+                font-family: 'yahei';
+                src: url('{{font}}');
+            }
+
+        html,body{font-size: 10pt;padding-left: 30px;padding-top: 30px}
+        .footer_table_td{text-align: right}
+
+        p {text-indent: 30px; margin: 0; padding:0}
+        .title_span{text-align: center; font-size: 18pt; letter-spacing: 8}
+        .right_align_td {text-align: right; margin-right: 12px; width: 250px; vertical-align: top}
+        .fangkuai{font-size: 11pt}
+        .td_padding_top1{padding-top: 15px}
+        .td_padding_top2{padding-top: 10px}
+        td{ text-align: center; vertical-align: middle;}
+        table{padding: 0;table-layout:fixed;word-break:break-all;}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: middle;
+            word-break:break-all;
+            word-wrap:break-word;
+        }
+    </style>
+
+</head>
+<body>
+<!--<h1>商标注册申请书</h1>-->
+<div style="text-align: center"><span class="title_span">计算机软件著作权登记申请表</span></div>
+<br/>
+<table border="1">
+    <tr style="line-height: 30px;" class="td_padding_top1">
+        <td rowspan="3" width="30px" style="padding-top: 8px; letter-spacing: 4">软件基本信息</td>
+        <td style="width: 200px;">软件全称</td>
+        <td colspan="6">{{detail.soft_name}}</td>
+        <td style="width: 120px;">版本号</td>
+        <td style="width: 160px;">{{detail.version_num}}</td>
+    </tr>
+    <tr style="line-height: 20px;" class="td_padding_top1">
+        <td>软件简称</td>
+        <td colspan="6">{{detail.soft_abb}}</td>
+        <td>分类号</td>
+        <td >111 333</td>
+    </tr>
+    <tr>
+        <td>软件作品说明</td>
+        <td colspan="8" style="text-align: left; padding-top: 30px; padding-bottom: 50px;line-height: 10px">
+            <p> {% if detail.soft_description == 1%}◎{% else %}○{% end %}&nbsp;&nbsp;&nbsp;&nbsp;原创 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% if detail.soft_description == 2%}◎{% else %}○{% end %} &nbsp;&nbsp;&nbsp;&nbsp;修改 </p>
+            <p style="text-indent: 40px">{% if 1 in detail.modify_select %}☑{% else %}□{% end %} &nbsp;&nbsp;&nbsp;修改软件须经原权利人授权</p>
+            <p style="text-indent: 40px">{% if 2 in detail.modify_select %}☑{% else %}□{% end %} &nbsp;&nbsp;&nbsp;原有软件已经登记</p>
+            <p style="text-indent: 70px">•原登记号：{{detail.source_reg_num}}</p>
+            <p style="text-indent: 70px">•修改（翻译或合成）软件作品说明：</p>
+            <p style="text-indent: 90px">{{detail.trans_description}}</p>
+        </td>
+    </tr>
+    <tr style="line-height: 30px;" class="td_padding_top2">
+        <td colspan="2">开发完成日期</td>
+        <td colspan="8" style="text-align: left;padding-left: 20px">{{detail.soft_finish_date}}年月日 (直接写时间戳转换过来的字符串)</td>
+    </tr>
+    <tr style="line-height: 30px;" class="td_padding_top2">
+        <td colspan="2">发表状态</td>
+        <td colspan="8" style="text-align: left; padding-left: 20px">{% if detail.is_publish == 1%}◎{% else %}○{% end %}&nbsp;&nbsp;&nbsp;&nbsp;已发表 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% if detail.is_publish == 1%}◎{% else %}○{% end %} &nbsp;&nbsp;&nbsp;&nbsp;未发表</td>
+        {% if detail.is_publish == 1%}
+            <p>首次发表时间：{{detail.publish_date}}</p>
+            <p>首次发表国家：{{detail.first_publish_country}}</p>
+            <p>首次发表城市：{{detail.first_publish_city}}</p>
+        {% end %}
+    </tr>
+    <tr style="line-height: 30px;" class="td_padding_top2">
+        <td colspan="2">开发方式</td>
+        <td colspan="8" style="text-align: left; padding-left: 20px">
+            {% if detail.develop_way == 1%}◎{%else%}○{%end%}&nbsp;独立开发 &nbsp;&nbsp;{% if detail.develop_way == 2%}◎{%else%}○{%end%} &nbsp;合作开发
+            {% if detail.develop_way == 3%}◎{%else%}○{%end%}&nbsp;委托开发 &nbsp;&nbsp;{% if detail.develop_way == 4%}◎{%else%}○{%end%} &nbsp;下达任务开发
+        </td>
+    </tr>
+    <!--循环的时候请至少循环 6个tr !!!否则会报错-->
+    <tr style="line-height: 30px;" class="td_padding_top2">
+        <td rowspan="6">著作权人</td>
+        <td colspan="2"> 姓名或名称</td>
+        <td>类别</td>
+        <td> 证件类型</td>
+        <td>证件号码</td>
+        <td>国籍</td>
+        <td colspan="2">省份/城市</td>
+        <td>园区</td>
+    </tr>
+    <tr style="line-height: 40px;" class="td_padding_top1">
+        <td  colspan="2">姓名或名称</td>
+        <td>类别</td>
+        <td> 证件类型</td>
+        <td>证件号码</td>
+        <td>国籍</td>
+        <td  colspan="2">省份/城市</td>
+        <td>园区</td>
+    </tr><tr  style="line-height: 40px;" class="td_padding_top1">
+        <td  colspan="2">姓名或名称</td>
+        <td>类别</td>
+        <td> 证件类型</td>
+        <td>证件号码</td>
+        <td>国籍</td>
+        <td  colspan="2">省份/城市</td>
+        <td>园区</td>
+    </tr><tr  style="line-height: 40px;" class="td_padding_top1">
+        <td  colspan="2">姓名或名称</td>
+        <td>类别</td>
+        <td> 证件类型</td>
+        <td>证件号码</td>
+        <td>国籍</td>
+        <td  colspan="2">省份/城市</td>
+        <td>园区</td>
+    </tr><tr  style="line-height: 40px;" class="td_padding_top1">
+        <td  colspan="2">姓名或名称</td>
+        <td>类别</td>
+        <td> 证件类型</td>
+        <td>证件号码</td>
+        <td>国籍</td>
+        <td  colspan="2">省份/城市</td>
+        <td>园区</td>
+    </tr><tr style="line-height: 40px;" class="td_padding_top1">
+        <td  colspan="2">姓名或名称</td>
+        <td>类别</td>
+        <td> 证件类型</td>
+        <td>证件号码</td>
+        <td>国籍</td>
+        <td  colspan="2">省份/城市</td>
+        <td>园区</td>
+    </tr>
+
+
+
+</table>
+
+
+
+</body>
+
+</html>
+

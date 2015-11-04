@@ -1,0 +1,432 @@
+@static_url_prefix: '/s/';
+@color-error: '#F00';
+
+/*通用样式*/
+* {
+  //-webkit-user-select:none; /* Prevent copy paste for all elements except text fields */
+  //-webkit-tap-highlight-color:rgba(0, 0, 0, 0); /* set highlight color for user interaction */
+  //-moz-tap-highlight-color:rgba(0, 0, 0, 0); /* set highlight color for user interaction */
+  //-ms-touch-action:none;
+  //-moz-user-select:-moz-none;
+  //-webkit-touch-callout: none; /* prevent the popup menu on any links*/
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: inherit;
+  // color:@font-color-base;
+}
+
+/*清除360浏览器input 清空的图标*/
+input::-ms-clear {
+  display: none;
+}
+
+input::-ms-reveal {
+  display: none;
+}
+
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+
+/*清除浏览器的默认样式*/
+h1, h2, h3, h4, p, ul, li, dl, dt, dd, input, button, img {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  list-style: none;
+}
+
+a, a:link, a:visited, a:active, a:focus {
+  text-decoration: none;
+}
+
+/*清除浮动，防止div塌陷*/
+/*去掉iphone手机safari浏览器按钮样式*/
+input[type="submit"], input[type="reset"], input[type="button"], button {
+  -webkit-appearance: none;
+}
+
+/*文字逸出，显示省略号，容器应该是需要定义宽度的*/
+.text_off {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+//日期插件容器
+.picker-container {
+  position: relative;
+}
+
+//加载
+.loading {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 999;
+  display: none;
+  img {
+    position: absolute;
+    top: 50%;
+    margin-top: -40px;
+    margin-left: -18px;
+  }
+}
+
+//表单
+#wrap-inner {
+  padding: 20px;
+}
+
+.gen-form {
+  .input-group-addon {
+    text-align: right;
+    min-width: 80px;
+  }
+  .input-group {
+    margin-bottom: 20px;
+  }
+}
+
+.input-error {
+  //表单验证提示信息
+  position: absolute;
+  left: 0px;
+  bottom: -20px;
+  font-size: 12px;
+  color: @color-error;
+}
+
+.glyphicon {
+  //查询按钮图标鼠标移入效果
+  cursor: pointer;
+  &:hover {
+    color: @brand-primary
+  }
+}
+
+.clear {
+  *zoom: 1;
+}
+
+//清浮动
+.clear:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+/*/通用样式*/
+//分页css样式开始
+.pagination {
+  margin: 0px;
+}
+
+/*去掉bootStrap分页的边框*/
+.pagination > li > a, .pagination > li > span {
+  border: 0px;
+  width: 35px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+}
+
+/*以下是修改分页各种状态的颜色*/
+.pagination > .active > a, .pagination > .active > a:focus,
+.pagination > .active > a:hover, .pagination > .active > span,
+.pagination > .active > span:focus, .pagination > .active > span:hover {
+  background-color: #D9534F;
+  border-color: #d92a1d;
+}
+
+.pagination > li > a:focus, .pagination > li > a:hover,
+.pagination > li > span:focus, .pagination > li > span:hover {
+  color: #D9534F;
+}
+
+.pagination > li > a, .pagination > li > span {
+  color: #333;
+}
+
+label {
+  font-weight: normal;
+}
+
+//分页css样式结束
+//清除boot自带的内边距
+.clear_left {
+  padding-left: 0px;
+}
+
+.clear_right {
+  padding-right: 0px;
+}
+
+.clear_both {
+  padding: 0px;
+}
+
+//设置字体
+* {
+  font-family: 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('/s/fonts/iconfont.eot'); /* IE9*/
+  src: url('/s/fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/s/fonts/iconfont.woff') format('woff'), /* chrome、firefox */ url('/s/fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('/s/fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.file_icon {
+  font-size: 52px;
+}
+
+//上传图片拖拽
+#files_img {
+  display: none;
+  height: 123px;
+  position: relative;
+  margin-top: 23px;
+}
+
+.file {
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.delete_img {
+  position: absolute;
+  top: -12px;
+  left: 87px;
+  color: red
+}
+
+#files {
+  display: none;
+}
+
+.plain_file {
+  width: 100px;
+  text-align: center;
+}
+
+.hand {
+  cursor: pointer;
+}
+
+//幽灵按钮
+// Buttons
+.btn {
+  transition: all .5s;
+}
+
+.btn-outline {
+  color: inherit;
+  background-color: transparent;
+  transition: all .5s;
+}
+
+.btn-primary.btn-outline {
+  color: @brand-primary;
+}
+
+.btn-success.btn-outline {
+  color: @brand-success;
+}
+
+.btn-info.btn-outline {
+  color: @brand-info;
+}
+
+.btn-warning.btn-outline {
+  color: @brand-warning;
+}
+
+.btn-danger.btn-outline {
+  color: @brand-danger;
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover {
+  color: white;
+}
+
+.img_upload:hover{
+  background-color: #c9302c;
+}
+
+/*在线客服*/
+#oncs {
+  position: fixed;
+  top: 200px;
+  right: -180px;
+  text-align: center;
+  z-index: 9999;
+  height: 448px;
+  width: 175px;
+  background-color: #e71f19;
+  border-radius: 10px;
+  .title {
+    width: 25px;
+    height: 100px;
+    position: absolute;
+    left: -25px;
+    background: #e71f19;
+    top: 150px;
+    color: white;
+    line-height: 25px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 7px 0 0 7px;
+    cursor: pointer;
+  }
+  .customer_service_div {
+    background-color: #fff;
+    height: 110px;
+    margin: 8px;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 0px 10px;
+    .customer_service_img {
+      margin-top: 15px;
+      border-bottom: 1px solid #dbdbdb;
+      padding-bottom: 10px;
+      padding-right: -1px
+    }
+    .customer_service_title {
+      margin-top: 15px;;
+      border-bottom: 1px solid #dbdbdb;
+      padding-bottom: 10px;
+      padding-right: 13px
+    }
+
+    .customer_service_btn {
+      border: 1px solid #79c5e5;
+      width: 132px;
+      height: 30px;
+      background-color: #bfebf9;
+      margin-top: 12px;
+      font-size: 15px;
+      line-height: 27px
+    }
+    .customer_service_buttom_div {
+      padding-top: 15px;;
+      border-bottom: 1px solid #dbdbdb;
+      padding-bottom: 10px;
+      padding-right: 0px
+    }
+  }
+}
+.diagnosis_result_bar {
+  .customer_service_buttom_btn {
+    background-color: #bfebf9;
+    font-size: 18px;
+    border: 1px solid #79c5e5;
+    height: 35px;
+    width: 132px;
+    margin: 0px auto;
+    text-align: center;
+    line-height: 32px;
+  }
+}
+.tooltag{
+  width:166px; height:auto; border:1px solid #09F; position:relative; background-color:#FFF;position: absolute;left: 33px;top:42px;z-index: 1;display: none;
+  .arrow{
+     position:absolute; width:40px; height:40px; top:-17px; left:70px;
+    em{
+      border-color: transparent transparent #09F;
+    }
+    span{
+      border-color:transparent transparent #FFF; top:1px;
+    }
+  }
+  .arrow *{ display:block; border-width:8px; position:absolute; border-style:solid dashed dashed dashed; font-size:0; line-height:0; }
+  .list{
+    li:first-child{
+      span{
+        color: #09F;
+      }
+      p{
+        color: #09F;
+      }
+    }
+    li{
+      margin: 10px 10px 10px 20px;
+      position: relative;
+      span{
+        position: absolute;
+        top:-5px;
+        left: -11px;
+      }
+      p{
+        color: #575757;
+      }
+    }
+  }
+}
+div[data-name=confirmed_required]{
+  padding-top: 7px;
+}
+div[data-names=confirmed_required]{
+  padding-top: 7px;
+}
+.control_item{
+  padding-top: 7px;
+}
+#detail_img{
+  cursor: pointer;
+}
+.border_bottom{
+  border-bottom: 1px solid #ccc;
+}
+.color-po_btn{
+  color: #30b0d5;
+  cursor: pointer;
+}
+.padding_trbl(@top,@right,@bottom,@left){
+  padding: @top @right @bottom @left;
+}
+.margin_trbl(@top,@right,@bottom,@left){
+  margin: @top @right @bottom @left;
+}
+.h_txt_title{
+  .content_title{
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    border-left: solid 3px #e33e23;
+    padding-left: 7px;
+    .margin_trbl(50px,0,20px,0)
+  }
+}
+.basic_bg(@color){
+  background-color:@color;
+}
+.bg_write_k{
+  .basic_bg(#fff)
+}
+.theme_bg{
+  .basic_bg(#2F4050)
+}

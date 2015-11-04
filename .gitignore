@@ -1,0 +1,15 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+.grunt
+bin/www-36ban-web
+.idea/
+__pycache__/
+doc/build/
+uploads/
+shell/inc-eking
+*.ipr
+*.iml
+*.iws
+*.py[cod]
+**/node_modules

@@ -1,0 +1,259 @@
+{% extends "../../layouts/application.html" %}
+{% autoescape %}
+{% block left %}
+{% end %}
+{% block body %}
+<!--版权列表页面  -->
+<div class="patent_application" style="margin-top: 0;">
+    <div class="container-fluid bg_write_k">
+        <div class="row theme_bg">
+            {% include "../../layouts/left.html"%}
+            <div class="col-md-10 bg_write_k right-content">
+                <div class="h_txt_title">
+                    <div class="content_title" style="margin: 45px 0 30px 15px;">发票索取</div>
+                </div>
+                <div class="tip_bar col-sm-12">
+                    <span class="mid"></span>
+                    <span class="col-sm-6 active">1.开票订单选取</span>
+                    <span class="col-sm-6">2.确定发票信息和地址</span>
+                </div>
+                <div class="index-block" style="width: 100%;overflow: hidden;">
+                    <div class="content media">
+                        <form action="/invoice/demands" class="form-horizontal" role="form" method="get" id="invoice_demands_search_form" enctype="multipart/form-data">
+                            <label class="control-label col-sm-2">订单成功时间</label>
+                            <input id = "current_page" type="hidden" value = "1" name = "current_page"/>
+                            <div class="col-sm-12 col-md-3">
+                                <div class="form-horizontal btn-write">
+                                     <fieldset>
+                                      <div class="control-group">
+                                        <div class="controls">
+                                         <div class="input-prepend input-group">
+                                             <input type="text" readonly="readonly" style="width: 186px" name="reservation" id="reservation" {% if s_time and e_time %}value="{{s_time}} - {{e_time}}" {%else%} value="" {%end%} placeholder="请选择时间范围" data-value="{{s_time}}"/>
+                                             <span class="calendar"></span>
+                                             <input type="hidden" name="start_time" value="{{s_time}}"  class="form-control ">
+                                             <input type="hidden" name="end_time" value="{{e_time}}" class="form-control " >
+                                         </div>
+                                        </div>
+                                      </div>
+                                     </fieldset>
+                                   </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7" style="text-align: right;padding-right: 30px;">
+                                <input type="submit" class="btn-sea" name="submit"  value="查询"/>
+                            </div>
+                        </form>
+                        <div class="col-sm-12 mid-content">
+                            <div class="col-sm-4">
+                                <h4>已选总金额:<span style="color: #FD7C38">￥</span><span id="tatal-money"> 0.00</span>元</h4>
+                                <p>可开票总金额：￥{{total_price}}</p>
+                            </div>
+                            <div class="col-sm-8" style="text-align: right;">
+                                <!--<h4>代开票金额：<span style="color: #3c9a00;">￥0.00</span></h4>-->
+                                <!--<p>代开票金额 = 已选金额：￥0.00 - 欠票金额：￥0.00</p>-->
+                                {%if len(orders) == 0 %}
+                                    <button class="btn-pre btn_add_sty" disabled="disabled" style="margin-bottom: 20px;">
+                                        索取发票
+                                    </button>
+                                {% else %}
+                                <button class="btn-sea btn_add_sty btn_ajax" style="margin-bottom: 20px;">
+                                    索取发票
+                                </button>
+                                {% end %}
+                            </div>
+                        </div>
+                    </div>
+                    <!--申请列表-->
+                    {% if len(orders) == 0%}
+                        <p style="text-align: center;margin-top: 40px"> <span class="glyphicon glyphicon-info-sign"></span>您还没有需要开发票的订单！</p>
+                    {% else %}
+                        <div class="panel-body col-md-12 col-sm-12">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr style="background-color: #edf9ff;border-bottom: 1px solid #e1e1e1">
+                                        <th style="width:103px;border:none;" class="th_sty"><input type="checkbox" id="kaiguan" value="0" style="margin-right: 10px">全选</th>
+                                        <th class="th_sty" style="border:none;">编号</th>
+                                        <th class="th_sty" style="border:none;width:40%;">名称</th>
+                                        <!--<th class="th_sty" style="border:none;">类型</th>-->
+                                        <th class="th_sty" style="border:none;">金额</th>
+                                        <th class="th_sty" style="border:none;">支付时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for order in orders %}
+                                    <tr class="th_sty " style="border-bottom: 1px solid #e1e1e1">
+                                        <td style="border:none;vertical-align: middle"><input data-id="{{order.id}}" data-money="{{order.price}}" name="duoxuan" type="checkbox" value="" class="abc"></td>
+                                        <td class="algin_sty" style="border:none;">{{order.id}}</td>
+                                        <td class="algin_sty" style="border:none;">{{order.name}}</td>
+                                        <!--<td class="algin_sty" style="border:none;">{{order.order_type}}</td>-->
+                                        <td class="algin_sty" style="border:none;">{{order.price}}元</td>
+                                        <td class="algin_sty" style="border:none;">{{order.created_at}}</td>
+                                        </td>
+                                    </tr>
+                                    {% end %}
+                                    </tbody>
+                                </table>
+                                <div class="wtable-footer col-md-12">
+                                    <div id="pagination-container" class="paging_sty"></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% end %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}
+{% block javascript %}
+<script type="text/javascript" src="{{static_url('js/w-page.min.js')}}"></script>
+<script src="{{ static_url('js/cityselector.min.js')}}"></script>
+<script type="text/javascript" src="{{ static_url('js/moment.min.js')}}"></script>
+<script type="text/javascript" src="{{ static_url('js/daterangepicker.js')}}"></script>
+
+<script>
+    $('.calendar').click(function (){
+        $('.daterangepicker')
+                .css({
+              "display":"block",
+              "top":"358px",
+              "left":"520.15625px",
+              "right":"auto"
+              });
+    });
+    $(document).click(function (e){
+        var target = $(e.target);
+            // if the page is clicked anywhere except within the daterangerpicker/button
+            // itself then call this.hide()
+            if (
+                target.closest($('.calendar')).length ||
+                target.closest($('.daterangepicker')).length ||
+                target.closest('.calendar-date').length ||
+                target.closest('#reservation').length
+                ) return;
+            $('.daterangepicker').hide();
+    });
+    $(document).ready(function() {
+      $('#reservation').daterangepicker(null, function(start, end, label) {
+          $('input[name=start_time]').val(start.toISOString());
+          $('input[name=end_time]').val( end.toISOString());
+        console.log(start.toISOString(), end.toISOString(), label);
+      });
+        var arr = [].slice.call($('input[name=duoxuan]:checked'));
+        var tatalm = 0;
+        arr.forEach(function(item){
+            var fens = $(item).data('money');
+            var total_ = $(item).attr('data-tatal',fens)
+            var subm = $(item).data('tatal');
+            var subm_ = parseFloat(subm)
+            tatalm += subm_
+        });
+        $('#tatal-money').html(tatalm.toFixed(2))
+   });
+
+    $('#kaiguan').click(function () {
+
+        if ($(this).val() == '0') {
+
+            $(this).attr('value', '1');
+            for (var i = 0; i < $('.abc').length; i++) {
+                $('.abc:eq(' + i + ')').get(0).checked = true;
+                var tatal = $('.abc:eq(' + i + ')').data('money');
+                $('.abc:eq(' + i + ')').attr('data-tatal',tatal)
+            };
+            var arr = [].slice.call($('input[name=duoxuan]:checked'));
+            var tatalm = 0;
+            arr.forEach(function(item){
+                var subm = $(item).data('tatal');
+                var subm_ = parseFloat(subm)
+                tatalm += subm_
+            });
+            $('#tatal-money').text(tatalm.toFixed(2));
+
+        } else if ($(this).val() == '1') {
+            $(this).attr('value', '0');
+            for (var i = 0; i < $('.abc').length; i++) {
+                $('.abc:eq(' + i + ')').get(0).checked = false;
+            }
+            $('#tatal-money').text('0.00')
+        }
+    });
+
+    $('.btn_ajax').click(function () {
+        if('{{is_invoice_basic }}' == 1){
+           var aaa = '';
+            for (var i = 0; i < $('.abc').length; i++) {
+                if ($('.abc:eq(' + i + ')').get(0).checked == true) {
+                    if (aaa) {
+                        aaa += '&id=' + $('.abc:eq(' + i + ')').parent().next().html();
+                    } else {
+                        aaa += 'id=' + $('.abc:eq(' + i + ')').parent().next().html();
+
+                    }
+                }
+            };
+
+            if (aaa) {
+                window.location.href = "/invoice?" + aaa;
+            }else{
+                 wModalDialog({
+                        content:'请选择！！！',
+                        showAnimate:true,
+                        type:"failed"
+                     });
+            };
+        }else{
+            wModalDialog({
+                content: ('您还未添加发票信息，点击进入<a href="/invoice_basic/new">添加</a>!'),
+                showAnimate: true,
+                type: "success"
+            });
+        }
+
+    });
+     /*分页开始*/
+    var currentPage = {{current_page}};
+    var totalPage = {{total_page}};
+    $('#pagination-container').wPage({
+        currentPage: currentPage,    // 当前页 默认 1
+        totalPage: totalPage,     // 总页数 默认 1
+        firstCount: 1,      // 1 ... 3 4 5 ... 108首页处预览页数 默认 1
+        lastCount: 1,       // 1 ... 3 4 5 ... 108尾页处预览页数 默认 1
+        prevCount: 2,       // 当前页前预览页数 默认 2
+        nextCount: 6,       // 当前页后预览页数 默认 6
+        clickCallBack: function (pageNum, $element) {
+            $('#current_page').attr('value',pageNum);
+            $('#invoice_demands_search_form').find("input[type=submit]").click();
+
+        }
+    });
+//    判断是否选中
+    $('table input[name=duoxuan]').on('click',function (){
+        var $this = $(this);
+        var data = $this.data('money');
+
+        if($this.is(':checked')){
+            $this.closest('input').attr('data-tatal',data)
+        }else{
+           $this.closest('input').attr('data-tatal',0)
+        };
+        getFen();
+
+
+    });
+    function getFen (){
+        var arr = [].slice.call($('input[name=duoxuan]:checked'));
+        var tatalm = 0;
+        arr.forEach(function(item){
+            var subm = $(item).data('tatal');
+            var subm_ = parseFloat(subm)
+            tatalm += subm_
+        });
+        $('#tatal-money').html(tatalm.toFixed(2))
+    };
+     if($('body').width() <= 768){
+        $('.mid').css('display','none')
+    };
+</script>
+{% end %}
+

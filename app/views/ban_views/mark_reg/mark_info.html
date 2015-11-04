@@ -1,0 +1,272 @@
+
+<form class="form-horizontal" role="form" id="markForm" name="ajaxForm" width="600px" action="/mark/reg/info" method="post">
+    {% raw xsrf_form_html()%}
+    <input type="hidden" name="order_id" value="{{order.id}}">
+    <input type="hidden" name="biz" value="{{order.order_type}}">
+    <div class="form-group">
+        <label for="mark_name" class="col-sm-2 col-md-2 control-label">商标名称</label>
+        <div class="col-sm-10 col-md-5">
+            <input id="mark_name" name="name" value="{{detail.name}}" class="form-control" >
+        </div>
+        <div class="col-md-5"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="mark_desc" class="col-sm-2 control-label">商标说明</label>
+        <div class="col-sm-8">
+            <textarea class="form-control"  id="mark_desc" name="description" rows="3">{{detail.description}}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="mark_img" class="col-sm-2 control-label">商标图片上传</label>
+        <div class="col-sm-10">
+            <button type="button" class="btn btn-defaults" name="btn_sub1" id="iFrameUpload_img">上传图片</button>
+            <p style="padding-top: 5px;">提醒：请上传JPG格式、小于200K，像素介于“400*400”至“1500*1500”之间的正方形图片</p>
+            <input type="hidden" id="mark_img" name="mark_img" value="{{detail.mark_img}}" class="form-control">
+        </div>
+        <div class="clear col-sm-4 col-sm-offset-2" id="files_img"></div>
+    </div>
+    <div class="form-group">
+        <label for="mark_img" class="col-sm-2 control-label"> 是否指定颜色</label>
+        <div class="col-sm-10">
+            <label class="radio-inline">
+                 <input type="radio" name="is_specify_color" value="1" {% if detail.is_specify_color %} checked="true" {% end %} >是
+            </label>
+            <label class="radio-inline">
+                 <input type="radio" name="is_specify_color" value="0" {% if not detail.is_specify_color %} checked="true" {% end %} >否
+            </label>
+        </div>
+    </div>
+    {% if order.order_type == 'collective_mark_reg'%}
+        <div class="form-group">
+            <label for="collective_list" class="col-sm-2 control-label">集体商标名单</label>
+            <div class="col-sm-10">
+                <button type="button" class="btn btn-defaults" name="btn_sub2" id="iFrameUpload_file">上传名单</button>
+                <p id="files_ollective" style="padding-top: 5px;">提醒：请上传doc格式、小于200K </p>
+                <input type="hidden" id="collective_list" name="collective_list" value="{{detail.collective_list}}" class="form-control">
+            </div>
+        </div>
+    {% end %}
+    {% if order.order_type != 'mark_reg'%}
+        <div class="form-group">
+            <label for="regulation" class="col-sm-2 control-label">商标管理规则</label>
+            <div class="col-sm-10">
+                <button type="button" class="btn btn-defaults" name="btn_sub3" id="iFrameUpload_regulation">上传文件</button>
+                <p id="files_regulation" style="padding-top: 5px;">提醒：请上传doc格式、小于200K</p>
+                <input type="hidden" id="regulation" name="regulation_file" value="{{detail.regulation_file}}" class="form-control">
+            </div>
+        </div>
+    {% end %}
+
+    <div class="form-group">
+        <div class="col-sm-3 col-sm-offset-2">
+
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 60px;">
+        <div class="col-sm-6 col-sm-offset-4 col-md-4col-md-offset-8" style="text-align: right;">
+            <input type="submit" class="btn-next" value="保存">
+             <button type="button" name="cancelForm" class="btn-pre">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    {% if order.order_type == 'collective_mark_reg'%}
+        // 只有在集体商标注册时需要上传该 文件
+        $("#iFrameUpload_file").wIFrameUpload({
+            url: "/iframe_upload",
+            ossName: "yestar",
+            openPositionInterval: true,
+            beforeSubmit: function ($file_input_img) {
+                var file_name = $file_input_img.val();
+                var arr = ["doc", "docx"];
+                if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+                    wModalDialog({
+                        content: '选择文件错误,文件类型必须是doc or docx中的一种',
+                        showAnimate:true,
+                        type:"failed"
+                     });
+                    return false
+                }
+                return true;//返回false 阻止提交
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    $("#iFrameUpload_file").val('更换文件').parent().append('<a href="'+data.downloadUrl+'" target="_blank">已上传文件</a>');;
+                    $("#collective_list").val(data.ossUrl);
+                    $('small[data-bv-for=btn_sub2]').css('display','none')
+                    $('small[data-bv-for=btn_sub2]').parents('.form-group').removeClass('has-error');
+                    $('#submitBtn2').removeAttr('disabled','')
+                } else {
+                    wModalDialog({
+                        content: data.message,
+                        showAnimate:true,
+                        type:"failed"
+                     });
+                }
+            }
+        });
+
+    {% end %}
+    {% if order.order_type != 'mark_reg'%}
+        // 集体商标注册和证明注册商标需要上传该文件
+        $("#iFrameUpload_regulation").wIFrameUpload({
+            url: "/iframe_upload",
+            ossName: "yestar",
+            openPositionInterval: true,
+            beforeSubmit: function ($file_input_img) {
+                var file_name = $file_input_img.val();
+                var arr = ["doc", "docx"];
+                if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+                    wModalDialog({
+                        content: '选择文件错误,文件类型必须是doc or docx中的一种',
+                        showAnimate:true,
+                        type:"failed"
+                     });
+                    return false
+                }
+                return true;//返回false 阻止提交
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    console.log(data)
+                    $("#regulation").val(data.ossUrl).parent().append('<a href="'+data.downloadUrl+'" target="_blank">已上传文件</a>');;
+//                    $("#regulation_file").val(data.ossUrl);
+                    $('small[data-bv-for=btn_sub3]').css('display','none')
+                    $('small[data-bv-for=btn_sub3]').parents('.form-group').removeClass('has-error');
+                    $('#submitBtn2').removeAttr('disabled','')
+                } else {
+                    wModalDialog({
+                        content: data.message,
+                        showAnimate:true,
+                        type:"failed"
+                     });
+                }
+            }
+        });
+
+    {% end %}
+
+
+
+
+    /*图片上传*/
+        function wIFrameUploads(){
+            $("#iFrameUpload_img").wIFrameUpload({
+                url: "/iframe_upload",
+                ossName: "yestar",
+                openPositionInterval: true,
+                beforeSubmit: function ($file_input_img) {
+                    var file_name = $file_input_img.val();
+                    var arr = ["gif", "jpeg", "jpg", "bmp", "png"];
+
+                    if (!RegExp("\.(" + arr.join("|") + ")$", "i").test(file_name.toLowerCase())) {
+                        wModalDialog({
+                            content:'选择文件错误,图片类型必须是(gif,jpeg,jpg,bmp,png)中的一种',
+                            showAnimate:true,
+                            type:"failed"
+                         });
+                        return false
+                    }
+                    if ($('#files_img').html()) {
+                        $('#file_hidden_img').html('');
+                        $('#files_img').html('');
+                    }
+                    $('#files_img').css('display', 'block')
+                    $('#files_img').html('<div class="file" state="load"><img width="140px" height="140px" src="/s/img/load.gif"></div>');
+                    return true;//返回false 阻止提交
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        $('#files_img').css('display', 'block');
+                        $('#files_img').html('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="' + data.downloadUrl + '"></div>');
+                        $('#mark_img').val(data.ossUrl);
+                        $('#iFrameUpload_img').html('修改图片');
+                        $('#iFrameUpload_img').attr('value', '111');
+                        $('small[data-bv-for=btn_sub1]').css('display','none')
+                        $('small[data-bv-for=btn_sub1]').parents('.form-group').removeClass('has-error');
+                        $('#submitBtn2').removeAttr('disabled','')
+                    } else {
+                        wModalDialog({
+                            content: data.message,
+                            showAnimate:true,
+                            type:"failed"
+                         });
+                    }
+                }
+            });
+        //图片上传赋值
+            var download_certi_img = "{{detail.mark_img}}";
+            var download_certi_img_url = oss_url(download_certi_img)
+            if (download_certi_img != '') {
+                $('#files_img').css('display', 'block');
+                $('<div class="file"><img class="imgs" style="width:100px;height:100px;" src="' + download_certi_img_url + '"></div>').appendTo($('#files_img'));
+                $('<input type="hidden" name="detail.mark_img" value="">').appendTo($('#iFrameUpload_img'));
+                $('#iFrameUpload_img').html('修改图片');
+            };
+            var download_collective_list = "{{detail.collective_list}}";
+            var download_collective_list_url = detatil(download_collective_list);
+            if (download_collective_list != '') {
+                ($('#files_ollectivec')).after($('<a href="'+download_collective_list_url+'">1个名单已上传</a>'));
+            };
+            var download_regulation_file_list = "{{detail.regulation_file}}";
+            var download_regulation_file_list_url = detatil(download_regulation_file_list);
+            if (download_regulation_file_list != '') {
+                ($('#files_regulation')).after($('<a href="'+download_regulation_file_list_url+'">1个文件已上传</a>'));
+            };
+        }wIFrameUploads();
+
+    $('#markForm').bootstrapValidator({
+        fields:{
+            name:{
+                validators:{
+                    notEmpty: {
+                        message: '请输入商标名称'
+                    }
+
+                }
+            },
+            description:{
+                validators:{
+                    notEmpty:{
+                        message: '请输入商标的描述'
+                    }
+                }
+            }
+        }
+    });
+
+    function parse_markForm(){
+        if($('#mark_img').val() == ''){
+            showErr('btn_sub1','请上传图片')
+            return
+        }
+        if($("#collective_list").val() == ''){
+            showErr('btn_sub2','请上传文件！')
+            return
+        }
+        if($("#regulation").val() == ''){
+            showErr('btn_sub3','请上传文件！')
+            return
+        }
+        var $mark_name= $('#mark_name').val();
+        var $mark_desc= $('#mark_desc').val();
+
+        $('#detail_img').attr('src',oss_url($('#mark_img').val()));
+        $('#markName').text($mark_name);
+        $('#markTxt').text($mark_desc);
+        var href = detatil($('#collective_list').val())
+        $('.collective_list_url').html('<a href="'+href+'">1个名单已上传</a>')
+        $('.regulation_file_url').html('<a href="'+detatil($('#regulation').val())+'">1个文件已上传</a>')
+
+    }
+        parse_functions['markForm'] = parse_markForm;
+</script>
+
+
+
+
+
+
+

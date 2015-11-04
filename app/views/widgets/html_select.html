@@ -1,0 +1,18 @@
+<input type="text" name="label-{{name}}" class="form-control required" {{readonly}}>
+<input type = "hidden" name = "{{name}}" value = "{{value}}"/>
+<div class="input-group-btn">
+    <button type="button" class="btn btn-drop dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li>
+            <a href="javascript:;" data-value="" >&nbsp;</a>
+        </li>
+        {% for option in options %}
+            <li>
+                <a href="javascript:;" data-value="{{option.get(value_field)}}" {% if str(option.get(value_field)) == str(value) %}class="selected"{%end%}>{{option.get(name_field)}}</a>
+            </li>
+        {% end %}
+    </ul>
+</div>

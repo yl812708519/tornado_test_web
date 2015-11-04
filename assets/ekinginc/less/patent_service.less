@@ -1,0 +1,536 @@
+//主体侧栏
+img{
+  display: inline-block;
+}
+label{
+  font-size: 16px;
+  color: #474747;
+  font-weight: normal;
+}
+//商标注册
+.page-top{
+  h4{
+    font-size: 24px;
+    color: #333333;
+    margin: 32px 0 36px 0;
+  }
+}
+#applicat{
+  .btn-wrap{
+    &:hover{
+      background-color: #86d0e6;
+    }
+  }
+}
+#serviceForm{
+  label{
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  .cus_radio {
+    li{
+      padding: 4px 34px;
+      margin-bottom:20px;
+      &:hover{
+         background-color: #86d0e6;
+      }
+    }
+    .btn-wrap{
+      background-color: #f9f9f9;
+    }
+  }
+  em{
+    color: #ff4824;
+    font-size: 21px;
+    font-weight: bolder;
+    padding-right: 10px;
+  }
+  .patent-btn{
+    background-color: #d9544f;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 34px;
+    &:hover{
+      background-color: #BA423D;
+    }
+  }
+  .btn-sea{
+    border: 1px solid #d9544f;
+    color: #d9544f;
+    cursor: pointer;
+    padding: 6px 20px;
+    background-color: #fff;
+  }
+}
+
+/*主体部分*/
+.applicat{
+  .cus_radio {
+    .btn-wrap{
+      background-color: #f9f9f9;
+    }
+  }
+}
+.forms{
+  .form-group{
+    margin-bottom: 23px;
+  }
+  .tip{
+    color: #9d9d9d;
+    margin-top: 8px;
+  }
+}
+.label_style{
+  label{
+    display: block;
+  }
+}
+.btn-pre {
+  cursor: pointer;
+  display: inline-block;
+  width: 80px;
+  height: 33px;
+  color: #323232;
+  text-align: center;
+  line-height: 33px;
+  background-color: #d9d9d9;
+  border: 1px solid #d9d9d9;
+  border-radius: 0;
+  &:hover {
+    color: #323232;
+    background-color: #b9b8b8;
+  }
+  &:focus{
+    color: #323232;
+  }
+  &:visited{
+    color: #323232;
+  }
+}
+.btn-defaults {
+  cursor: pointer;
+  display: inline-block;
+  width: 80px;
+  height: 33px;
+  color: #333;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #adadad;
+  &:focus{
+    color: #333;
+  }
+  &:visited{
+    color: #333;
+  }
+}
+.btn-defaults:hover{
+   color: #333;
+    background-color: #e6e6e6;
+}
+.btn-add{
+  border: 1px dashed #ca361d;
+  padding: 6px 20px;
+  color: #ca361d;
+  &:hover{
+    background-color: #ca361d;;
+    color: #fff;
+  }
+}
+.btn-next{
+  padding: 5px 20px;
+  background-color: #e33e23;
+  color: #fff;
+  display: inline-block;
+  font-size: 16px;
+  &:hover{
+    color: #fff;
+    background-color: #ca361d;
+  }
+  &:focus{
+    color: #fff;
+  }
+}
+.btn-sea{
+  padding: 5px 20px;
+  background-color: #42afe3;
+  color: #fff;
+  display: inline-block;
+  font-size: 16px;
+  &:hover{
+    color: #fff;
+    background-color: #3b9ecd;
+  }
+}
+.btn-sea-lg{
+  cursor: pointer;
+  padding: 10px 30px;
+  background-color: #42afe3;
+  color: #fff;
+  display: inline-block;
+  font-size: 16px;
+  &:hover{
+    color: #fff;
+    background-color: #3b9ecd;
+  }
+}
+.btn-sea-empty{
+  padding: 3px 18px;
+  background-color: #fff;
+  border: 1px solid #42afe3;
+  color: #42afe3;
+  /*transition: all 0.5s;*/
+  &:hover{
+    background-color: #42afe3;
+    color: #fff;
+  }
+  &:focus{
+    outline: none;
+    color: #fff;
+    background-color: #3b9ecd;
+  }
+}
+.page-head{
+   color: #494949;
+   font-size: 24px;
+   font-weight: normal;
+   margin: 40px 0 25px;
+   padding-bottom: 0;
+}
+.hook_bar{
+  position: fixed;
+  border-left: 1px solid #fff;
+  right: 45px;
+  bottom: 40%;
+  .tips{
+    position: absolute;
+    top:-8px;
+    left: -10px;
+    li{
+      width: 20px;
+      height: 20px;
+      border-radius:20px;
+      background: #fff;
+      margin: 30px 0;
+    }
+  }
+  .tips_txt{
+    li{
+      line-height: 29px;
+      margin: 19px 0 21px;
+      font-size: 16px;
+    }
+  }
+}
+.ajaxForm_div{
+  display: none;
+  padding-top: 20px;
+}
+//商标注册
+@media (min-width: 1200px) {
+  .section-block{
+    width: 990px;
+  }
+}
+.patent_service_content{
+  padding: 0 15px 45px 15px;
+  .media{
+    background: #fff;
+    #order_delegate{
+       margin-right: 50px;
+    }
+    @media (max-width: 768px) {
+      #order_delegate{
+       margin-right: 0px;
+        margin-top: 20px;
+      }
+      .pay_modal_btn{
+        margin-top: 20px;
+      }
+    }
+  }
+  .tzsz_icon{
+    background: url("/s/img/tzsz.png") no-repeat;
+    display: inline-block;
+    width: 35px;
+    height: 31px;
+  }
+  .media-foot{
+    .list-group{
+      padding: 25px 0;
+      border-top: 1px solid #f5f5f5;
+      border-bottom: 1px solid #f5f5f5;
+      li{
+        font-size: 16px;
+        display: inline-block;
+        margin-right: 20px;
+        span{
+          color:#ff3300;
+        }
+      }
+    }
+  }
+  .border-top{
+    border-top: 1px solid #f5f5f5;
+    padding-top: 16px;
+  }
+  .toppage{
+    float: right;
+    border: 1px solid #42afe3;
+    padding: 4px 12px;
+    color: #42afe3;
+    &:hover{
+      background: #42afe3;
+      color: #fff;
+    }
+  }
+  .border_line{
+    @media (max-width: 768px){
+       .control-label{
+         padding-top: 7px;
+       }
+    }
+
+    background-color: #f5f5f5;
+    position: relative;
+    height: 38px;
+    a[name=my_modal],a[name=get_form]{
+      position: absolute;
+      top:8px;
+      right: 30px;
+      font-size: 16px;
+      color: #42afe3;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .control-label{
+      text-align: left;
+      padding-left: 30px;
+    }
+  }
+  .btn:focus{
+    color: #fff;
+  }
+  .right{
+    float: right;
+  }
+}
+
+.btn-ori{
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  height: 38px;
+  text-align: center;
+  line-height: 38px;
+  background-color: #ffa200;
+  padding: 0 20px;
+  &:hover{
+    background-color: #E5960C;
+    color: #fff;
+  }
+  &:focus{
+    color: #fff;
+  }
+  &:visited{
+    color: #fff;
+  }
+}
+/*商标分类*/
+@media (min-width: 992px) {
+  #myModal {
+    .modal-lg {
+      width: 1000px;
+    }
+  }
+}
+.cate_bar{
+  position: relative;
+  .first-container{
+    height: 537px;
+    overflow-y: auto;
+    background-color: #fff;
+    .list-group-item{
+      .active{
+        background-color: #428bca;
+        color: #fff;
+        &:hover{
+          background-color: #428bca;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .second-container{
+    height: 530px;
+    overflow-y: auto;
+    dd{
+      .active{
+        background-color: #428bca;
+        color: #fff;
+        &:hover{
+          background-color: #428bca;
+          color: #fff;
+        }
+      }
+      height: 60px;
+      overflow-x: auto;
+      .left{
+        width: 40px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        position: absolute;
+        left: 15px;
+        top: 15px;
+      }
+      .right{
+        padding-left: 60px;
+        display: block;
+      }
+    }
+  }
+  .third-container{
+    overflow-y: auto;
+    height: 380px;
+    padding-left: 3px;
+    .checkbox{
+      height: 34px;
+      border-bottom: 1px dashed #eee;
+      label{
+        padding-left: 0;
+        color: #317bbb;
+        font-size: 14px;
+        width: 100%;
+      }
+    }
+    .checkbox input[type=checkbox]{
+      margin-left: 0;
+      right: 18px;
+    }
+  }
+  #allul{
+    li{
+      background-color: #42afe3;
+      color: #fff;
+      padding: 0 5px;
+      margin: 5px 0;
+      position: relative;
+      span{
+        position: absolute;
+        top: 5px;
+        right: 7px;
+        &:hover{
+          color: #fff;
+        }
+      }
+    }
+  }
+  .subtype-bar{
+    padding-left: 0px;
+    .list-group-item{
+      margin-top: 0px;
+    }
+  }
+  .choice-bar{
+    background-color: #f6f6f6;
+    padding-bottom: 20px;
+  }
+  .choice-list{
+    height: 449px;
+    overflow-y: auto;
+  }
+    .first-container dd{height: 55px;overflow: hidden;}
+    .first-container dd:hover{background: #F5F5F5;cursor: pointer;}
+    .first-container dd .left{width: 30px;height: 30px;text-align: center;line-height: 30px;border: 1px solid #ddd;position: absolute;left: 15px;top: 15px;}
+    .first-container dd .right{padding-left: 60px;display: block;}
+    .second-container dd:hover{background: #EEEEEE;cursor: pointer;}
+    .child-type{position: absolute;top:12px;left: 80px;display: none;background: #fff;height: 565px;padding: 0px;}
+    .content{background: #fff;display: none;padding-left: 0;}
+    .subtext{height: 150px;margin-top: 15px;}
+}
+//附加信息
+.attach_form{
+  p{
+    padding: 10px 0;
+  }
+  .upimg{
+    border: 1px solid #ccc;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    padding: 4px;
+  }
+  .file{
+    text-align: left;
+    float: none;
+  }
+  #files{
+    width: 150px;
+    height: 150px;
+    padding: 24px;
+    border:1px solid #ccc;
+  }
+  .isPrority{
+    li{
+      margin-bottom: 10px;
+      input{
+        border-bottom: 1px solid #ccc;
+        padding: 5px 8px;
+        width: 100%;
+      }
+      span{
+        display: block;
+      }
+    }
+  }
+}
+.top_hight{
+  margin-top: 7px;
+}
+.mark_cate_list{
+  .first_type_btn{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border: 1px solid #428bca;
+    color: #428bca;
+    margin: 5px;
+    cursor: pointer;
+  }
+  .active{
+    background-color: #428bca;
+    color: #fff;
+  }
+}
+
+#Cotainer{
+  .form-group{
+    .blue_color{
+      color: #428bca;
+      text-align: center;
+    }
+    margin-top: 15px;
+    .default{
+      background-color: #fff;
+      border: none;
+      outline: none;
+      width: 100%;
+      border-bottom: 1px solid #ddd;
+    }
+    .glyphicon{
+      font-size: 24px;
+      color: red;
+    }
+    .success_btn{
+      color: #3b9ecd;
+    }
+  }
+}
+
+
+
+

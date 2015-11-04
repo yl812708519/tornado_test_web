@@ -1,0 +1,56 @@
+{% if not globals().get('users') %}
+<div class="null-message"><h2>{{nothing_tips}}</h2></div>
+{% else %}
+<table class="data users-table" cellspacing="0">
+    <tr>
+        <th class="list-title">{{table_header}}</th>
+        <th></th>
+        <th class="num">关注</th>
+        <th class="num">粉丝</th>
+        <th></th>
+    </tr>
+    {% for user in users %}
+    <tr class="user-{{ user.id }}">
+        <td class="user">
+            <h4 class="vcard">
+                <a href="/u/{% module userdomain(user=user) %}" class="url" rel="contact" title="{{ user.name }}">
+                    <img alt="{{ user.name }}" class="photo fn" src="{% module useravatar(user=user) %}" />{{ user.name }}
+                </a>
+                <span class="user-meta">{% module date(user.created_at, 'offset') %}加入</span>
+            </h4>
+        </td>
+        <td>
+        </td>
+        <td class="num follows"><a href="/u/{% module userdomain(user=user) %}/following">{{user.following_count}}</a></td>
+        <td class="num followers"><a href="/u/{% module userdomain(user=user) %}/followers">{{user.followers_count}}</a>
+        </td>
+        <td class="follow">
+            <div class="follow-prompt">
+            {% if user.get('following_status') == 'following' %}
+                <form action="/u/{% module userdomain(user=user) %}/followers/{% module userdomain(user=current_user) %}" method="post">
+                    <div style="margin:0;padding:0;display:inline">
+                        <input name="_method" type="hidden" value="delete" />
+                    </div>
+                    <a href="#" class="action following" title="你确认要取消关注？"><span>关注</span></a>
+                </form>
+            {% elif user.get('following_status') == 'follow' %}
+                <form action="/u/{% module userdomain(user=user) %}/followers/{% module userdomain(user=current_user) %}" method="post">
+                    <div style="margin:0;padding:0;display:inline">
+                        <input name="_method" type="hidden" value="put" />
+                    </div>
+                    <a href="#" class="action follow" title="你确认要成为他的粉丝吗？"><span>关注</span></a>
+                </form>
+             {% end %}
+            </div>
+        </td>
+    </tr>
+	{% end %}
+</table>
+    {% if paginate_count>paginate_per_page_size %}
+<div class="page">
+    <div class="pagination">
+    	  {% module paginate(page=paginate_page, total_count=paginate_count, url=paginate_url, per_page_size=paginate_per_page_size, show_page_nav=False) %}
+    </div>
+</div>
+    {% end %}
+{% end %}

@@ -1,0 +1,15 @@
+
+<div class="profile-actions">
+  <ul class="profile-tabs">
+     <li class="{%if active == 'followers' %}active{% end %}">
+     {% if followers_count == 0 %}<span class="empty">0 <span class="meta">粉丝</span>
+     {% else %}<a href="/u/{% module userdomain(user=user) %}/followers">{{followers_count}} <span class="meta">粉丝</span></a>
+     {% end %}
+     </li>
+     <li class="{% if active == 'following' %}active{% end %}">
+     {% if following_count == 0 %}<span class="empty">0 <span class="meta">关注</span>
+     {% else %}<a href="/u/{% module userdomain(user=user) %}/following">{{following_count}} <span class="meta">关注</span></a>
+     {% end %}
+     </li>
+  </ul>
+</div>

@@ -1,0 +1,46 @@
+{% if radio_type=='ori_inline' %}
+    {% for option in options %}
+        <label class="radio-inline {{ext_class}}">
+        {% if str(option.get(value_field)) in value %}
+            <input type="radio" name="{{name}}" value="{{option.get(value_field)}}" checked> {{option.get(name_field)}}
+        {% else %}
+            <input type="radio" name="{{name}}" value="{{option.get(value_field)}}"> {{option.get(name_field)}}
+        {% end %}
+        </label>
+    {% end %}
+{% elif radio_type == 'ori'%}
+    {% for option in options %}
+        <div class="radio {{ext_class}}">
+            <label>
+            {% if str(option.get(value_field)) in value %}
+                <input type="radio" name="{{name}}" value="{{option.get(value_field)}}" checked> {{option.get(name_field)}}
+            {% else %}
+                <input type="radio" name="{{name}}" value="{{option.get(value_field)}}"> {{option.get(name_field)}}
+            {% end %}
+            </label>
+        </div>
+    {% end %}
+{% elif radio_type == 'cus_inline'%}
+    <input type="hidden" value="{{value[0]}}" name="{{name}}"/>
+    <ul class="cus_radio {{ext_class}}">
+        {% for option in options %}
+            {% if str(option.get(value_field)) in value %}
+                <li class="{{checked_class}}" data-value="{{option.get(value_field)}}" {%for data in data_fields%} data-{{data}}="{{option.get(data, '')}}" {%end%}>{{option.get(name_field)}}</li>
+            {% else %}
+                <li class="{{not_checked_class}}" data-value="{{option.get(value_field)}}" {%for data in data_fields%} data-{{data}}="{{option.get(data, '')}}" {%end%} >{{option.get(name_field)}}</li>
+            {% end %}
+        {% end %}
+    </ul>
+    <script>
+        $('.cus_radio li').click(function (){
+            $(this).addClass('{{checked_class}}')
+                    .removeClass('{{not_checked_class}}')
+                    .siblings('li')
+                    .removeClass('{{checked_class}}')
+                    .addClass('{{not_checked_class}}');
+            $(this).parent().parent().find("input[name='{{name}}']").val($(this).attr("data-value"))
+            })
+    </script>
+{% elif radio_type == 'cus'%}
+
+{% end %}

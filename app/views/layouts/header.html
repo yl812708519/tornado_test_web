@@ -1,0 +1,127 @@
+<div id="header" style="height:112px;background-color: #fff;border-bottom: 1px solid #eee;">
+    <div class="navbar header_navbar_sty" role="navigation" id="top" style="z-index: 2;">
+        <div class="container" style="padding-top: 26px;">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle fenleiyes" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar bar_col"></span>
+                    <span class="icon-bar bar_col"></span>
+                    <span class="icon-bar bar_col"></span>
+                </button>
+                <a href="/">
+                    <img class="navbar-brand big_logo" src="{{static_url('img/small_logo.png')}}"/>
+                    <img class="navbar-brand small_logo" style="display:none" src="{{static_url('img/small_logo.png')}}"/>
+                </a>
+            </div>
+            <!--/.navbar-header 275 71 130 70-->
+            <div class="collapse navbar-collapse header_title " id="list">
+                <ul class="nav navbar-nav list_ul_sty" id="header_ul">
+                    <li class="li-item"><a href="/">首页</a></li>
+                    <li  class="dropdown li-item">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">商标</a>
+                        <ul class="dropdown-menu new-dropdown-toggle" role="menu">
+                            <li><a href="/mark/reg">商标注册</a></li>
+                            <li><a href="/mark/cha">商标变更</a></li>
+                            <li><a href="/mark/transfer">商标转让</a></li>
+                        </ul>
+                    </li>
+                    <li  class="dropdown li-item">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">版权</a>
+                        <ul class="dropdown-menu new-dropdown-toggle" role="menu">
+                            <li><a href="/copyright/opus">文字／美术版权</a></li>
+                            <li><a href="/copyright/soft">软件版权</a></li>
+                        </ul>
+                    </li>
+                    {% if current_user is None%}
+                    <li class="li-item">
+                        <a href="/session/new">登录</a>
+                    </li>
+                    <li class="li-item">
+                        <a href="/signup">注册</a>
+                    </li>
+                    {%else%}
+                    <li class="dropdown li-item">
+                        {% module xsrf_form_html() %}
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                            {{current_user.name}}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" style="min-width:100px">
+                            <li><a href="/user/profile">个人设置</a></li>
+                            <li><a href="/user/applicants">我的主体</a></li>
+                            <!--.user 图标-->
+                            <li><a href="/user/orders">用户中心</a></li>
+                            <li>
+                                <a onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;var m = document.createElement('input'); m.setAttribute('type', 'hidden'); m.setAttribute('name', '_method'); m.setAttribute('value', 'delete'); f.appendChild(m); var x = document.createElement('input'); x.setAttribute('type', 'hidden'); x.setAttribute('name', '_xsrf'); x.setAttribute('value', getCookie('_xsrf')); f.appendChild(x); f.submit();return false;"
+                                   href="/session">退出</a></li>
+                        </ul>
+                    </li>
+                    {% end %}
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    <!--/.container-->
+    </div>
+</div>
+<script>
+    if (window.navigator.userAgent.indexOf('IE 8') == -1) {
+        var aa = 1;
+        var a = null;
+        if ($('body').width() >= 768) {
+            $(document).on("scroll", function () {
+                if ($(this).scrollTop() > 38) {
+                    if (aa == 0) {
+                        return;
+                    }
+                    aa = 0;
+                    $("#header_ul").css('padding-top', '5px');
+                    if ($('.small_logo').css('display') == 'none') {
+                        $("#top").addClass("scrolled");
+                        clearInterval(a);
+                        $(".big_logo").stop().animate({opacity: '0'}, 100);
+                        a = setInterval(function () {
+                            if ($(".big_logo").css('opacity') == 0) {
+                                $('.big_logo').css('display', 'none');
+                                $('.small_logo').css('display', 'block');
+                                $('.navbar').addClass('navbar-fixed-top');
+                                $('#top .container').css('padding-top','8px');
+                                clearInterval(a);
+                            }
+                        }, 30);
+                    }
+                } else {
+                    if ($(this).scrollTop() == 0) {
+                        aa = 1;
+                        $("#top").removeClass("scrolled");
+                        $("#header_ul").stop().animate({'padding-top': '0px'}, 100);
+                        $(".big_logo").stop().animate({opacity: '1'}, 100);
+                        $('.small_logo').css('display', 'none');
+                        $('.navbar').removeClass('navbar-fixed-top');
+                        $('#top .container').css('padding-top','26px');
+                        $('.big_logo').css('display', 'block');
+                    }
+                }
+            });
+        } else {
+            $('.navbar-header').css('height', '60px');
+            $('#header').css('height','60px');
+            $('.small_logo').css('display', 'block');
+            $('.navbar').addClass('navbar-fixed-top');
+            $('#top .container').css('padding-top','8px');
+            $('.big_logo').css('display', 'none');
+            $("#header_ul").css('padding-top', '0px');
+            $('.navbar-collapse').css('border-top','none');
+            $('.navbar-toggle').removeClass('fenleiyes');
+            $('#slider2').css()
+        }
+    }else{
+        $('#header').css('height', '138px');
+        $('.header_navbar_sty').css('z-index', 'inherit');
+    };
+    if ($('body').width() >= 768 && $('body').width() <= 992){
+        $('.big_logo').attr('src','{{static_url('img/bg_logo.png')}}')
+    }else{
+        $('.big_logo').attr('src','{{static_url('img/logo.png')}}')
+    }
+</script>

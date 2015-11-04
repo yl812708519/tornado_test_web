@@ -1,0 +1,227 @@
+<div class=" hidden-xs hidden-sm">
+    <div style="height:100px;margin: 40px 0 20px 0;">
+        <div class="schedule" id="schedule1">
+            <div style="position:relative;float:left">
+                <div class="sequence-one">1</div>
+                <div class="not_activated" style="position:absolute;top:37px;left:-13px;width:100px;height:50px;">订单创建</div>
+            </div>
+            <div class="outline" style="position:relative"></div>
+            <div class="sequence1" style="position:relative;float:left">
+                <div class="sequence">2</div>
+                <div class="not_activated" style="position:absolute;top:37px;left: -11px;width:112px;height:50px;">填写信息</div>
+            </div>
+            <div class="outline" style="position:relative"></div>
+            <div class="sequence1" style="position:relative;float:left">
+                <div class="sequence">3</div>
+                <div class="not_activated" style="position:absolute;top:37px;left: -11px;width:112px;height:50px;">顾问审核</div>
+            </div>
+            <div class="outline" style="position:relative"></div>
+            <div class="sequence1" style="position:relative;float:left">
+                <div class="sequence">4</div>
+                <div class="not_activated" style="position:absolute;top:37px;left: -20px;width:112px;height:50px;">确认并付款</div>
+            </div>
+            <div class="outline" style="position:relative"></div>
+            <div class="sequence1" style="position:relative;float:left">
+                <div class="sequence">5</div>
+                <div class="not_activated" style="position:absolute;top:37px;left: -13px;width:112px;height:50px;">业务申报</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert alert-info" id="tips_alert" style="margin-bottom: 40px;">
+    尊敬的客户，您已成功创建订单，请填写下列信息，如有疑问，请随时与顾问沟通
+</div>
+{% if order.is_paid and detail.is_confirmed %}
+<ul class="tab_block clearfix">
+    <li class="btn_tab contract">邮寄资料</li>
+    <li class="btn_tab_active order">详情</li>
+</ul>
+
+<div class="contract_content order_contract">
+    <div class="media">
+            <div class="order_contract_title">
+            {% for contract in contracts %}
+                {% if contract.is_download_able%}
+                    <div class="col-md-6" style="text-align: center">
+                        <div class="order_contract_img"><img src="{{static_url('img/pdflogo.png')}}" style="padding: 30px 15px"/></div>
+                        <div class="order_contract_icont">{{contract.contract_name}}</div>
+                        <a href="/contract/detail?order={{order_id}}&con={{contract.contract}}" target="_blank" class="btn order_contract_btn">预览</a>
+                        <a href="/contract/download?order={{order_id}}&con={{contract.contract}}" target="_blank" class="btn order_contract_btn">下载</a>
+                    </div>
+                    <div class="col-md-6" style="text-align: center">
+                        <div class="order_contract_img"><img src="{{static_url('img/'+contract.contract+'.jpg')}}" style="padding: 30px 15px"/></div>
+                        <div class="order_contract_icont">(参考样例)</div>
+                        <a class="btn order_contract_btn order_contract_modal" data-name="{{contract.contract}}"  data-toggle="modal" data-target="#previewImg">预览</a>
+                    </div>
+                    <div class="col-md-12 order_contract_ask" style=""><span style="color:red;">*</span>要求：1.{{contract.part_num}};2.{{contract.seal_demand}}；3,{{contract.remark}}；</div>
+                {% end %}
+            {% end %}
+        </div>
+     </div>
+    <div class="media">
+        <div class="order_contract_title">
+            <div class="col-md-12 order_contract_new" style="margin-top: 20px;">相关邮寄材料信息</div>
+            <div style="margin-top:30px;margin-left: -15px">
+                <div class="panel-body col-md-12 col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" style="color: #848484">
+                            <thead>
+                            <tr class="tr_bg">
+                                <th class="table_list" style="width: 15%">邮寄项目</th>
+                                <th class="table_list" style="width: 30%">盖章要求</th>
+                                <th class="table_list" style="width: 15%">份数</th>
+                                <th class="table_list" style="width: 40%">备注</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for demand in contracts%}
+                            <tr class="th_sty">
+                                <td class="table_list">
+                                    {{demand.contract_name}}
+                                </td>
+                                <td class="table_list">
+                                    {{demand.seal_demand}}
+                                </td>
+                                <td class="table_list">
+                                    {{demand.part_num}}
+                                </td>
+                                <td class="table_list">
+                                    {{demand.remark}}
+                                </td>
+                            </tr>
+                            {% end %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="media">
+        <div class="col-md-12 order_contract_back">文件寄回</div>
+            <div class="col-md-12">
+                <div class="order_contract_file">电话：010-51230101</div>
+                <div class="order_contract_file">收件人：采集部</div>
+                <div class="order_contract_file">公司：易清互动（北京）信息技术有限公司</div>
+                <div class="order_contract_file">地址：北京市朝阳区北三环东路28号易亨大厦1006室</div>
+            </div>
+    </div>
+    <div class="modal fade" id="previewImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4>预览合同</h4>
+              </div>
+            <div class="modal-body" id="contract_list" style="text-align: center;"></div>
+        </div>
+      </div>
+    </div>
+</div>
+{% end %}
+<script>
+    function changeTips(index,content){
+        for(var j = 0;j<index;j++){
+            $('#schedule1 .sequence1:eq('+j+')').find('div:first').addClass('sequence-one').removeClass('sequence').parent().prev().css('background-color','#E33E23');
+        }
+        $('#tips_alert').text(content)
+    }
+    var alert_list = [
+        '尊敬的客户，您已成功创建订单，请填写下列信息，如有疑问，请随时与顾问沟通',
+        '尊敬的客户，请您仔细填写下列信息，如有疑问，请随时与顾问沟通，也可以请顾问代填此信息，代填时请您保持与顾问沟通',
+        '尊敬的客户，您的订单已经提交顾问审核，我们会以短信形式通知您审核结果，请您耐心等待。',
+        '尊敬的客户，您的订单已经通过审核，确认并付款后，可进入受理、申报流程。',
+        '恭喜！合同/材料已经生成，请打印盖章并邮寄给我们！请您随时留意用户中心该订单的状态更新，了解订单进度，我们也会以短信形式通知您。'
+    ];
+    {% if order.is_paid and detail.is_confirmed %}
+       $('.tab_block .order').click(function (){
+           $('.contract_content').hide();
+           $('#orderForm').show()
+           $('.order_footer').show()
+           $(this).addClass('btn_tab').removeClass('btn_tab_active');
+           $('.tab_block .contract').addClass('btn_tab_active').removeClass('btn_tab');
+       });
+        $('.tab_block .contract').click(function (){
+             $('.contract_content').show();
+             $('#orderForm').hide()
+             $('.order_footer').hide();
+            $('.tab_block .order').addClass('btn_tab_active').removeClass('btn_tab');
+            $(this).addClass('btn_tab').removeClass('btn_tab_active');
+        });
+        $('.order_contract_modal').click(function (){
+            var dataObj = {
+// 注册
+            {% if detail.biz in ('mark_reg', 'collective_mark_reg', 'prove_mark_reg') %}
+                "business":[
+                        "{{static_url('img/business.jpg')}}",
+                        "{{static_url('img/business2.jpg')}}",
+                        "{{static_url('img/business3.jpg')}}",
+                        "{{static_url('img/business4.jpg')}}",
+                        "{{static_url('img/business5.jpg')}}"
+                ],
+            {%else%}
+//                服务
+                "business":[
+                        "{{static_url('img/business0.jpg')}}",
+                        "{{static_url('img/business6.jpg')}}",
+                        "{{static_url('img/business7.jpg')}}",
+                        "{{static_url('img/business8.jpg')}}",
+                        "{{static_url('img/business9.jpg')}}"
+                ],
+            {% end %}
+                "mark_delegate":[
+                        "{{static_url('img/mark_delegate.jpg')}}"
+                ],
+                "mark_delegate_acceptor":[
+                        "{{static_url('img/mark_delegate_acceptor.jpg')}}"
+                ],
+                "mark_reg":[
+                        "{{static_url('img/mark_reg.jpg')}}",
+                        "{{static_url('img/mark_reg2.jpg')}}"
+                ],
+                "correct_mark_reg_items":[
+                        "{{static_url('img/correct_mark_reg_items.jpg')}}"
+                ],
+                "reissue_reg_credential":[
+                        "{{static_url('img/reissue_reg_credential.jpg')}}"
+                ],
+                "provide_mark_reg_proof":[
+                        "{{static_url('img/provide_mark_reg_proof.jpg')}}",
+                        "{{static_url('img/provide_mark_reg_proof2.jpg')}}"
+                ],
+                "mark_transfer":[
+                        "{{static_url('img/mark_transfer.jpg')}}",
+                        "{{static_url('img/mark_transfer2.jpg')}}"
+                ],
+                "reissue_correct_transfer_provide":[
+                        "{{static_url('img/reissue_correct_transfer_provide.jpg')}}",
+                        "{{static_url('img/reissue_correct_transfer_provide2.jpg')}}"
+                ],
+                "reg_col_pro_applicant":[
+                        "{{static_url('img/reg_col_pro_applicant.jpg')}}"
+                ],
+                "age_rec_applicant":[
+                         "{{static_url('img/age_rec_applicant.jpg')}}"
+                ],
+                "sub_service_applicant":[
+                        "{{static_url('img/sub_service_applicant.jpg')}}",
+                        "{{static_url('img/sub_service_applicant2.jpg')}}",
+                        "{{static_url('img/sub_service_applicant3.jpg')}}",
+                        "{{static_url('img/sub_service_applicant4.jpg')}}"
+                ]
+
+            };
+
+            var contract_name = $(this).data('name');
+            var arr = dataObj[contract_name];
+            var html = '';
+            for(var i = 0;i<arr.length;i++){
+                html += '<img src="'+arr[i]+'" alt=""/>'
+            };
+            $('#contract_list').html(html);
+
+
+        })
+    {% end %}
+</script>

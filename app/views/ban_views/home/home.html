@@ -1,0 +1,34 @@
+{% extends "../layouts/application.html" %}
+<!--{% block left %}-->
+<!--{% end %}-->
+{% block body %}
+{% raw xsrf_form_html()%}
+<a href="/mark/reg">商标服务页面</a>
+<a href="/invoices">发票管理</a>
+<a href="/user/applicants">主体管理</a>
+<a href="/session/new">登录</a>
+<a href="/session" id="exit_id">退出</a>
+{% end %}
+{% block javascript %}
+<script>
+    $('#exit_id').click(function(){
+        var f = document.createElement('form');
+        f.style.display = 'none';
+        this.parentNode.appendChild(f);
+        f.method = 'POST';
+        f.action = this.href;
+        var m = document.createElement('input');
+        m.setAttribute('type', 'hidden');
+        m.setAttribute('name', '_method');
+        m.setAttribute('value', 'delete');
+        f.appendChild(m);
+        var x = document.createElement('input');
+        x.setAttribute('type', 'hidden');
+        x.setAttribute('name', '_xsrf');
+        x.setAttribute('value',$('input[name=_xsrf]').val());
+        f.appendChild(x);
+        f.submit();
+        return false;
+    })
+</script>
+{%end%}

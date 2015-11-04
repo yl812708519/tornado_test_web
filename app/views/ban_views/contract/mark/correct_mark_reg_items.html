@@ -1,0 +1,96 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" >
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        @font-face {
+                font-family: 'yahei';
+                src: url('{{font}}');
+            }
+        {% if render_type == 'view'%}
+        html{text-align: left; width: 1000px; padding-left: 20%}
+        .footer_table{margin-left: 20%}
+        .footer_table_td{text-align: right;width:200px}
+        {%else%}
+        html,body{line-height:16pt;font-size: 12pt;margin: 0;padding-left: 30px;padding-top: 30px}
+        .footer_table_td{text-align: right;}
+        {% end %}
+        .title_span{text-align: center; font-size: 18pt;}
+        .right_align_td {text-align: right; width: 250px}
+        table{padding: 0;table-layout:fixed;word-break:normal}
+        td{text-align: left; line-height: 45px}
+        table thead tr th,
+        table tbody tr th,
+        table tfoot tr th,
+        table thead tr td,
+        table tbody tr td,
+        table tfoot tr td {
+            vertical-align: top;
+            word-break:normal;
+            word-wrap:break-word;
+        }
+    </style>
+
+</head>
+<body>
+<div style="text-align: center"><span class="title_span">更&nbsp;&nbsp;&nbsp;正&nbsp;&nbsp;&nbsp;商&nbsp;&nbsp;&nbsp;标&nbsp;&nbsp;&nbsp;申&nbsp;&nbsp;&nbsp;请&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;注&nbsp;&nbsp;&nbsp;册&nbsp;&nbsp;&nbsp;事&nbsp;&nbsp;&nbsp;项&nbsp;&nbsp;&nbsp;申&nbsp;&nbsp;&nbsp;请&nbsp;&nbsp;&nbsp;书&nbsp;&nbsp;&nbsp;</span></div>
+<br/><br/>
+<div style="text-align: center">
+<table>
+    <tr>
+        <td class="right_align_td">申请人名称：</td>
+        <td colspan="2">{{apply_app.person_name}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">申请人地址：</td>
+        <td  colspan="2">{{apply_app.person_address}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">邮政编码：</td>
+        <td>{{delegate['post_num']}}</td>
+    </tr>
+    <tr >
+        <td  class="right_align_td">联系人：</td>
+        <td colspan="2">{{delegate['link_man']}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">电话：</td>
+        <td>{{delegate['phone']}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">代理机构名称：</td>
+        <td colspan="2">北京易正达知识产权代理有限公司</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">商标申请号/注册号：</td>
+        <td>{{detail.mark_reg_num}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">类别：</td>
+        <td colspan="2">{{detail.category_codes}}</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">需重新制发证书文件：</td>
+        <td>{% if detail.is_reset%}<span style="font-size: 14px">√</span>{% else %}□{% end%}是</td>
+        <td>{% if not detail.is_reset%}<span style="font-size: 14px">√</span>{% else %}□{% end%}否</td>
+    </tr>
+    <tr>
+        <td class="right_align_td">更正事项：</td>
+        <td>{{detail.correct_items}}</td>
+    </tr>
+</table>
+</div>
+<br><br><br><br>
+
+<table class="footer_table">
+    <tr>
+        <td class="footer_table_td">申请人章戳（签字）：</td><td class="footer_table_td">代理机构章戳：</td><td style="height: auto"></td>
+    </tr>
+    <tr><td></td><td class="footer_table_td">代理人签字：</td></tr>
+</table>
+
+
+</body>
+
+</html>

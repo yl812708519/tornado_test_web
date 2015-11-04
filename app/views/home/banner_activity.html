@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    {% if handler.is_ie%}
+    <link href="{{handler.static_url_on_ie('css/bootstrap.min.css')}}" rel="stylesheet">
+    {% else%}
+    <link href="{{ static_url('css/bootstrap.min.css') }}" rel="stylesheet">
+    {%end%}
+    {% if handler.is_ie%}
+    <link href="{{handler.static_url_on_ie('css/eking.min.css')}}" rel="stylesheet">
+    {% else%}
+    <link href="{{ static_url('css/eking.min.css') }}" rel="stylesheet">
+    {%end%}
+
+    <!--[if lt IE 9]>
+    <script src="{{ static_url('js/html5shiv.js') }}"></script>
+    <script src="{{ static_url('js/respond.min.js') }}"></script>
+    <![endif]-->
+</head>
+<body>
+{% if globals().get('run_mod') == 'production' %}
+<div style="display:none">
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0f776f607836e4acc3b1d91330fd26fb' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+{% end %}
+<div id="banner_activity_block">
+    <div class="banner_act_head">
+        <img src="{{static_url('img/banal_act_build.png')}}" style="width:100%;"/>
+        <img class="banner_act_bingo" src="{{static_url('img/banal_act_bingo.png')}}"/>
+        <img class="banner_act_cont-1" src="{{static_url('img/banal_act_cont.png')}}"/>
+        <a href="/mark/reg"> <img src="{{static_url('img/banal_act_btn.png')}}"/></a>
+    </div>
+    <div class="banner_wrap">
+        <div class="container banner_act_content">
+            <div class="activity-cont-1">
+                <div class="row act-topic">
+                    <div class="col-md-12 ">
+                        <span class="topic-1">商标注册的重要性</span><br/>
+                        <span class="topic-2">商标的注册与否关系着我们的切身利益</span>
+                    </div>
+                </div>
+                <div class="row act-cont">
+                    <div class="col-md-6">
+                        <ul class="content-1">
+                            <li class="item-1">商标未注册的危害</li>
+                            <li class="item-2">1、使用人不享有商标专用权——你使用的商标，别人也可以用，得不到法律的保护，导致代表商品品质、信誉和服务的作用受到损害。</li>
+                            <li class="item-2">2、存在商标被抢注的风险——根据《商标法》规定，采用申请在先原则，一旦他人抢注商标，该商标最先使用人反而不能再使用该商标。</li>
+                            <li class="item-2">3、侵犯他人权利——未注册商标很可能与已注册的商标发生相同或者近似，从而发生侵权行为。</li>
+                            <li class="item-2" style="margin-bottom:0;">4、不能成为无形资产——未注册的商标不能享有专用权，不受法律保护，不能成为工业产权，因此也不能成为无形资产。</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="content-1">
+                            <li class="item-1">商标注册给企业带来的好处</li>
+                            <li class="item-3">1、抢占市场，拓展业务范围，形成品牌形象。</li>
+                            <li class="item-3">2、保护企业商标不受侵犯，保护了品牌的价值不受盗取。</li>
+                            <li class="item-3">3、是著名商标，驰名商标的根本。</li>
+                            <li class="item-3">4、是办理质量检查，卫生检查所具备的条件。</li>
+                            <li class="item-3">5、作为企业的无形资产，可以转让（投资），可以抵押，许可使用，创造收益，还可以继承。</li>
+                            <li class="item-3" style="margin-bottom:0;">6、是入驻大型超市和天猫、京东正规网店的必要条件。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-cont-2">
+                <div class="row act-topic">
+                    <div class="col-md-12 ">
+                        <span class="topic-1">冰狗网与传统代理</span><br/>
+                        <span class="topic-2">我们做的其实比别人要更用心一些</span></br>
+                        <img style="display: block;margin: 30px auto 0 auto;" src="{{static_url('img/banal_act_tab.png')}}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-cont-3">
+                <div class="row act-topic">
+                    <div class="col-md-12 ">
+                        <span class="topic-1">贯标诊断</span><br/>
+                        <span class="topic-2">企业利益损失，您知道问题吗？</span></br>
+                        <p style="margin-top: 38px;">你以为这就是冰狗网的全部？那你就out了！</p>
+
+                        <p> 冰狗网现已全面推出贯标诊断业务，诊断结果立等可取，想给企业做个全面的体检吗？快点进来吧！</p>
+                        <a href="/diagnosis/question">立即诊断</a>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-cont-4">
+                <div class="row act-topic">
+                    <div class="col-md-12 ">
+                        <span class="topic-1">贯标</span><br/>
+                        <span class="topic-2">什么是贯标？贯标的好处是什么？</span>
+
+                        <p style="margin: 38px auto 0 auto;padding-left: 40px;padding-right: 40px;">“贯标”对于企业来说，就是贯彻《企业知识产权管理规范》国家标准。企业知识产权管理规范的国家标准由国家知识产权局制订，经由国家质量监督
+                            检验检疫总局、国家标准化管理委员会批准颁发，于2013年3月1日起实施，标准号是GB/T29490-2013.</p>
+                    </div>
+                </div>
+                <div class="banner-container-wrap">
+                    <div class="banner_act_toolbar md-hidden">贯标的好处是什么？</div>
+                    <div class="container banner_act_tab-box">
+                        <div class="row">
+                            <div class="col-md-4 banner_act_tables banner_act_tables_color-1">1、实施贯标将作为企业知识
+                                产权工作的基础条件，是企业
+                                申报科技项目的前提。
+                            </div>
+                            <div class="col-md-4 banner_act_tables banner_act_tables_color-2">2、贯标有助于提升企业领导
+                                和广大职工知识产权意识，调
+                                动职工发明创造的积极性。
+                            </div>
+                            <div class="col-md-4 banner_act_tables banner_act_tables_color-1">
+                                3、推动企业产生具备高附加值的
+                                自主知识产权的新产品、新技术。
+                                通过自己生产销售或通过技术贸易
+                                许可转让他人，将给企业带来丰厚
+                                经济收益。
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 banner_act_tables banner_act_tables_color-2">4、提升企业无形资产价值，在
+                                企业融资上市、投资并购及企业
+                                出售等资产运作上获取更大的收
+                                益。
+                            </div>
+                            <div class="col-md-4 banner_act_tables banner_act_tables_color-1">5、巩固企业市场地位，通过贯彻
+                                《企业知识产权管理规范》使企业
+                                拥有的自主知识产权的产品在销售
+                                市场的地位明显增强。
+                            </div>
+                            <div class="col-md-4 banner_act_tables banner_act_tables_color-2">6、贯标验收合格后，可向科技主
+                                管部门申请战略推进项目、专利实
+                                施计划等项目。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-foot">
+                <div class="row act-topic">
+                    <div class="col-md-12 ">
+                        <span class="topic-1">想即刻获得专业的贴心指导与帮助吗？</span>
+                        <span class="topic-1">请拨打400-673-4006</span>
+                        <span class="topic-1">或登录冰狗网联系我们吧！</span>
+                        <a href="/session/new">立即登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

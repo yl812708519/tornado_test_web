@@ -1,0 +1,124 @@
+{% extends "../layouts/application2.html" %}
+{% block body %}
+<div class="container clear_right">
+  <div class="home_txt">
+    <div class="row">
+      <div class="col-lg-12">
+        <img src="{{ static_url('img/about_banner.jpg') }}" alt="" style="width: 100%;"/>
+        <div class="home_txt_l" style="padding-bottom: 35px;">
+        <p><a href="http://www.bingoip.com">冰狗网</a>是一家为中小微企业提供知识产权管理运用的综合平台，平台运营采用O2O模式。平台的主体功能包括知识产权获取、知识产权运用和知识产权管理三个部分，依次帮助企业解决知识产权“从无到有”、“物尽其用”和“管理到位”等问题。平台为满足企业不同的需求开设了专门的定制服务，包括定制的专利数据库服务、定制的知识产权法律服务以及定制的知识产权风险分析服务，由冰狗网的知识产权顾问与用户深度对接，满足用户的需求。</p>
+        </div>
+          <h2 style="padding-top: 10px;text-align: left;">团队介绍</h2>
+        <div class="home_txt_l">
+        <p>冰狗网总部设在北京，其部门有商标版权部、专利流程部、平台运营部和客户服务部等。除此之外，在全国范围目前拥有六家分公司（未来三年将开设至20家分支服务机构），分别位于北京、上海、深圳、重庆、济南、成都，均专注知识产权服务的领域。员工总数约达200人。</p>
+        <p>冰狗网始终将坚持以服务质量为本，以专业的服务质量流程管理，优秀专业人员为伍，竭力为用户提供专业、优质的服务。</p>
+         <p>团队人员都曾为上百家企业做过专业细致的知识产权服务，均在期刊、学术杂志上发表过专业文章。公司的员工不仅具备深厚的专业知识，更拥有丰富的实战经验，能够迅速地洞察行业规律，用职业的态度和渊博的专业知识为客户提供高质量高效率的知识产权服务。正是公司有这么专业的团队和尽职的员工，一方面保证了冰狗网能够持续提供高质量的服务，另一方面也保证了冰狗网在分公司区域实现面对面的线下服务。</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>联系我们</h3>
+            <div id="allmap">
+            </div>
+      </div>
+      <div class="col-sm-6">
+        <dl class="home_item">
+          <dt>总部</dt>
+          <dd>地址：北京市朝阳区北三环东路28号易亨大厦1006</dd>
+            <dd>电话：4006－734－006</dd>
+          <dd>传真：010-64405377</dd>
+        </dl>
+      </div>
+      <div class="col-sm-6">
+        <dl class="home_item">
+          <dt>北京分部</dt>
+          <dd>地址：北京市朝阳区北三环东路28号易亨大厦1006</dd>
+            <dd>电话：010-56035620</dd>
+          <dd>传真：010-84274670-8999</dd>
+        </dl>
+      </div>
+      <div class="col-sm-6">
+        <dl class="home_item">
+          <dt>上海分部</dt>
+          <dd>地址：上海市徐汇区宜山路700号A5栋201室</dd>
+            <dd>电话：021-60761309</dd>
+          <dd>传真：021-60761302</dd>
+        </dl>
+      </div>
+      <div class="col-sm-6">
+        <dl class="home_item">
+          <dt>深圳分部</dt>
+          <dd>地址：深圳市福田区福华路322号文蔚大厦19A</dd>
+            <dd>电话：0755-83616849</dd>
+          <dd>传真：0755-25310842</dd>
+        </dl>
+      </div>
+        <div class="col-sm-6">
+        <dl class="home_item">
+          <dt>重庆分部</dt>
+          <dd>地址：重庆市渝中区邹容路50号半岛国际商务大厦21-1</dd>
+            <dd>电话：023-63905300</dd>
+          <dd>传真：023-63905391</dd>
+        </dl>
+      </div>
+        <div class="col-sm-6">
+        <dl class="home_item">
+          <dt>济南分部</dt>
+          <dd>地址：山东省济南市市中区经四路万达广场B座2110室</dd>
+            <dd>电话：0531-58050219</dd>
+          <dd>传真：0531-82928990</dd>
+        </dl>
+      </div>
+         <div class="col-sm-6">
+        <dl class="home_item">
+          <dt>成都分部</dt>
+          <dd>地址：联系地址：成都市高新区天府大道北段1700号西区7栋1单元12层1240号</dd>
+            <dd>邮箱：dongjie@yestar.mobi</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+{% end %}
+{% block javascript %}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=xgFqQwSOGoENAaZsvpEa3CV1"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+<script>
+// 百度地图API功能
+    var map = new BMap.Map('allmap');
+    var poi = new BMap.Point(116.422577,39.974987);
+    map.centerAndZoom(poi, 16);
+    map.enableScrollWheelZoom();
+    var content = '<div style="margin:0;line-height:20px;padding:2px;">'+
+                    '地址：北京朝阳区北三环东路28号易亨大厦1006室<br/>电话：(010)84274670,(010)57349902<br/>简介：易亨大厦位于北京市朝阳区和平西桥地铁站附近，为易正达办公总部。' +
+                  '</div>';
+    //创建检索信息窗口对象
+    var searchInfoWindow = null;
+	searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
+			title  : "百度大厦",      //标题
+			width  : 290,             //宽度
+			height : 105,              //高度
+			panel  : "panel",         //检索结果面板
+			enableAutoPan : true,     //自动平移
+			searchTypes   :[
+				BMAPLIB_TAB_SEARCH,   //周边检索
+				BMAPLIB_TAB_TO_HERE,  //到这里去
+				BMAPLIB_TAB_FROM_HERE //从这里出发
+			]
+		});
+    var searchInfoWindow3 = new BMapLib.SearchInfoWindow(map,content, {
+		title: "易正达办公总部", //标题
+		width: 290, //宽度
+		height: 40, //高度
+		panel : "panel", //检索结果面板
+		enableAutoPan : true, //自动平移
+		searchTypes :[
+		]
+	});
+	function openInfoWindow3() {
+		searchInfoWindow3.open(new BMap.Point(116.422577,39.974987));
+	}
+    openInfoWindow3();
+</script>
+{% end %}

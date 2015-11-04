@@ -1,0 +1,123 @@
+{% extends "layouts/application.html" %}
+{% block body %}
+<div class="ban-logo" id="logo">
+   <a href="/" ><img src="{{static_url('img/bg_logo.png')}}"/></a>
+</div>
+<div id="validation_code_panel" class="wrap">
+        <form action="/password/reset" id="check_validation_code" class="sign-wrap form-horizontal" method="post">
+            <h3 class="panel-title">填写验证码</h3>
+            {% raw xsrf_form_html() %}
+            <input type="hidden" name="_method" value="put">
+            <input type="hidden" name="mobile" id="mobile" value="{{mobile}}">
+            <input type="hidden" name="country_code" id="country_code" value="{{country_code}}">
+            <input type="hidden" name="verification_token" value="{{verification_token}}">
+            <input type="hidden" value="{{next}}" name="next"/>
+            <fieldset>
+                <div class="form-group">
+                    <label class="col-xs-12">
+                        <label style="color:#008000">验证码短信</label> 已发送到
+                        <label id="mobile_for_code">{{mobile}}</label>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">验证码</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="请填写验证码"
+                           name="validation_code" id="validation_code"
+                           value="" maxlength="6" autofocus>
+                    </div>
+                </div>
+                <input type="button" id="next_btn" class="btn btn-blue-sm pull-right disabled" value="下一步" />
+                <input type="button" id="wait_btn" class="btn btn-pink disabled" value="接收短信大约需要60秒"/>
+                <input type="button" id="prev_btn" class="btn btn-blue-sm" style="display: none;" value="上一步" />
+                <input type="button" id="get_code_btn" class="btn btn-pink pull-right" style="display: none;" value="重新获取验证码"/>
+            </fieldset>
+        </form>
+</div>
+{% end %}
+{% block javascript %}
+<script type="text/javascript" src="{{static_url('js/jquery.form.min.js')}}"></script>
+<script type="text/javascript" src="{{static_url('js/bootbox.js')}}"></script>
+<script type="text/javascript">
+    var wait = 60;
+    function time() {
+        if (wait == 0) {
+            $('#wait_btn').hide();
+            $('#next_btn').hide();
+            $('#prev_btn').show();
+            $('#get_code_btn').show();
+            wait = 60;
+        } else {
+            $('#prev_btn').hide();
+            $('#get_code_btn').hide();
+            $('#wait_btn').show().val("接收短信大约需要" + wait + "秒");
+            $('#next_btn').show();
+            wait--;
+            setTimeout(function() {time()}, 1000)
+        }
+    }
+    $('#validation_code').on('input propertychange paste', function() {
+       if ($(this).val().length == 6) {
+           $('#next_btn').removeClass('disabled');
+       } else {
+           $('#next_btn').addClass('disabled');
+       }
+    });
+    $('#next_btn').click(function() {
+        $('#check_validation_code').ajaxSubmit({
+            dataType: 'json',
+            url:'/password/check_code.json',
+            beforeSend: function() {
+                $('#next_btn').addClass('disabled');
+            },
+            success: function(response) {
+                $('#next_btn').removeClass('disabled');
+                $('#check_validation_code').submit()
+            },
+            error: function(response) {
+                $('#next_btn').removeClass('disabled');
+                var err = response.responseJSON;
+                if (20103 == err.code) {
+                    bootbox.alert(err.msg, function() {
+                        location.replace('/session/new?mobile='+$('#mobile').val()+'&country_code='+$('#country_code').val());
+                    });
+                } else {
+                    bootbox.alert(err.msg, function() {
+                    });
+                }
+            }
+        });
+    });
+    $('#get_code_btn').click(function() {
+        $('#check_validation_code').ajaxSubmit({
+            dataType: 'json',
+            url:'/password/send_sms_msg.json',
+            beforeSend: function() {
+                $('#get_code_btn').addClass('disabled');
+            },
+            success: function(response) {
+                $('#get_code_btn').removeClass('disabled');
+                time();
+            },
+            error: function(response) {
+                var err = response.responseJSON;
+                bootbox.alert(err.msg, function() {
+                    if (20103 == err.code || 20101 == err.code) {
+                        location.replace('/session/new?mobile=' + $('#mobile').val() +
+                                '&country_code=' + $('#country_code').val());
+                    }
+                });
+
+                // 最好可以提示一些发送过于频繁之类的提示
+                $('#get_code_btn').removeClass('disabled');
+                time();
+            }
+        });
+    });
+    $("#prev_btn").click(function() {
+        event.preventDefault();
+        history.back();
+    });
+    time();
+</script>
+{% end %}

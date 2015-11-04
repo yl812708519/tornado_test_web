@@ -1,0 +1,28 @@
+#starting options have parameter --runmod default is:development
+development:
+  default:
+    url: mysql+mysqldb://root:eShiDai@1301@192.168.0.201/yestar_dev?charset=utf8
+    encoding: utf-8
+    echo: False #  if True, the Engine will log all statements
+    echo_pool: False # if True, the connection pool will log all checkouts/checkins to the logging stream
+    pool_size: 5
+    pool_recycle: 7200
+
+test:
+  default:
+    url: mysql+mysqldb://root:@localhost/36ban_dev?charset=utf8
+    encoding: utf-8
+    echo: True #  if True, the Engine will log all statements
+    echo_pool: True # if True, the connection pool will log all checkouts/checkins to the logging stream
+    pool_size: 5
+    pool_recycle: 7200
+
+production:
+  default:
+    url: mysql+mysqldb://36ban:qwasQWASyestar1234@rds6bnae2z6bnii.mysql.rds.aliyuncs.com/bingoip?charset=utf8
+    encoding: utf-8
+    echo: False #  if True, the Engine will log all statements
+    echo_pool: False # if True, the connection pool will log all checkouts/checkins to the logging stream
+    pool_size: 5
+    pool_recycle: 7200
+
