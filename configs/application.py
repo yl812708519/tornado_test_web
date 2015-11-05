@@ -6,12 +6,11 @@ import signal
 import thread
 from app.commons.memcache_factory import MemCacheFactory
 from app.services.oss_upload_service import OssUploadService
-from configs import thrift_application
+
 from configs.database_builder import DatabaseBuilder
 
 from configs.routes import Routes
 from configs.settings import Settings
-from configs.thrift_builder import ThriftBuilder
 from configs.widgets import Widgets
 from tornado.options import define, options
 import tornado.httpserver
@@ -62,7 +61,6 @@ def main():
 
     # set run mode
     DatabaseBuilder.run_mode = options.runmod
-    ThriftBuilder.run_mode = options.runmod
     OssUploadService.run_mode = options.runmod
     MemCacheFactory.run_mode = options.runmod
     settings["ui_modules"] = Widgets.widgets
@@ -90,8 +88,6 @@ def main():
 
     signal.signal(signal.SIGTERM, sig_handler)
     signal.signal(signal.SIGINT, sig_handler)
-
-    thread.start_new_thread(thrift_application.start, ())
 
     tornado.ioloop.IOLoop.instance().start()
 

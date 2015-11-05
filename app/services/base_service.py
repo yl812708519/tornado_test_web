@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from contextlib import contextmanager
+from app.commons.biz_model import BizModel
 from decorated.base.dict import DefaultDict
 import logging
 __author__ = 'freeway'
+
+
+class ContextBO(BizModel):
+    pass
+
 
 
 class ServiceError(Exception):

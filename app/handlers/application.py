@@ -8,8 +8,7 @@ import functools
 from tornado.web import RequestHandler, utf8, HTTPError, StaticFileHandler
 from app.services.base_service import ServiceError, ServiceException, ServiceValidationFailsException
 from app.services.oss_upload_service import OssUploadService
-from app.services.user_service import UserService
-from app.services.basebanservice import ContextBO
+from app.services.base_service import ContextBO
 from app.commons import jsonutil
 from configs.database_builder import DatabaseBuilder
 from configs.settings import Settings
@@ -111,6 +110,14 @@ class ParentHandler(RequestHandler):
         if len(errors) > 0:
             raise ServiceValidationFailsException(errors, is_raise_all)
 
+    def get(self, *args, **kwargs):
+        # 连接的路径 就是匹配到路径
+        path = self.request.path
+
+
+
+
+
 
 class BaseHandler(ParentHandler):
     """基础Handler
@@ -174,98 +181,13 @@ class BaseHandler(ParentHandler):
                                 "message": self._reason,
                             })
 
-    # def static_url(self, path):
-    # self.require_setting("static_path", "static_url")
-    # if not hasattr(RequestHandler, "_static_hashes"):
-    #         RequestHandler._static_hashes = {}
-    #     hashes = RequestHandler._static_hashes
-    #     if len(path) > 0 and path[0] == "/":
-    #         file_path = path[1:]
-    #     else:
-    #         file_path = path
-    #     abs_path = os.path.join(self.application.settings["static_path"],
-    #                             file_path)
-    #     if abs_path not in hashes:
-    #         try:
-    #             f = open(abs_path)
-    #             hashes[abs_path] = hashlib.md5(f.read()).hexdigest()
-    #             f.close()
-    #         except:
-    #             logging.error("Could not open static file %r", path)
-    #             hashes[abs_path] = None
-    #     base = self.request.protocol + "://" + self.request.host \
-    #         if getattr(self, "include_host", False) else ""
-    #     static_url_prefix = self.settings.get('static_url_prefix', '/static/')
-    #     if hashes.get(abs_path):
-    #         return base + static_url_prefix + path + "?v=" + hashes[abs_path][:5]
-    #     else:
-    #         return base + static_url_prefix + path
-
-    # def set_unicode_cookie(self, name, value, domain=None, expires=None, path="/",
-    #                        expires_days=None, **kwargs):
-    #     """Sets the given cookie name/value with the given options.
-    #
-    #     Additional keyword arguments are set on the Cookie.Morsel
-    #     directly.
-    #     See http://docs.python.org/library/cookie.html#morsel-objects
-    #     for available attributes.
-    #     """
-    #     name = utf8(name)
-    #     value = utf8(value)
-    #     if re.search(r"[\x00-\x20]", name + value):
-    #         # Don't let us accidentally inject bad stuff
-    #         raise ValueError("Invalid cookie %r: %r" % (name, value))
-    #     if not hasattr(self, "_new_cookies"):
-    #         self._new_cookies = Cookie.SimpleCookie()
-    #
-    #     if name in self._new_cookie:
-    #         del self._new_cookie[name]
-    #     self._new_cookie[name] = value
-    #     morsel = self._new_cookie[name]
-    #
-    #     if domain:
-    #         morsel["domain"] = domain
-    #     if expires_days is not None and not expires:
-    #         expires = datetime.datetime.utcnow() + datetime.timedelta(
-    #             days=expires_days)
-    #     if expires:
-    #         morsel["expires"] = httputil.format_timestamp(expires)
-    #     if path:
-    #         morsel["path"] = path
-    #     for k, v in kwargs.items():
-    #         if k == 'max_age':
-    #             k = 'max-age'
-    #         morsel[k] = v
-    #
-    #     new_cookie = Cookie.BaseCookie()
-    #     self._new_cookies.append(new_cookie)
-    #     new_cookie[name] = urllib.quote(value)
-    #     if domain:
-    #         new_cookie[name]["domain"] = domain
-    #     if expires_days is not None and not expires:
-    #         expires = datetime.datetime.utcnow() + datetime.timedelta(
-    #             days=expires_days)
-    #     if expires:
-    #         timestamp = calendar.timegm(expires.utctimetuple())
-    #         new_cookie[name]["expires"] = email.utils.formatdate(
-    #             timestamp, localtime=False, usegmt=True)
-    #     if path:
-    #         new_cookie[name]["path"] = path
-    #     for k, v in kwargs.iteritems():
-    #         new_cookie[name][k] = v
-
-    # def get_unicode_cookie(self, name, default=None):
-    #     """Gets the value of the cookie with the given name, else default."""
-    #     if name in self.cookies:
-    #         return _unicode(urllib.unquote(self.cookies[name].value))
-    #     return _unicode(urllib.unquote(default))
-
     def get_current_user(self):
         user_id = self.get_secure_cookie("ut_user_id")
         if not user_id:
             return None
         else:
-            user = UserService().get_for_settings(user_id)
+            # user = UserService().get_for_settings(user_id)
+            user = None
             if user:
                 return user
             else:
@@ -377,17 +299,6 @@ class RestfulAPIHandler(ParentHandler):
 
         RequestHandler._execute(self, transforms, *args, **kwargs)
 
-    # def get_current_user(self):
-    # user_id = self.get_secure_cookie("ut_user_id")
-    #     if not user_id:
-    #         return None
-    #     else:
-    #         user = UserService().get(user_id)
-    #         if user:
-    #             return user
-    #         else:
-    #             return None
-
     @property
     def is_ie(self):
         agent = self.request.headers.get('User-Agent', None)
@@ -403,7 +314,8 @@ class RestfulAPIHandler(ParentHandler):
         if not user_id:
             return None
         else:
-            user = UserService().get_for_settings(user_id)
+            # user = UserService().get_for_settings(user_id)
+            user = None
             if user:
                 return user
             else:
